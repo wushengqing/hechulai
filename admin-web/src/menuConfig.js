@@ -22,26 +22,34 @@ import { pageRouter } from './routerConfig'; // 侧边栏菜
 let parentNodes = [];
 let asideMenuConfig = [] ;
 
+console.log(pageRouter);
 pageRouter.map(item=>{
-  let parentNodesIndex = parentNodes.indexOf(item.parentNode)
-  if(parentNodesIndex==-1){
-    parentNodes.push(item.parentNode);
-    asideMenuConfig[asideMenuConfig.length] = {
-      name: item.parentNodeName,
-      icon: 'folder-o',
-      children:[
-        {
-          name:item.meta.title,
-          path:item.path
-        }
-      ],
-    }
-  }else{
-    asideMenuConfig[parentNodesIndex].children.push({
-      name:item.meta.title,
-      path:item.path
-    });
-  }
+  //只显示一级
+
+  asideMenuConfig.push({
+    ...item,
+    title:item.meta.title
+  });
+  //两级
+  // let parentNodesIndex = parentNodes.indexOf(item.parentNode)
+  // if(parentNodesIndex==-1){
+  //   parentNodes.push(item.parentNode);
+  //   asideMenuConfig[asideMenuConfig.length] = {
+  //     name: item.parentNodeName,
+  //     icon: 'folder-o',
+  //     children:[
+  //       {
+  //         name:item.meta.title,
+  //         path:item.path
+  //       }
+  //     ],
+  //   }
+  // }else{
+  //   asideMenuConfig[parentNodesIndex].children.push({
+  //     name:item.meta.title,
+  //     path:item.path
+  //   });
+  // }
 })
 
 
@@ -68,8 +76,10 @@ const headerMenuConfig = [
 // 设置侧边栏菜单的方法 (vuex)
 
 // 你可以在任何地方使用上述方法修改顶栏和侧边栏菜单
+
 // 导出顶栏菜单
+export const menuHeader = utilIce.recursiveMenuConfig(headerMenuConfig);
+// 导出侧边栏菜单
 
-export const menuHeader = utilIce.recursiveMenuConfig(headerMenuConfig); // 导出侧边栏菜单
-
-export const menuAside = utilIce.recursiveMenuConfig(asideMenuConfig);
+//export const menuAside = utilIce.recursiveMenuConfig(asideMenuConfig);
+export const menuAside = asideMenuConfig;

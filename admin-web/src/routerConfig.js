@@ -9,9 +9,16 @@ import Login from './pages/Login';
 import Error401 from './pages/Error401';
 import Error404 from './pages/Error404';
 
-//垃圾分类
-import rubbish from './router/routerConfigs/rubbish/rubbish';
-import motor from './router/routerConfigs/motor/motor';
+//宗族管理
+import UnionList from '@/pages/union/List/index.vue';
+//角色管理
+import RoleList from '@/pages/role/List/index.vue';
+//菜单管理
+import MenuList from '@/pages/menu/List/index.vue';
+//用户管理
+import UserList from '@/pages/user/List/index.vue';
+//宗亲管理
+import ClansmenList from '@/pages/clansmen/List/index.vue';
 
 const routerConfig = [
   {
@@ -54,8 +61,51 @@ const routerConfigMenuOut = [
 // 这个数据会在 router.js 中被扁平处理
 
 export const pageRouter = [
-  ...rubbish,
-  ...motor
+  {
+    path: '/union/list',
+    name: 'UnionList',
+    layout,
+    component: UnionList,
+    meta: {
+      title: '宗族管理(超管)',
+    }
+  },
+  {
+    path: '/role/list',
+    name: 'RoleList',
+    layout,
+    component: RoleList,
+    meta: {
+      title: '角色管理',
+    }
+  },
+  {
+    path: '/menu/list',
+    name: 'MenuList',
+    layout,
+    component: MenuList,
+    meta: {
+      title: '菜单管理',
+    }
+  },
+  {
+    path: '/user/list',
+    name: 'UserList',
+    layout,
+    component: UserList,
+    meta: {
+      title: '用户管理',
+    }
+  },
+  {
+    path: '/clansmen/list',
+    name: 'ClansmenList',
+    layout,
+    component: ClansmenList,
+    meta: {
+      title: '宗亲管理',
+    }
+  },
 ]
 
 

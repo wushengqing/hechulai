@@ -1,6 +1,8 @@
 ﻿import common from './common'
-import rubbish from './rubbish'
+import user from './user'
+import union from './union'
 export default {
-  rubbish,
-  common
+  common,
+  user,
+  union
 }

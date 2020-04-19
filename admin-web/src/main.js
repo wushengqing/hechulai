@@ -2,7 +2,12 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-//import '@/assets/style/theme-element/style.scss'
+
+//引入iconfont的svg图标
+let iconFontScript = document.createElement('script');
+iconFontScript.setAttribute('src', '//at.alicdn.com/t/font_1765072_44ahim6up5.js');
+document.head.appendChild(iconFontScript);
+
 import '@/assets/svg-icons'
 import '@/components'
 import '@/plugin/axios'

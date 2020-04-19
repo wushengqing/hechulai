@@ -74,33 +74,22 @@ export default {
      * @param {Object} param0 context
      * @param {Object} param1 { vue, username, password }
      */
-    d2adminLogin ({ state, commit, rootState }, { vm, username, password }) {
+    d2adminLogin ({ state, commit, rootState }, { vm,vo}) {
       // 开始请求登录接口
-      vm.$axios({
-        method: 'post',
-        url: '/login',
-        data: {
-          username,
-          password
-        }
-      })
+      vm.$api.user.register(vo)
         .then((res) => {
-          // 设置 cookie 一定要存 uuid 和 token 两个 cookie
-          // 整个系统依赖这两个数据进行校验和存储
-          // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
-          // token 代表用户当前登录状态 建议在网络请求中携带 token，如有必要 token 需要定时更新，默认保存一天
-          util.cookies.set('uuid', res.data.uuid)
-          util.cookies.set('token', res.data.token)
-          // 设置 vuex 用户信息
-          commit('d2adminUserInfoSet', {
-            name: res.data.name
-          })
-          // 用户登陆后从数据库加载一系列的设置
-          commit('d2adminLoginSuccessLoad')
-          // 跳转路由
-          vm.$router.push({
-            name: 'index'
-          })
+          //登陆成功
+          if(res.code===0){
+            util.cookies.set('token', '1111111111111');
+            commit('d2adminUserInfoSet', {
+              name: vo.userNum
+            })
+            vm.$router.push({
+              name: 'index'
+            })
+          }else{
+            vm.$message.error(res.msg)
+          }
         })
         .catch((err) => {
           console.group('登陆结果')
@@ -120,7 +109,6 @@ export default {
       function logout () {
         // 删除cookie
         util.cookies.remove('token')
-        util.cookies.remove('uuid')
         // 跳转路由
         vm.$router.push({
           name: 'login'
