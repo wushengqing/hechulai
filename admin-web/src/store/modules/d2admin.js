@@ -76,7 +76,7 @@ export default {
      */
     d2adminLogin ({ state, commit, rootState }, { vm,vo}) {
       // 开始请求登录接口
-      vm.$api.user.register(vo)
+      vm.$api.user.login(vo)
         .then((res) => {
           //登陆成功
           if(res.code===0){
