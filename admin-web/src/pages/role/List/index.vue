@@ -8,7 +8,7 @@
         name="角色管理"
         ref="tableMain"
         :search-model-base="tableMainSearchModelBase"
-        :get-action="$api.union.list"
+        :get-action="$api.role.list"
         :get-action-where="getActionWhere"
         :afterFetchData="afterFetchData">
         <!--基础查询-->
@@ -20,28 +20,16 @@
             v-model="scope.form.keyword"
             style="width: 250px; margin-left: 10px; margin-right: 10px">
           </el-input>
-          <el-button class="fr ml10" @click="addRubbish">新增</el-button>
         </template>
         <!--表格-->
         <template slot="tableColumns">
           <el-table-column
-            prop="itemName"
+            prop="name"
             label="角色名称">
           </el-table-column>
-          <el-table-column
-            prop="belongCategory.description"
-            label="描述">
-          </el-table-column>
-          <el-table-column label="是否启用">
-            <template slot-scope="props">
-              {{ props.row.status===1?'前台显示':'前台不显示' }}
-            </template>
-          </el-table-column>
-
           <el-table-column label="操作" width="200px">
             <template slot-scope="props">
-              <el-button type="text" size="mini" @click="editRubbish(props.row)">权限设置</el-button>
-              <el-button type="text" size="mini" @click="delRubbish(props.row)">删除</el-button>
+              <el-button type="text" size="mini" @click="oepnDialog(props.row)">菜单权限设置</el-button>
             </template>
           </el-table-column>
         </template>
@@ -49,24 +37,32 @@
       <template slot="footer"></template>
     </d2-container>
 
-    <el-dialog :title="dialogVO.id?'编辑':'新增'" :visible.sync="dialogShow">
-      <el-form ref="dialogVO" :model="dialogVO" label-width="150px" :rules="rules">
-        <el-form-item label="垃圾名称：" prop="itemName">
-          <el-input style="width: 210px" v-model="dialogVO.itemName"></el-input>
-        </el-form-item>
-        <el-form-item label="所属类型：" prop="categoryId">
-          <el-select style="width: 210px" v-model="dialogVO.categoryId" placeholder="请选择分类">
-            <el-option
-              v-for="item in categoryList"
-              :label="item.categoryName"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="是否在前台显示：">
-          <el-switch v-model="dialogVO.status"></el-switch>
-        </el-form-item>
-      </el-form>
+    <el-dialog title="权限设置" :visible.sync="dialogShow">
+      <el-table
+          :data="tableData"
+          border
+          style="width: 100%">
+          <el-table-column
+            prop="name"
+            label="菜单名称"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="path"
+            label="菜单路由"
+            width="180">
+          </el-table-column>
+          <el-table-column
+            prop=""
+            label="是否开启权限">
+			<template slot-scope="props">
+				<el-switch v-model="props.row.isYes">
+				  </el-switch>
+				  <span class="color-green" v-if="props.row.isYes">已开启</span>
+				  <span class="color-grey" v-else>未开启</span>
+			</template>
+          </el-table-column>
+        </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="save">保 存</el-button>
         <el-button @click="dialogShow = false">取 消</el-button>
@@ -79,7 +75,7 @@
   import listMixin from "@/mixins/list.mixin";
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
-    name: "UnionList",
+    name: "RoleList",
     components: {},
     mixins: [
       listMixin
@@ -90,24 +86,8 @@
           keyword: '',
           categoryId:''
         },
-        //分类列表
-        categoryList:[],
         dialogShow:false,
-        //新增或者编辑的vo
-        dialogVO:{
-          id:'',
-          categoryId:'',
-          itemName:'',
-          status:true
-        },
-        rules: {
-          itemName: [
-            { required: true, message: '请输入垃圾名称'},
-          ],
-          categoryId: [
-            { required: true, message: '请选择垃圾类型'},
-          ],
-        }
+		tableData:[],
       };
     },
     computed: {
@@ -118,93 +98,22 @@
       },
     },
     methods: {
-      addRubbish(){
-        this.dialogVO= {
-          categoryId:'',
-          itemName:'',
-          status:true
-        }
-        this.openDialog();
-      },
-      editRubbish(detailVO){
-        this.dialogVO= {
-          id:detailVO.id,
-          categoryId:detailVO.belongCategory.id,
-          itemName:detailVO.itemName,
-          status:detailVO.status==1,
-        }
-        this.openDialog();
-      },
-      openDialog(){
-        if(this.$refs['dialogVO']){
-          this.$nextTick(()=>{
-            this.$refs['dialogVO'].clearValidate();
-          })
-        }
-        this.dialogShow = true;
-      },
-      delRubbish(vo){
-        this.$confirm('确认删除该记录？')
-          .then(() => {
-            this.$api.rubbish.del(vo.id).then(res=>{
-              if(res.status==1){
-                this.$message.success('删除成功！');
-                this.$refs.tableMain.fetchData();
-              }else {
-                this.$message.error(res.errorMessage)
-              }
-
-            });
-          })
-          .catch(confirm => {});
-      },
+      oepnDialog(item){
+		  this.dialogShow =true;
+		  //根据角色Id获取角色的权限列表
+		  this.$api.role.getMenuById({accessId:item.id}).then(res=>{
+			  this.tableData = res.data;
+		  })
+	  },
       save(){
-        this.$refs['dialogVO'].validate((valid) => {
-          if (valid) {
-            let vo = {
-              ...this.dialogVO,
-              status: this.dialogVO.status?1:0
-            };
-            //新增
-            if(!vo.id){
-              delete vo.id;
-              //
-              this.$api.rubbish.create(vo).then(res=>{
-                if(res.status==1){
-                  this.dialogShow = false
-                  this.$message.success('新增成功！');
-                  this.$refs.tableMain.fetchData();
-                }else{
-                  this.$message.error(res.errorMessage)
-                }
-
-              })
-            }else{
-              this.$api.rubbish.edit(vo).then(res=>{
-                if(res.status==1){
-                  this.dialogShow = false
-                  this.$message.success('修改成功！');
-                  this.$refs.tableMain.fetchData();
-                }else{
-                  this.$message.error(res.errorMessage)
-                }
-
-              })
-            }
-          } else {
-            return false;
-          }
-        });
+       
       },
       afterFetchData(){
 
       }
     },
     mounted() {
-      //获取垃圾类型列表
-      this.$api.rubbish.categoryList({}).then(res=>{
-        this.categoryList = res.data;
-      })
+     
     }
   };
 </script>

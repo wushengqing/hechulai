@@ -6,7 +6,7 @@ export default {
 	 * @returns {*}
 	 */
 	register(vo) {
-		return axios.post('/hcl-web/web/userRegistered', {
+		return axios.post('/hcl-web/web/userRegistered.json', {
 			...vo,
 		})
 	},
@@ -15,7 +15,7 @@ export default {
 	 * @returns {*}
 	 */
 	login(vo) {
-		return axios.post('/hcl-web/web/userLogin', {
+		return axios.post('/hcl-web/web/userLogin.json', {
 			...vo,
 		})
 	},
@@ -24,11 +24,7 @@ export default {
 	 * @returns {*}
 	 */
 	list(condition, pageInfo) {
-		pageInfo = Object.assign({
-		  currentPage: 1,
-		  pageSize: 10
-		}, pageInfo)
-		return axios.post('/hcl-web/web/getUserList', {
+		return axios.post('/hcl-web/web/getUserList.json', {
 			...condition,
 			...pageInfo
 		})
@@ -38,7 +34,7 @@ export default {
 	 * @returns {*}
 	 */
 	upDateUserInfo(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateUserInfo', {
+		return axios.post('/hcl-web/web/addOrUpdateUserInfo.json', {
 			...vo,
 		})
 	},
@@ -47,7 +43,16 @@ export default {
 	 * @returns {*}
 	 */
 	changeUserState(vo) {
-		return axios.post('/hcl-web/web/changeUserState', {
+		return axios.post('/hcl-web/web/changeUserState.json', {
+			...vo,
+		})
+	},
+	/**
+	 * 获取用户的角色列表
+	 * @returns {*}
+	 */
+	getUserAccessRelList(vo) {
+		return axios.post('/hcl-web/web/getUserAccessRelList.json', {
 			...vo,
 		})
 	},

@@ -81,9 +81,21 @@ export default {
           //登陆成功
           if(res.code===0){
             util.cookies.set('token', '1111111111111');
+			//设置用户信息
             commit('d2adminUserInfoSet', {
               name: vo.userNum
             })
+			//设置菜单信息
+			//1.获取用户的角色列表
+			// vm.$api.user.getUserAccessRelList({id:res.userId}).then(accessVO=>{
+			// 	//2.根据用户角色获取菜单
+			// 	vm.$api.role.getMenuById({id:accessVO.data[0].id}).then(menu=>{
+			// 		commit('d2adminMenuAsideSet', {
+			// 		  menu: menu.data
+			// 		})
+			// 	})
+			// })
+			
             vm.$router.push({
               name: 'index'
             })

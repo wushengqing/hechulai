@@ -29,5 +29,11 @@ export default {
     form.action = process.env.VUE_APP_API_PREFIX + '/upload/attachment/downloadByFileUrl.htm'
     form.submit()
     document.body.removeChild(form)
-  }
+  },
+  /**
+   * 异步获取省市区级联
+   */
+  getPcdList () {
+    return axios.post('/hcl-web/web/getPcdList.json')
+  },
 }

@@ -7,96 +7,27 @@ export default {
    */
   list (condition, pageInfo) {
     pageInfo = Object.assign({
-      currentPage: 1,
+      currentPage: 0,
       pageSize: 10
     }, pageInfo)
-    return axios.post('/rubbish/item/list', {
+    return axios.post('/hcl-web/web/getClanList.json', {
       ...condition,
       ...pageInfo
     })
   },
   /**
-   * 垃圾新增
+   * 查询宗族信息
    * @returns {*}
    */
-  create (vo) {
-    return axios.get('/rubbish/item/create', {
-      params: {
-        ...vo
-      }
-    })
+  get (id) {
+    return axios.post('/hcl-web/web/getClanInfo.json',{id})
   },
   /**
-   * 垃圾编辑
+   * 新增编辑宗族
    * @returns {*}
    */
-  edit (vo) {
-    return axios.get('/rubbish/item/edit', {
-      params: {
-        ...vo
-      }
-    })
+  add(vo) {
+    return axios.post('/hcl-web/web/addOrUpdateClanInfo.json', vo)
   },
-  /**
-   * 垃圾删除
-   * @returns {*}
-   */
-  del (id) {
-    return axios.get('/rubbish/item/del', {
-      params: {
-        id
-      }
-    })
-  },
-
-
-  /**
-   * 垃圾类型列表
-   * @returns {*}
-   */
-  categoryList (condition, pageInfo) {
-    pageInfo = Object.assign({
-      currentPage: 1,
-      pageSize: 10
-    }, pageInfo)
-    return axios.post('/rubbish/category/list', {
-      ...condition,
-      ...pageInfo
-    })
-  },
-  /**
-   * 垃圾类型新增
-   * @returns {*}
-   */
-  categoryCreate (vo) {
-    return axios.get('/rubbish/category/create', {
-      params: {
-        ...vo
-      }
-    })
-  },
-  /**
-   * 垃圾类型编辑
-   * @returns {*}
-   */
-  categoryEdit (vo) {
-    return axios.get('/rubbish/category/edit', {
-      params: {
-        ...vo
-      }
-    })
-  },
-  /**
-   * 垃圾类型删除
-   * @returns {*}
-   */
-  categoryDel (id) {
-    return axios.get('/rubbish/category/del', {
-      params: {
-        id
-      }
-    })
-  },
-
 
 }

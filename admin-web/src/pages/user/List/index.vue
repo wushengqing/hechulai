@@ -1,10 +1,10 @@
 <template>
 	<div class="workapply-area">
 		<d2-container>
-			<template slot="header">菜单列表</template>
+			<template slot="header">用户管理</template>
 
 			<!---->
-			<table-comb name="菜单列表" ref="tableMain" :search-model-base="tableMainSearchModelBase" :get-action="$api.user.list"
+			<table-comb name="用户管理" ref="tableMain" :search-model-base="tableMainSearchModelBase" :get-action="$api.user.list"
 			 :get-action-where="getActionWhere" :afterFetchData="afterFetchData">
 				<!--基础查询-->
 				<template slot="baseSearchForm" slot-scope="scope">

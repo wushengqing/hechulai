@@ -64,11 +64,11 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="fetchData"
-        :current-page="pagingInfo.page"
+        :current-page="pagingInfo.currentPage"
         :page-sizes="[10, 20, 50, 100]"
         :page-size="10"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="pagingInfo.totalCount">
+        :total="pagingInfo.totalPage">
       </el-pagination>
     </section>
   </section>
@@ -135,9 +135,9 @@ export default {
       isOpenAdvancedSearch: false, // 是否打开高级搜索
       sortInfo: null,
       pagingInfo: { // 分页信息
-        size: 10,
-        page: 1,
-        totalCount: 0
+        currentPage: 1,
+        pageSize: 10,
+        totalPage: 0
       },
       searchModelDataBase: {},
       searchModelData: {}
@@ -314,7 +314,7 @@ export default {
               if(_this.tableData.length>0){
                 _this.fetchData();
               }else{
-                _this.fetchData(_this.pagingInfo.page-1 || 1);
+                _this.fetchData(_this.pagingInfo.currentPage-1 || 1);
               }
               _this.$message.success(`删除数据成功`)
               _this.$emit('on-remove-success')
@@ -395,16 +395,16 @@ export default {
         return
       }
 
-      _this.pagingInfo.page = pageIndex || _this.pagingInfo.page || 1
+      _this.pagingInfo.currentPage = pageIndex || _this.pagingInfo.currentPage || 1
       _this.loading = true
 
       let conditionObj = this.getPageVo();
       // 请求数据
-      this.getAction(conditionObj, _this.pagingInfo).then(res => {
+      this.getAction(conditionObj, {currentPage:  _this.pagingInfo.currentPage,pageSize: _this.pagingInfo.pageSize}).then(res => {
         _this.$env === 'development' && console.log('[DEBUG] tableData:')
         _this.$env === 'development' && console.log(res)
         _this.tableData = res.data
-        _this.pagingInfo.totalCount = res.totalCount || res.data.length
+        _this.pagingInfo.totalPage = res.data.totalPage || res.data.length
         // 设置已选择项目
         _this.$nextTick(() => {
           _this.initRecordChecked()
@@ -467,7 +467,7 @@ export default {
        * 分页改变事件
        */
     handleSizeChange (val) {
-      this.pagingInfo.size = val
+      this.pagingInfo.pageSize = val
       this.fetchData()
     },
     /**
