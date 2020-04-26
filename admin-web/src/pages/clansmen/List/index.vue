@@ -20,7 +20,7 @@
             v-model="scope.form.keyword"
             style="width: 250px; margin-left: 10px; margin-right: 10px">
           </el-input>
-          <el-button class="fr ml10" @click="addRubbish">新增</el-button>
+          <el-button class="fr ml10" @click="add">新增</el-button>
         </template>
         <!--表格-->
         <template slot="tableColumns">
@@ -30,27 +30,27 @@
           </el-table-column>
           <el-table-column
             prop="itemName"
-            label="性别">
+            label="世称">
+          </el-table-column>
+          <el-table-column
+            prop=""
+            label="父亲">
+          </el-table-column>
+          <el-table-column
+                  prop=""
+                  label="子女">
           </el-table-column>
           <el-table-column
             prop="belongCategory.categoryName"
-            label="父亲姓名">
-          </el-table-column>
-          <el-table-column
-            prop="belongCategory.categoryName"
-            label="现居住地">
-          </el-table-column>
-          <el-table-column
-            prop="belongCategory.categoryName"
-            label="详细地址">
+            label="夫人">
           </el-table-column>
           <el-table-column
             prop="belongCategory.description"
             label="描述">
           </el-table-column>
-          <el-table-column label="是否关联到用户">
+          <el-table-column label="是否已经关联用户">
             <template slot-scope="props">
-              {{ props.row.status===1?'前台显示':'前台不显示' }}
+              {{ props.row.status===1?'是':'否' }}
             </template>
           </el-table-column>
 
@@ -68,21 +68,59 @@
 
     <el-dialog :title="dialogVO.id?'编辑':'新增'" :visible.sync="dialogShow">
       <el-form ref="dialogVO" :model="dialogVO" label-width="150px" :rules="rules">
-        <el-form-item label="垃圾名称：" prop="itemName">
-          <el-input style="width: 210px" v-model="dialogVO.itemName"></el-input>
-        </el-form-item>
-        <el-form-item label="所属类型：" prop="categoryId">
-          <el-select style="width: 210px" v-model="dialogVO.categoryId" placeholder="请选择分类">
+        <el-form-item label="父亲世称：" prop="scId">
+          <el-select v-model="dialogVO.scId" placeholder="请选择">
             <el-option
-              v-for="item in categoryList"
-              :label="item.categoryName"
-              :value="item.id">
+                    v-for="item in scIdList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否在前台显示：">
-          <el-switch v-model="dialogVO.status"></el-switch>
+        <el-form-item label="父亲姓名：" prop="pid">
+          <el-select v-model="dialogVO.scId" placeholder="请选择">
+            <el-option
+                    v-for="item in fatherList"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
+        <el-form-item label="姓名：" prop="name">
+          <el-input v-model="dialogVO.name" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="出生日期：" prop="name">
+          <el-input v-model="dialogVO.name" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="去世日期：" prop="name">
+          <el-input v-model="dialogVO.name" placeholder="请输入"></el-input>
+        </el-form-item>
+        <p>夫人列表</p>
+        <el-table :data="dialogVO.tableData" style="width: 100%">
+          <el-table-column prop="name" label="姓名" width="180">
+            <template slot-scope="props">
+              <el-input v-model="props.row.name" placeholder="请输入"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="简介" width="180">
+            <template slot-scope="props">
+              <el-input v-model="props.row.name" placeholder="请输入"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="出生日期" width="180">
+            <template slot-scope="props">
+              <el-input v-model="props.row.name" placeholder="请输入"></el-input>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="死亡日期" width="180">
+            <template slot-scope="props">
+              <el-input v-model="props.row.name" placeholder="请输入"></el-input>
+            </template>
+          </el-table-column>
+        </el-table>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="save">保 存</el-button>
@@ -108,14 +146,55 @@
           categoryId:''
         },
         //分类列表
-        categoryList:[],
+        scIdList : [{
+          value: '1',
+          label: '第一世'
+        }, {
+          value: '2',
+          label: '第二世'
+        }, {
+          value: '3',
+          label: '第三世'
+        }, {
+          value: '4',
+          label: '第四世'
+        }, {
+          value: '5',
+          label: '第五世'
+        }],
+        //分类列表
+        fatherList : [
+          {
+          value: '1',
+          label: '陈1'
+        }, {
+          value: '2',
+          label: '陈2'
+        }, {
+          value: '3',
+          label: '陈3'
+        }, {
+          value: '4',
+          label: '陈4'
+        }, {
+          value: '5',
+          label: '陈5'
+        }],
         dialogShow:false,
         //新增或者编辑的vo
         dialogVO:{
           id:'',
           categoryId:'',
           itemName:'',
-          status:true
+          status:true,
+          tableData:[
+            {
+              name:'',
+              birthday:'',
+              deathDay:'',
+              dec:''
+            },
+          ]
         },
         rules: {
           itemName: [
@@ -135,12 +214,12 @@
       },
     },
     methods: {
-      addRubbish(){
-        this.dialogVO= {
-          categoryId:'',
-          itemName:'',
-          status:true
-        }
+      add(){
+        // this.dialogVO= {
+        //   categoryId:'',
+        //   itemName:'',
+        //   status:true
+        // }
         this.openDialog();
       },
       editRubbish(detailVO){

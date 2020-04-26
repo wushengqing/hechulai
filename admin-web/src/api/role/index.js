@@ -22,5 +22,11 @@ export default {
 	getMenuById(vo) {
 		return axios.post('/hcl-web/web/getMenuAccessRelList.json', vo)
 	},
-	
+  /**
+   * 保存角色的菜单权限
+   * @returns {*}
+   */
+  seveMenuById(vo) {
+    return axios.post('/hcl-web/web/addOrUpdateMenuAccessRel.json', vo)
+  },
 }
