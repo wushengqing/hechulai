@@ -18,8 +18,12 @@ export default {
   state: {
     // 用户信息
     userInfo: {
-      name: ''
+      name: '',
+      userId:'',
+      clanId:''
     },
+    //用户角色
+    accessId:'',
     // 顶栏菜单
     menuHeader: [],
     // 侧栏菜单
@@ -81,24 +85,20 @@ export default {
           //登陆成功
           if(res.code===0){
             util.cookies.set('token', '1111111111111');
-			//设置用户信息
+            util.cookies.set('userId', res.userId);
+            util.cookies.set('name',  vo.userNum);
+            util.cookies.set('clanId',  res.data.clanId);
+            //设置用户信息
             commit('d2adminUserInfoSet', {
-              name: vo.userNum
-            })
-			//设置菜单信息
-			//1.获取用户的角色列表
-			// vm.$api.user.getUserAccessRelList({id:res.userId}).then(accessVO=>{
-			// 	//2.根据用户角色获取菜单
-			// 	vm.$api.role.getMenuById({id:accessVO.data[0].id}).then(menu=>{
-			// 		commit('d2adminMenuAsideSet', {
-			// 		  menu: menu.data
-			// 		})
-			// 	})
-			// })
-			
+              name: vo.userNum,
+              userId:res.userId,
+              clanId:res.data.clanId
+            });
+            //设置菜单信息
             vm.$router.push({
               name: 'index'
             })
+            this.dispatch('d2adminSetMenuAside',{ vm });
           }else{
             vm.$message.error(res.msg)
           }
@@ -145,7 +145,24 @@ export default {
       } else {
         logout()
       }
-    }
+    },
+    /**
+     * 更新左侧菜单
+     * @param {Object} param0 context
+     * @param {Object} confirm need confirm ?
+     */
+    d2adminSetMenuAside({ state, commit, rootState }, { vm }) {
+      // 开始请求登录接口
+      //1.获取用户的角色列表
+      vm.$api.user.getUserAccessRelList({userId:state.userInfo.userId}).then(accessVO=>{
+        //存储角色id
+        commit('d2adminAccessIdSet',accessVO.data[0].accessId)
+        //2.根据用户角色获取菜单
+        vm.$api.role.getMenuById({accessId:accessVO.data[0].accessId}).then(menu=>{
+          commit('d2adminMenuAsideSet', menu.data)
+        })
+      })
+    },
   },
   mutations: {
     /**
@@ -278,6 +295,15 @@ export default {
      */
     d2adminMenuAsideSet (state, menu) {
       state.menuAside = menu
+    },
+    /**
+     * @class menuAside
+     * @description 设置侧边栏菜单
+     * @param {vuex state} state vuex state
+     * @param {Array} menu menu setting
+     */
+    d2adminAccessIdSet (state, accessId) {
+      state.accessId = accessId
     },
     /**
      * @class ...

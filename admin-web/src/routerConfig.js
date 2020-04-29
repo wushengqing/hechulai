@@ -19,6 +19,12 @@ import MenuList from '@/pages/menu/List/index.vue';
 import UserList from '@/pages/user/List/index.vue';
 //宗亲管理
 import ClansmenList from '@/pages/clansmen/List/index.vue';
+//宗亲管理
+import BannerList from '@/pages/banner/List/index.vue';
+
+//宗亲管理
+import GenerationList from '@/pages/generation/List/index.vue';
+
 
 const routerConfig = [
   {
@@ -58,8 +64,6 @@ const routerConfigMenuOut = [
 ];
 
 // 导出全部路由设置
-// 这个数据会在 router.js 中被扁平处理
-
 export const pageRouter = [
   {
     path: '/union/list',
@@ -104,6 +108,69 @@ export const pageRouter = [
     component: ClansmenList,
     meta: {
       title: '宗亲管理',
+    }
+  },
+  {
+    path: '/banner/list',
+    name: 'BannerList',
+    layout,
+    component: BannerList,
+    meta: {
+      title: '轮播图管理',
+    }
+  },
+  {
+    path: '/notice/list',
+    name: 'BannerList',
+    layout,
+    component: BannerList,
+    meta: {
+      title: '公告管理',
+    }
+  },
+  {
+    path: '/news/list',
+    name: 'BannerList',
+    layout,
+    component: BannerList,
+    meta: {
+      title: '新闻管理',
+    }
+  },
+  {
+    path: '/news/list',
+    name: 'BannerList',
+    layout,
+    component: BannerList,
+    meta: {
+      title: '新闻管理',
+    }
+  },
+  {
+    path: '/album/list',
+    name: 'BannerList',
+    layout,
+    component: BannerList,
+    meta: {
+      title: '相册管理',
+    }
+  },
+  {
+    path: '/album/list',
+    name: 'BannerList',
+    layout,
+    component: BannerList,
+    meta: {
+      title: '项目管理',
+    }
+  },
+  {
+    path: '/generation/list',
+    name: 'GenerationList',
+    layout,
+    component: GenerationList,
+    meta: {
+      title: '世称管理',
     }
   },
 ]

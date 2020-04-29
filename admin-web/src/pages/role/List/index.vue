@@ -73,6 +73,7 @@
 
 <script>
   import listMixin from "@/mixins/list.mixin";
+  import { mapActions } from 'vuex'
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
     name: "RoleList",
@@ -99,6 +100,9 @@
       },
     },
     methods: {
+      ...mapActions([
+        'd2adminSetMenuAside'
+      ]),
       oepnDialog(item){
         this.dialogShow =true;
         //根据角色Id获取角色的权限列表
@@ -126,7 +130,10 @@
         //保存
         this.$api.role.seveMenuById(vo).then(res=>{
           if(res.code===0){
-            this.$message.success('新增成功！');
+            this.dialogShow = false;
+            this.$message.success('保存成功！');
+            //更新菜单权限
+            this.d2adminSetMenuAside({vm:this});
           }else{
             this.$message.error(res.msg)
           }

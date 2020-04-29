@@ -22,7 +22,7 @@ import App from './App'
 
 // 菜单和路由设置
 import router from './router'
-import { menuHeader, menuAside } from './menuConfig'
+import { menuHeader} from './menuConfig'
 import { frameInRoutes } from './routerConfig'
 
 Vue.use(ElementUI)
@@ -34,6 +34,7 @@ Vue.config.productionTip = false
 Vue.prototype.$env = process.env.NODE_ENV // production development
 Vue.prototype.$baseUrl = process.env.BASE_URL
 Vue.prototype.$api = api
+Vue.prototype.$util = util
 
 new Vue({
   router,
@@ -45,7 +46,15 @@ new Vue({
     // 设置顶栏菜单
     this.$store.commit('d2adminMenuHeaderSet', menuHeader)
     // 设置侧边栏菜单
-    this.$store.commit('d2adminMenuAsideSet', menuAside)
+    let userId = util.cookies.get('userId');
+    let name = util.cookies.get('name');
+    let clanId = util.cookies.get('clanId');
+    if(userId){
+      //通过coolies设置登录的用户，通过用户获取菜单
+      this.$store.commit('d2adminUserInfoSet', {name, userId});
+      this.$store.dispatch('d2adminSetMenuAside',{ vm:this });
+    }
+    //this.$store.commit('d2adminMenuAsideSet', menuAside)
   },
   mounted () {
     // 获取并记录用户 UA

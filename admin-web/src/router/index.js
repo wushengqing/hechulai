@@ -20,7 +20,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   // 验证当前路由所有的匹配中是否需要有登陆验证的
   if (to.matched.some(r => r.meta.requiresAuth)) {
-    let token = util.cookies.get('token');;
+    let token = util.cookies.get('token');
     if (token) {
       // TODO ajax验证token有效性？ 或者通过token获取用户数据
       Vue.prototype.$axios.defaults.headers.common['token'] = token;

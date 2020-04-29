@@ -6,7 +6,7 @@
       :default-active="active"
       ref="menu"
       @select="handleMenuSelect">
-      <template v-for="(menu, menuIndex) in menuAside">
+      <template v-for="(menu, menuIndex) in menuAsideWithAccess">
         <d2-layout-header-aside-menu-item v-if="menu.children === undefined" :menu="menu" :key="menuIndex"/>
         <d2-layout-header-aside-menu-sub v-else :menu="menu" :key="menuIndex"/>
       </template>
@@ -24,7 +24,8 @@ import { mapState } from 'vuex'
 import menuMixin from '../mixin/menu'
 import d2LayoutMainMenuItem from '../components/menu-item/index.vue'
 import d2LayoutMainMenuSub from '../components/menu-sub/index.vue'
-
+import { pageRouter } from '@/routerConfig'
+console.log(pageRouter)
 export default {
   name: 'd2-layout-header-aside-menu-side',
   mixins: [
@@ -45,7 +46,25 @@ export default {
     ...mapState({
       menuAside: state => state.d2admin.menuAside,
       isMenuAsideCollapse: state => state.d2admin.isMenuAsideCollapse
-    })
+    }),
+    menuAsideWithAccess(){
+      let asideMenuConfig = [];
+      pageRouter.map(item=>{
+        //只显示一级
+        asideMenuConfig.push({
+          ...item,
+          title:item.meta.title
+        });
+      })
+      if(this.menuAside.length==0){
+        return []
+      }
+      return asideMenuConfig.filter(item=>{
+        return this.menuAside.filter(item2=>{
+          return item.path=== item2.path && item2.isYes;
+        }).length>0
+      })
+    },
   },
   watch: {
     // 折叠和展开菜单的时候销毁 better scroll

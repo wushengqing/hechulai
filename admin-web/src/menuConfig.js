@@ -1,56 +1,17 @@
 /* eslint-disable */
 import utilIce from './libs/util-ice'; // 菜单配置
 import { pageRouter } from './routerConfig'; // 侧边栏菜
-// 侧栏菜单配置
-// ice 会在新建页面的时候 push 数据
-// ice 自动添加的菜单记录是以下格式：(不会有嵌套)
-// {
-//   name: '演示页面',
-//     icon: 'folder-o',
-//   children: [
-//   {
-//     name: '演示 1',
-//     path: '/demo1/',
-//   },
-//   {
-//     name: '演示 2',
-//     path: '/demo2/',
-//   },
-// ],
-// },
 
 let parentNodes = [];
 let asideMenuConfig = [] ;
 
-console.log(pageRouter);
 pageRouter.map(item=>{
   //只显示一级
-
   asideMenuConfig.push({
     ...item,
     title:item.meta.title
   });
-  //两级
-  // let parentNodesIndex = parentNodes.indexOf(item.parentNode)
-  // if(parentNodesIndex==-1){
-  //   parentNodes.push(item.parentNode);
-  //   asideMenuConfig[asideMenuConfig.length] = {
-  //     name: item.parentNodeName,
-  //     icon: 'folder-o',
-  //     children:[
-  //       {
-  //         name:item.meta.title,
-  //         path:item.path
-  //       }
-  //     ],
-  //   }
-  // }else{
-  //   asideMenuConfig[parentNodesIndex].children.push({
-  //     name:item.meta.title,
-  //     path:item.path
-  //   });
-  // }
-})
+});
 
 
 // 顶栏菜单配置
@@ -81,5 +42,4 @@ const headerMenuConfig = [
 export const menuHeader = utilIce.recursiveMenuConfig(headerMenuConfig);
 // 导出侧边栏菜单
 
-//export const menuAside = utilIce.recursiveMenuConfig(asideMenuConfig);
-export const menuAside = asideMenuConfig;
+export const menuAside = utilIce.recursiveMenuConfig(asideMenuConfig);
