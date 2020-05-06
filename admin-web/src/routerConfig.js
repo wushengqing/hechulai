@@ -24,6 +24,8 @@ import BannerList from '@/pages/banner/List/index.vue';
 
 //宗亲管理
 import GenerationList from '@/pages/generation/List/index.vue';
+//分支/分房管理
+import BranchList from '@/pages/branch/List/index.vue';
 
 
 const routerConfig = [
@@ -171,6 +173,15 @@ export const pageRouter = [
     component: GenerationList,
     meta: {
       title: '世称管理',
+    }
+  },
+  {
+    path: '/branch/list',
+    name: 'BranchList',
+    layout,
+    component: BranchList,
+    meta: {
+      title: '房系管理',
     }
   },
 ]

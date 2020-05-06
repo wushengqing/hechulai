@@ -6,7 +6,7 @@
 			<!---->
 			<table-comb 
 			name="宗族列表" 
-			ref="tableMain" 
+			ref="tableMain"
 			:search-model-base="tableMainSearchModelBase" 
 			:get-action="$api.union.list"
 			 :get-action-where="getActionWhere" 
@@ -59,10 +59,10 @@
 					<el-input style="width: 100%" placeholder="请输入宗族名称" v-model="dialogVO.name"></el-input>
 				</el-form-item>
 				<el-form-item label="宗族管理员：" prop="name">
-					<el-input style="width: 100%" placeholder="请输入宗族名称" v-model="dialogVO.name"></el-input>
+					<el-input style="width: 100%" placeholder="请输入宗族名称" v-model="dialogVO.userNum"></el-input>
 				</el-form-item>
 				<el-form-item label="宗族管理员密码：" prop="name">
-					<el-input show-password style="width: 100%" placeholder="请输入宗族名称" v-model="dialogVO.name"></el-input>
+					<el-input show-password style="width: 100%" placeholder="请输入宗族名称" v-model="dialogVO.userPassword"></el-input>
 				</el-form-item>
 				<el-form-item label="所在地区：" prop="cityCode">
 					<el-cascader
@@ -130,13 +130,19 @@
 			};
 		},
 		computed: {
-			getActionWhere() {
-				return {
-
-				}
-			},
+          getActionWhere() {
+            return {
+              //clanId:parseInt(this.clanId)
+            }
+          }
 		},
 		methods: {
+          // tableMounted(){
+          //   this.clanId = this.$util.cookies.get('clanId');
+          //   this.$nextTick(()=>{
+          //     this.$refs.tableMain.fetchData()
+          //   })
+          // },
 			openDialog(item) {
 				if(!item){
 					this.dialogVO = {
@@ -166,8 +172,8 @@
 			},
 			
 			save() {
-	
 				this.$refs['dialogVO'].validate((valid) => {
+                  debugger
 					if (valid) {
 						let vo = {
 							...this.dialogVO,
@@ -178,6 +184,7 @@
 							
 						};
 						delete vo.cityCode;
+						delete vo.isTrusted;
 						//新增
 						if (!vo.id) {
 							delete vo.id;

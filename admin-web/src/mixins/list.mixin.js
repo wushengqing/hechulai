@@ -10,6 +10,7 @@ import pageMixin from './page'
 export default {
   data () {
     return {
+      clanId:parseInt(this.$util.cookies.get('clanId'))
     }
   },
   mixins: [
@@ -20,7 +21,8 @@ export default {
       let hash = document.location.hash
       let indexToken = hash.indexOf('token=')
       return indexToken > 0 ? hash.substr(indexToken + 6) : ''
-    }
+    },
+
   },
   methods: {
     refreshTable (componentName) {

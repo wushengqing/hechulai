@@ -56,4 +56,10 @@ export default {
 			...vo,
 		})
 	},
+	//根据宗族，世称，房系查询用户列表
+	getClanUserRelList(vo) {
+    return axios.post('/hcl-web/web/getClanUserRelList.json', {
+      ...vo,
+    })
+  },
 }

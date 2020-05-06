@@ -4,7 +4,7 @@ export default {
   /**
    * 图片上传地址
    */
-  uploadAction: process.env.VUE_APP_API_PREFIX + '/file/upload',
+  uploadAction: process.env.VUE_APP_API_PREFIX + 'hcl-web/web/addFile.file',
   /**
    * 下载文件
    */

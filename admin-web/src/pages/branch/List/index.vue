@@ -1,13 +1,13 @@
 <template>
 	<div class="workapply-area">
 		<d2-container>
-			<template slot="header">世称管理</template>
+			<template slot="header">房系管理</template>
 			<!---->
 			<table-comb
-				name="世称管理"
+				name="房系管理"
 				ref="tableMain"
 				:search-model-base="tableMainSearchModelBase"
-				:get-action="$api.generation.list"
+				:get-action="$api.branch.list"
 				:showPagination="false"
 				:autoFetch="false"
 				@tableMounted="tableMounted"
@@ -25,9 +25,7 @@
 				</template>
 				<!--表格-->
 				<template slot="tableColumns">
-					<el-table-column prop="name" label="世称">
-					</el-table-column>
-					<el-table-column prop="seniority" label="辈分">
+					<el-table-column prop="name" label="房系名称">
 					</el-table-column>
 					<el-table-column label="操作" width="240px">
 						<template slot-scope="props">
@@ -40,12 +38,27 @@
 		</d2-container>
 		<el-dialog :title="dialogVO.id?'编辑':'新增'" :visible.sync="dialogShow" width="400px">
 			<el-form ref="dialogVO" :model="dialogVO" label-width="100px" :rules="rules">
-				<el-form-item label="世称：" prop="name">
+				<el-form-item label="分房名称：" prop="name">
 					<el-input style="width: 100%" placeholder="请输入" v-model="dialogVO.name"></el-input>
 				</el-form-item>
-				<el-form-item label="辈分：" prop="name">
-					<el-input style="width: 100%" placeholder="请输入" v-model="dialogVO.seniority"></el-input>
-				</el-form-item>
+                <el-form-item label="房系名称：">
+                    <el-radio-group v-model="dialogVO.directoryType">
+                        <el-radio :label="0">概述</el-radio>
+                        <el-radio :label="1">枝系</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="概述文件：" v-if="dialogVO.directoryType==0">
+                    <el-upload
+                            class="upload-demo"
+                            :action="$api.common.uploadAction"
+                            :data="fileData"
+                            :before-upload="handlegetFileData"
+                            :limit="1"
+                            :file-list="fileList">
+                        <el-button size="small" type="primary">点击上传</el-button>
+                        <div slot="tip" class="el-upload__tip">请上传概述文件</div>
+                    </el-upload>
+                </el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button type="primary" @click="save()">保 存</el-button>
@@ -75,13 +88,17 @@
         dialogVO:{
           id: '',
           name:'',
-          seniority:'',
+          directoryType:1
 		},
+        fileList:[],
         rules:{
           name: [{required: true, message: '请输入'}, ],
-          seniority: [{required: true, message: '请输入'}, ],
+          directoryType: [{required: true, message: '请输入'}, ],
 		},
         unionList:[],
+        fileData:{
+          defaultSuffix:'',
+        }
       }
     },
     computed: {
@@ -90,7 +107,7 @@
       }),
       getActionWhere() {
         return {
-          clanId:parseInt(this.clanId)
+          clanId:this.clanId
         }
       }
     },
@@ -100,18 +117,22 @@
           this.$refs.tableMain.fetchData()
         })
 	  },
+      handlegetFileData(file) {
+        this.fileData.defaultSuffix = '.'+file.name.split('.').pop();
+        return true
+      },
       openDialog(item) {
         if(!item){
           this.dialogVO = {
             id: '',
             name:'',
-            seniority:'',
+            directoryType:'1',
           }
         }else{
           this.dialogVO  = {
             id:item.id,
             name:item.name,
-            seniority:item.seniority,
+            directoryType:item.directoryType
           }
         }
         if (this.$refs['dialogVO']) {
@@ -134,7 +155,7 @@
               delete vo.id;
             }
 
-            this.$api.generation.add(vo).then(res => {
+            this.$api.branch.add(vo).then(res => {
               if (res.code == 0) {
                 this.dialogShow = false;
                 this.$message.success('新增成功！');

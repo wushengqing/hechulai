@@ -72,14 +72,24 @@
           <el-select v-model="dialogVO.scId" placeholder="请选择">
             <el-option
                     v-for="item in scIdList"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="父亲房系：" prop="scId">
+          <el-select v-model="dialogVO.scId" placeholder="请选择">
+            <el-option
+                    v-for="item in scIdList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="父亲姓名：" prop="pid">
-          <el-select v-model="dialogVO.scId" placeholder="请选择">
+          <el-select v-model="dialogVO.pid" placeholder="请选择">
             <el-option
                     v-for="item in fatherList"
                     :key="item.value"
@@ -146,22 +156,7 @@
           categoryId:''
         },
         //分类列表
-        scIdList : [{
-          value: '1',
-          label: '第一世'
-        }, {
-          value: '2',
-          label: '第二世'
-        }, {
-          value: '3',
-          label: '第三世'
-        }, {
-          value: '4',
-          label: '第四世'
-        }, {
-          value: '5',
-          label: '第五世'
-        }],
+        scIdList : [],
         //分类列表
         fatherList : [
           {
@@ -297,9 +292,9 @@
       }
     },
     mounted() {
-      //获取垃圾类型列表
-      this.$api.rubbish.categoryList({}).then(res=>{
-        this.categoryList = res.data;
+      //获取氏称列表
+      this.$api.generation.list({clanId:this.clanId}).then(res=>{
+        this.scIdList = res.data;
       })
     }
   };

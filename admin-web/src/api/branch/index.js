@@ -6,7 +6,7 @@ export default {
 	 * @returns {*}
 	 */
 	list(condition, pageInfo) {
-		return axios.post('/hcl-web/web/getScList.json', {
+		return axios.post('/hcl-web/web/getDirectoryList.json', {
 			...condition,
 		})
 	},
@@ -15,7 +15,7 @@ export default {
 	 * @returns {*}
 	 */
 	add(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateScInfo.json', {
+		return axios.post('/hcl-web/web/addOrUpdateDirectoryInfo.json', {
 			...vo,
 		})
 	},
