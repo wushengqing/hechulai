@@ -8,7 +8,7 @@
         name="宗亲列表"
         ref="tableMain"
         :search-model-base="tableMainSearchModelBase"
-        :get-action="$api.union.list"
+        :get-action="$api.clansmen.list"
         :get-action-where="getActionWhere"
         :afterFetchData="afterFetchData">
         <!--基础查询-->
@@ -20,7 +20,7 @@
             v-model="scope.form.keyword"
             style="width: 250px; margin-left: 10px; margin-right: 10px">
           </el-input>
-          <el-button class="fr ml10" @click="add">新增</el-button>
+          <el-button class="fr ml10" @click="openDialog">新增</el-button>
         </template>
         <!--表格-->
         <template slot="tableColumns">
@@ -65,28 +65,18 @@
       </table-comb>
       <template slot="footer"></template>
     </d2-container>
-
     <el-dialog :title="dialogVO.id?'编辑':'新增'" :visible.sync="dialogShow">
       <el-form ref="dialogVO" :model="dialogVO" label-width="150px" :rules="rules">
-        <el-form-item label="父亲世称：" prop="scId">
-          <el-select v-model="dialogVO.scId" placeholder="请选择">
-            <el-option
-                    v-for="item in scIdList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="父亲房系：" prop="scId">
-          <el-select v-model="dialogVO.scId" placeholder="请选择">
-            <el-option
-                    v-for="item in scIdList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-            </el-option>
-          </el-select>
+          <el-cascader
+                  v-model="branchAndGeneration"
+                  :props="{
+                    children:'scIds',
+                    label:'name',
+                    value:'id'
+                  }"
+                  :options="branchList"
+                  @change="changeBranch"></el-cascader>
         </el-form-item>
         <el-form-item label="父亲姓名：" prop="pid">
           <el-select v-model="dialogVO.pid" placeholder="请选择">
@@ -108,25 +98,25 @@
           <el-input v-model="dialogVO.name" placeholder="请输入"></el-input>
         </el-form-item>
         <p>夫人列表</p>
-        <el-table :data="dialogVO.tableData" style="width: 100%">
+        <el-table :data="dialogVO.spouseDtoList" style="width: 100%">
           <el-table-column prop="name" label="姓名" width="180">
             <template slot-scope="props">
-              <el-input v-model="props.row.name" placeholder="请输入"></el-input>
+              <el-input v-model="props.row.spouseName" placeholder="请输入"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="name" label="简介" width="180">
             <template slot-scope="props">
-              <el-input v-model="props.row.name" placeholder="请输入"></el-input>
+              <el-input v-model="props.row.spouseDec" placeholder="请输入"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="name" label="出生日期" width="180">
             <template slot-scope="props">
-              <el-input v-model="props.row.name" placeholder="请输入"></el-input>
+              <el-input v-model="props.row.spouseBirthDay" placeholder="请输入"></el-input>
             </template>
           </el-table-column>
           <el-table-column prop="name" label="死亡日期" width="180">
             <template slot-scope="props">
-              <el-input v-model="props.row.name" placeholder="请输入"></el-input>
+              <el-input v-model="props.row.spouseendDay" placeholder="请输入"></el-input>
             </template>
           </el-table-column>
         </el-table>
@@ -144,7 +134,7 @@
   import listMixin from "@/mixins/list.mixin";
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
-    name: "UnionList",
+    name: "ClansmenList",
     components: {},
     mixins: [
       listMixin
@@ -155,77 +145,59 @@
           keyword: '',
           categoryId:''
         },
-        //分类列表
+        branchList:[],
+        //世称列表
         scIdList : [],
         //分类列表
-        fatherList : [
-          {
-          value: '1',
-          label: '陈1'
-        }, {
-          value: '2',
-          label: '陈2'
-        }, {
-          value: '3',
-          label: '陈3'
-        }, {
-          value: '4',
-          label: '陈4'
-        }, {
-          value: '5',
-          label: '陈5'
-        }],
+        fatherList : [],
         dialogShow:false,
         //新增或者编辑的vo
+        branchAndGeneration:[],
         dialogVO:{
           id:'',
-          categoryId:'',
-          itemName:'',
-          status:true,
-          tableData:[
+          directoryId:'',
+          scId:'',
+          parentId:'',
+          clansmanName:'',
+          clansmanBirthDay:'',
+          clansmanendDay:'',
+          clansmanDec:'',
+          auditUserId:'',
+          spouseDtoList:[
             {
-              name:'',
-              birthday:'',
-              deathDay:'',
-              dec:''
+              spouseName:'',
+              spouseBirthDay:'',
+              spouseendDay:'',
+              spouseDec:''
             },
           ]
         },
         rules: {
-          itemName: [
-            { required: true, message: '请输入垃圾名称'},
-          ],
-          categoryId: [
-            { required: true, message: '请选择垃圾类型'},
-          ],
         }
       };
     },
     computed: {
-      getActionWhere(){
+      getActionWhere() {
         return {
-
+          clanId:this.clanId
         }
-      },
+      }
     },
     methods: {
-      add(){
-        // this.dialogVO= {
-        //   categoryId:'',
-        //   itemName:'',
-        //   status:true
-        // }
-        this.openDialog();
+      //通过房系id获取世称列表
+      changeBranch(){
+        this.dialogVO.directoryId = this.branchAndGeneration[0];
+        this.dialogVO.scId = this.branchAndGeneration[1];
+        //获取父亲们
+        this.$api.user.getClanUserRelList({
+          clanId:this.clanId,
+          directoryId:this.dialogVO.directoryId,
+          scId:this.dialogVO.scId
+        }).then(res=>{
+
+        })
       },
-      editRubbish(detailVO){
-        this.dialogVO= {
-          id:detailVO.id,
-          categoryId:detailVO.belongCategory.id,
-          itemName:detailVO.itemName,
-          status:detailVO.status==1,
-        }
-        this.openDialog();
-      },
+      //打开新增弹窗
       openDialog(){
         if(this.$refs['dialogVO']){
           this.$nextTick(()=>{
@@ -234,21 +206,7 @@
         }
         this.dialogShow = true;
       },
-      delRubbish(vo){
-        this.$confirm('确认删除该记录？')
-          .then(() => {
-            this.$api.rubbish.del(vo.id).then(res=>{
-              if(res.status==1){
-                this.$message.success('删除成功！');
-                this.$refs.tableMain.fetchData();
-              }else {
-                this.$message.error(res.errorMessage)
-              }
 
-            });
-          })
-          .catch(confirm => {});
-      },
       save(){
         this.$refs['dialogVO'].validate((valid) => {
           if (valid) {
@@ -273,7 +231,7 @@
             }else{
               this.$api.rubbish.edit(vo).then(res=>{
                 if(res.status==1){
-                  this.dialogShow = false
+                  this.dialogShow = false;
                   this.$message.success('修改成功！');
                   this.$refs.tableMain.fetchData();
                 }else{
@@ -292,9 +250,9 @@
       }
     },
     mounted() {
-      //获取氏称列表
-      this.$api.generation.list({clanId:this.clanId}).then(res=>{
-        this.scIdList = res.data;
+      //获取房系列表
+      this.$api.branch.list({clanId:this.clanId}).then(res=>{
+        this.branchList = res.data;
       })
     }
   };

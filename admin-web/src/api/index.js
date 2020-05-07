@@ -5,6 +5,7 @@ import role from './role'
 import menu from './menu'
 import generation from './generation'
 import branch from './branch'
+import clansmen from './clansmen'
 export default {
   common,
   user,
@@ -12,5 +13,6 @@ export default {
   role,
   menu,
   generation,
-  branch
+  branch,
+  clansmen
 }

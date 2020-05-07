@@ -49,16 +49,23 @@
                 </el-form-item>
                 <el-form-item label="概述文件：" v-if="dialogVO.directoryType==0">
                     <el-upload
-                            class="upload-demo"
-                            :action="$api.common.uploadAction"
-                            :data="fileData"
-                            :before-upload="handlegetFileData"
-                            :limit="1"
-                            :file-list="fileList">
+						class="upload-demo"
+						:action="$api.common.uploadAction"
+						:data="fileData"
+						:before-upload="handlegetFileData"
+						:on-success="onUpload"
+						:on-remove="onRemove"
+						:limit="1"
+						:file-list="fileList">
                         <el-button size="small" type="primary">点击上传</el-button>
                         <div slot="tip" class="el-upload__tip">请上传概述文件</div>
                     </el-upload>
                 </el-form-item>
+				<el-form-item label="所含世称：" prop="scIds">
+					<el-checkbox-group v-model="dialogVO.scIds">
+						<el-checkbox v-for="item in generations" :label="item.id">{{ item.name }}</el-checkbox>
+					</el-checkbox-group>
+				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button type="primary" @click="save()">保 存</el-button>
@@ -88,14 +95,18 @@
         dialogVO:{
           id: '',
           name:'',
-          directoryType:1
+          directoryType:1,
+          directoryFileId:'',
+          scIds:[],
 		},
         fileList:[],
         rules:{
           name: [{required: true, message: '请输入'}, ],
           directoryType: [{required: true, message: '请输入'}, ],
+          scIds: [{required: true, message: '请输入'}, ],
 		},
         unionList:[],
+        generations:[],
         fileData:{
           defaultSuffix:'',
         }
@@ -114,7 +125,7 @@
     methods: {
       tableMounted(){
         this.$nextTick(()=>{
-          this.$refs.tableMain.fetchData()
+          this.$refs.tableMain.fetchData();
         })
 	  },
       handlegetFileData(file) {
@@ -126,14 +137,28 @@
           this.dialogVO = {
             id: '',
             name:'',
-            directoryType:'1',
+            directoryType:1,
+            directoryFileId:'',
+            scIds:[],
           }
         }else{
           this.dialogVO  = {
             id:item.id,
             name:item.name,
-            directoryType:item.directoryType
+            directoryType:item.directoryType,
+            scIds:item.scIds.map(i =>{
+              return i.id;
+			}),
           }
+          //如果已经有文件的，需要回显文件
+          if(item.directoryFileId){
+            this.$api.common.getFile(item.directoryFileId).then(res=>{
+              this.fileList = [{
+				name:res.data.fileName,
+				url:res.data.fileUrl
+			  }]
+			})
+		  }
         }
         if (this.$refs['dialogVO']) {
           this.$nextTick(() => {
@@ -142,7 +167,12 @@
         }
         this.dialogShow = true;
       },
-
+      onUpload(response){
+        this.dialogVO.directoryFileId = response.id;
+	  },
+      onRemove(){
+        this.dialogVO.directoryFileId = '';
+	  },
       save() {
         this.$refs['dialogVO'].validate((valid) => {
           if (valid) {
@@ -154,7 +184,17 @@
             if (!vo.id) {
               delete vo.id;
             }
-
+            if(vo.directoryType===1){
+              delete  vo.directoryFileId
+			}
+            let scIds =  this.generations.filter(item=>{
+              return vo.scIds.indexOf(item.id) !=-1;
+			}).map(item=>{
+			  return {
+			    id:item.id
+			  }
+			});
+            vo.scIds = scIds;
             this.$api.branch.add(vo).then(res => {
               if (res.code == 0) {
                 this.dialogShow = false;
@@ -171,6 +211,10 @@
       },
     },
     mounted() {
+      //获取世称列表
+	  this.$api.generation.list({clanId:this.clanId}).then(res=>{
+	    this.generations = res.data;
+	  })
     },
   };
 </script>

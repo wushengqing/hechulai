@@ -6,9 +6,17 @@ export default {
    */
   uploadAction: process.env.VUE_APP_API_PREFIX + 'hcl-web/web/addFile.file',
   /**
+   * 异步获取省市区级联
+   */
+  getFile (id) {
+    return axios.post('/hcl-web/web/getFile.json',{
+      id
+    })
+  },
+  /**
    * 下载文件
    */
-  getFile (file) {
+  downloadFile (file) {
     var params = {
       fileUrl: file.fileUrl || file.httppath || file.path,
       fileName: file.fileName
