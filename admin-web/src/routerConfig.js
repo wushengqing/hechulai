@@ -18,7 +18,7 @@ import MenuList from '@/pages/menu/List/index.vue';
 //用户管理
 import UserList from '@/pages/user/List/index.vue';
 //宗亲管理
-import ClansmenList from '@/pages/clansmen/List/index.vue';
+import ClansmenList from '@/pages/clansmenTree/List/index.vue';
 //宗亲管理
 import BannerList from '@/pages/banner/List/index.vue';
 

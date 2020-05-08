@@ -2,7 +2,6 @@
   <div class="workapply-area">
     <d2-container>
       <template slot="header">宗亲列表</template>
-
       <!---->
       <table-comb
         name="宗亲列表"
@@ -67,6 +66,9 @@
     </d2-container>
     <el-dialog :title="dialogVO.id?'编辑':'新增'" :visible.sync="dialogShow">
       <el-form ref="dialogVO" :model="dialogVO" label-width="150px" :rules="rules">
+        <el-form-item label="是否：" prop="scId">
+
+        </el-form-item>
         <el-form-item label="父亲房系：" prop="scId">
           <el-cascader
                   v-model="branchAndGeneration"
