@@ -1,63 +1,127 @@
 <template>
-  <div class="clansmen-tree">
-    <div class="clansmen-node"  v-for=" item in data">
+  <div class="clansmen-node" >
+    <div class="clansmen-node-view">
       <div class="node">
-        <div class="name">
-          <span class="normal mr20">{{item.clanName}}</span>
-          <span class="normal">{{item.scName}}</span>
-        </div>
-        <div class="desc">
-          <div class="normal">{{item.clansmanDec}}</div>
-          <div>妻子:</div>
-          <div class="" v-for="wife in item.spouseDtoList">
-            <span class="normal">{{ wife.spouseName}}</span>
-            <span class="normal">{{ wife.spouseBirthDay}}</span>
-            <span class="normal">{{ wife.spouseendDay}}</span>
-            <span class="normal">{{ wife.spouseDec}}</span>
+        <div class="node-wrap">
+          <div class="name">
+            <span class="mr5 normal">{{clansman.scName}}</span>
+            <span class="">{{clansman.clansmanName}}</span>
+            <i class="el-icon-arrow-down fr" v-if="!showMore" @click="showMore=true"></i>
+            <i class="el-icon-arrow-up fr" v-else @click="showMore=false"></i>
+            <i class="el-icon-edit fr mr5" @click="openDialog(clansman,true)"></i>
           </div>
-          <el-button type="text" size="mini">详细介绍</el-button>
+          <div class="desc" v-show="showMore">
+            <div class="">房系：{{clansman.directoryName}}</div>
+            <div class="">简介：{{clansman.clansmanDec}}</div>
+            <div>妻子:</div>
+            <div class="" v-for="wife in clansman.spouseDtoList">
+              <span class="normal">{{ wife.spouseName}}</span>
+              <span class="normal">{{ wife.spouseBirthDay}}</span>
+              <span class="normal">{{ wife.spouseendDay}}</span>
+              <span class="normal">{{ wife.spouseDec}}</span>
+            </div>
+          </div>
         </div>
         <div class="add">
-          <el-button type="warning" size="mini">添加子嗣</el-button>
+          <el-button icon="el-icon-circle-plus" style="font-size: 18px; margin-left:2px;padding: 4px" circle @click="openDialog(clansman)" size="mini" title="添加子嗣"></el-button>
         </div>
       </div>
-      <TreeNode v-if="item.children.length>0" :data="item.children"></TreeNode>
+
+      <div class="clansmen-tree border"  v-if="clansman.children.length>0">
+          <TreeNode v-for=" item in clansman.children" @getData="getData" :clansman="item"></TreeNode>
+      </div>
     </div>
+    <el-dialog style="text-align: left" :title="dialogVO.id?'编辑宗亲信息':'添加子嗣'" :visible.sync="dialogShow" width="800px">
+      <el-form ref="dialogVO" :model="dialogVO" label-width="100px" :rules="rules" style="text-align: left">
+        <el-form-item label="宗亲姓名：" prop="clansmanName">
+          <el-input class="w200" v-model="dialogVO.clansmanName" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="出生日期：" prop="name">
+          <el-input  class="w200"  v-model="dialogVO.clansmanBirthDay" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="去世日期：" prop="name">
+          <el-input  class="w200"  v-model="dialogVO.clansmanendDay" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item prop="clansmanDec" label="宗亲简介">
+          <el-input v-model="dialogVO.clansmanDec" placeholder="请输入"></el-input>
+        </el-form-item>
+        <el-form-item label="夫人列表：" width="180">
+          <el-table :data="dialogVO.spouseDtoList" style="width: 100%" border size="mini">
+            <el-table-column prop="spouseName" label="姓名" width="120">
+              <template slot-scope="props">
+                <el-input v-model="props.row.spouseName" placeholder="请输入"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="spouseBirthDay" label="出生日期" width="135">
+              <template slot-scope="props">
+                <el-input v-model="props.row.spouseBirthDay" placeholder="请输入"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="spouseendDay" label="死亡日期" width="135">
+              <template slot-scope="props">
+                <el-input v-model="props.row.spouseendDay" placeholder="请输入"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" label="简介">
+              <template slot-scope="props">
+                <el-input v-model="props.row.spouseDec" placeholder="请输入"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" label="操作" width="100">
+              <template slot-scope="scope">
+                <el-button
+                        type="primary"
+                        circle
+                        size="mini"
+                        title="添加到本条记录后面"
+                        @click="addWife(scope.$index)"
+                        icon="el-icon-circle-plus-outline"></el-button>
+                <el-button
+                        type="danger"
+                        title="删除"
+                        circle
+                        size="mini"
+                        :disabled="dialogVO.spouseDtoList.length<=1"
+                        @click="deleteWife(scope.$index)"
+                        icon="el-icon-delete"></el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+
+        </el-form-item>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="save">保 存</el-button>
+        <el-button @click="dialogShow = false">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
+
 </template>
 
 <script>
   import listMixin from "@/mixins/list.mixin";
-  import { cloneDeep } from 'lodash'
+  import { cloneDeep } from 'lodash';
   const defaultDialogVO = {
-    // "id": '',
-    // "clanId": '',
-    // "scId": '',
-    // "directoryId": '',
-    // "parentId": '',
-    // "clansmanName": '',
-    // "clansmanBirthDay":'',
-    // "clansmanendDay": '',
-    // "clansmanDec": '',
-    // "auditUserId": 0,
-    // "spouseDtoList": [
-    //   {
-    //     spouseName:'',
-    //     spouseBirthDay:'',
-    //     spouseendDay:'',
-    //     spouseDec:''
-    //   },
-    // ]
-    auditUserId: 0,
-    clanId: 1,
-    clansmanBirthDay: "公元856年",
-    clansmanDec: "开山始祖",
-    clansmanName: "巫罗俊",
-    clansmanendDay: "公元956年",
-    directoryId: "",
-    parentId: "",
-    scId: "",
-    spouseDtoList: [{spouseName: "张氏", spouseBirthDay: "公元851年", spouseendDay: "公元926年", spouseDec: "妻子1"}]
+    "id": '',
+    "clanId": '',
+    "scId": '',
+    "directoryId": '',
+    "parentId": '',
+    "clansmanName": '',
+    "clansmanBirthDay":'',
+    "clansmanendDay": '',
+    "clansmanDec": '',
+    "auditUserId": 0,
+    "spouseDtoList": [
+      {
+        spouseName:'',
+        spouseBirthDay:'',
+        spouseendDay:'',
+        spouseDec:''
+      },
+    ]
   }
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
@@ -67,16 +131,16 @@
       listMixin
     ],
     props:{
-      data:{
-        type:Array,
+      clansman:{
+        type:Object,
         default:[]
       }
     },
     data() {
       return {
         clansmenList:[],
-        branchList:[],
         dialogShow:false,
+        showMore:false,
         dialogVO:cloneDeep(defaultDialogVO),
         rules:{}
       };
@@ -86,21 +150,40 @@
         return {
           clanId:this.clanId
         }
-      }
+      },
     },
     methods: {
-      //打开新增或者编辑弹出
-      openDialog(vo){
-        if(this.branchList.length===0){
-          this.$message.error('没有获取到房系列表')
-          return false
-        }
+      //打开子嗣或者编辑
+      openDialog(vo,edit){
         this.dialogShow = true;
-        if(!vo){
-          this.dialogVO=cloneDeep(defaultDialogVO);
-          this.dialogVO.scId = this.branchList[0].scIds[0].id;
-          this.dialogVO.directoryId = this.branchList[0].id;
+        if(edit){
+          delete vo.directoryId;
+          delete vo.scId;
+          let newVo = cloneDeep(vo);
+          this.dialogVO= {
+            id:newVo.id,
+            auditUserId:'',
+            clansmanId:newVo.clansmanId,
+            clansmanBirthDay:newVo.clansmanBirthDay,
+            clansmanDec:newVo.clansmanDec,
+            clansmanName:newVo.clansmanName,
+            clansmanendDay:newVo.clansmanendDay,
+            spouseDtoList: newVo.spouseDtoList
+          };
+          return
         }
+        this.dialogVO={
+          auditUserId:'',
+          clanId:this.clanId,
+          clansmanBirthDay: "",
+          clansmanDec: "",
+          clansmanName: "",
+          clansmanendDay: "",
+          directoryId:vo.directoryId,
+          parentId:vo.clansmanId,
+          scId:vo.scId,
+          spouseDtoList: [{spouseName: "", spouseBirthDay: "", spouseendDay: "", spouseDec: ""}]
+        };
       },
       //添加夫人
       addWife(index){
@@ -114,23 +197,22 @@
       deleteWife(index){
         this.dialogVO.spouseDtoList.splice(index,1)
       },
+      getData(){
+        this.$emit('getData');
+      },
       save(){
-
         this.$refs['dialogVO'].validate((valid) => {
           if (valid) {
             let vo = cloneDeep(this.dialogVO);
-            //新增
-            if (!vo.id) {
-              delete vo.id;
-            }
             vo.clanId = this.clanId;
+            vo.auditUserId = this.userInfo.userId;
             this.$api.clansmen.add(vo).then(res => {
               if (res.code == 0) {
                 this.dialogShow = false;
                 this.getData();
-                this.$message.success('新增成功！');
+                this.$message.success(vo.id ? '修改成功！':'新增成功！');
               } else {
-                this.$message.error(res.errorMessage)
+                this.$message.error(res.msg)
               }
             })
           } else {
@@ -140,42 +222,6 @@
       }
     },
     mounted() {
-      //获取房系列表
-      this.$api.branch.list({clanId:this.clanId}).then(res=>{
-        this.branchList = res.data;
-      });
     }
   };
 </script>
-<style  lang="scss">
-  .clansmen-tree{
-    text-align: center;
-    margin: 20px 0 0 0;
-    .node{
-      display: inline-block;
-      width: 150px;
-      background: #fff;
-      border:#eee solid 1px;
-      line-height: 20px;
-      min-height: 100px;
-      font-size: 12px;
-      border-radius: 5px;
-      overflow: hidden;
-      .name{
-        text-align: left;
-        padding: 5px;
-        background: #2f74ff;
-        color: #fff;
-        height: 20px;
-        overflow: hidden;
-        .normal{
-          border-bottom: #fff dashed 1px;
-          cursor: pointer;
-        }
-      }
-      .desc{
-        padding: 5px;
-      }
-    }
-  }
-</style>

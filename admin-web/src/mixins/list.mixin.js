@@ -6,7 +6,7 @@
 
 // import { mapState } from 'vuex'
 import pageMixin from './page'
-
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -17,6 +17,9 @@ export default {
     pageMixin
   ],
   computed: {
+    ...mapState({
+      userInfo: state => state.d2admin.userInfo,
+    }),
     token () {
       let hash = document.location.hash
       let indexToken = hash.indexOf('token=')
