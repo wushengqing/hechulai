@@ -81,7 +81,6 @@
                         title="删除"
                         circle
                         size="mini"
-                        :disabled="dialogVO.spouseDtoList.length<=1"
                         @click="deleteWife(scope.$index)"
                         icon="el-icon-delete"></el-button>
               </template>

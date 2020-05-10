@@ -181,7 +181,7 @@ export const pageRouter = [
     layout,
     component: BranchList,
     meta: {
-      title: '房系管理',
+      title: '族谱目录管理',
     }
   },
 ]
