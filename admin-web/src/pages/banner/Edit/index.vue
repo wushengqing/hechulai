@@ -3,8 +3,12 @@
   <transition name="edit">
       <d2-container v-if="showPage" class="edit-panel">
         <template slot="header">
-          <el-page-header @back="back" content="编辑页面">
-          </el-page-header>
+          <i title="后退" class="el-icon-back" @click="back"></i>
+          <span style="cursor:pointer" @click="back">返回</span>
+          <div class="fr" style="margin: -8px 0">
+            <el-button type="" plain @click="openPreviewPage">预览</el-button>
+            <el-button type="primary" @click="onSubmit">保存</el-button>
+          </div>
         </template>
         <!---->
         <div class="detail-view">
@@ -20,10 +24,10 @@
                   :show-file-list="false"
                   :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload">
-                  <img v-if="form.imageUrl" :src="form.imageUrl" class="avatar">
+                  <img v-if="form.imageUrl" :src="form.imageUrl" class="banner-image">
                   <i v-else class="el-icon-plus banner-uploader-icon"></i>
                 </el-upload>
-                <span class="color-grey"> 请上传 小于2M的jpg 图片</span>
+                <span class="color-grey" style="vertical-align: bottom"> 请上传 小于2M的jpg 图片</span>
               </el-form-item>
               <el-form-item label="背景颜色：">
                 <el-color-picker v-model="form.bgColor"></el-color-picker>
@@ -62,10 +66,6 @@
                   :options="clansmenOptions"
                   @change="handleChange">
                 </el-cascader>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="onSubmit">保存</el-button>
-                <el-button>取消</el-button>
               </el-form-item>
             </el-form>
         </div>
@@ -149,7 +149,8 @@
       },
       onSubmit() {
         console.log('submit!');
-      }
+      },
+      openPreviewPage(){}
     },
     mounted() {
 

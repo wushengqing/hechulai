@@ -112,12 +112,15 @@ div[class^=d2-container-full] {
 }
 
 /*上传新闻和banner图颜色*/
+.banner-uploader{
+  display: inline-block;
+  margin-right: 20px;
+}
 .banner-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
 }
 .banner-uploader .el-upload:hover {
   border-color: #409EFF;
@@ -130,7 +133,7 @@ div[class^=d2-container-full] {
   line-height: 100px;
   text-align: center;
 }
-.banner {
+.banner-image {
   width:200px;
   height: 100px;
   display: block;
