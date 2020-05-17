@@ -156,11 +156,16 @@ export default {
       //1.获取用户的角色列表
       vm.$api.user.getUserAccessRelList({userId:state.userInfo.userId}).then(accessVO=>{
         //存储角色id
-        commit('d2adminAccessIdSet',accessVO.data[0].accessId)
-        //2.根据用户角色获取菜单
-        vm.$api.role.getMenuById({accessId:accessVO.data[0].accessId}).then(menu=>{
-          commit('d2adminMenuAsideSet', menu.data)
-        })
+        if(accessVO.data[0]){
+          commit('d2adminAccessIdSet',accessVO.data[0].accessId)
+          //2.根据用户角色获取菜单
+          vm.$api.role.getMenuById({accessId:accessVO.data[0].accessId}).then(menu=>{
+            commit('d2adminMenuAsideSet', menu.data)
+          })
+        }else{
+          vm.$message.error('用户无角色')
+        }
+
       })
     },
   },

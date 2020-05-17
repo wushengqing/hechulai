@@ -26,6 +26,9 @@ div[class^=d2-container-full] {
   font-size: 16px;
 }
 .w200{ width: 200px;}
+.w400{ width: 400px;}
+.w800{ width: 800px;}
+.w100ff{ width: 100%!important;}
 .w-search{ width: 270px;}
 .w-daterange{ width: 230px!important;}
 .fl{ float: left;}
@@ -106,4 +109,29 @@ div[class^=d2-container-full] {
 }
 .color-grey{
 	color: #aaa;
+}
+
+/*上传新闻和banner图颜色*/
+.banner-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.banner-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.banner-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 200px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+}
+.banner {
+  width:200px;
+  height: 100px;
+  display: block;
 }

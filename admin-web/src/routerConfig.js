@@ -24,8 +24,11 @@ import BannerList from '@/pages/banner/List/index.vue';
 
 //宗亲管理
 import GenerationList from '@/pages/generation/List/index.vue';
-//分支/分房管理
-import BranchList from '@/pages/branch/List/index.vue';
+//目录管理
+import BranchList from '@/pages/banner/List/index.vue';
+//风采管理
+import MienList from '@/pages/mien/List/index.vue';
+
 
 
 const routerConfig = [
@@ -119,24 +122,6 @@ export const pageRouter = [
     component: BannerList,
     meta: {
       title: '轮播图管理',
-    }
-  },
-  {
-    path: '/notice/list',
-    name: 'BannerList',
-    layout,
-    component: BannerList,
-    meta: {
-      title: '公告管理',
-    }
-  },
-  {
-    path: '/news/list',
-    name: 'BannerList',
-    layout,
-    component: BannerList,
-    meta: {
-      title: '新闻管理',
     }
   },
   {
