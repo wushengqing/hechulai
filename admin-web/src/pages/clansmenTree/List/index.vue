@@ -1,8 +1,8 @@
 <template>
   <div class="workapply-area">
     <d2-container>
-      <template slot="header">宗亲列表</template>
-      <div class="clansmen-tree-wrap">
+      <template slot="header">宗亲管理</template>
+      <div class="clansmen-tree-wrap" v-loading="loading">
         <div class="start">开始</div>
         <div class="clansmen-tree"  >
           <div class="clansmen-node" v-if="clansmenList.length===0">
@@ -132,6 +132,7 @@
     ],
     data() {
       return {
+        loading:true,
         clansmenList:[],
         clansmenTree:[],
         branchList:[],
@@ -221,6 +222,7 @@
           return childrenNodes;
         }
         this.clansmenTree = treeNodes
+        this.loading = false;
       },
       save(){
 

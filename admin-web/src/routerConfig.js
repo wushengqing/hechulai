@@ -19,8 +19,10 @@ import MenuList from '@/pages/menu/List/index.vue';
 import UserList from '@/pages/user/List/index.vue';
 //宗亲管理
 import ClansmenList from '@/pages/clansmenTree/List/index.vue';
-//宗亲管理
+//banner图管理
 import BannerList from '@/pages/banner/List/index.vue';
+//新闻管理
+import NewsList from '@/pages/news/List/index.vue';
 
 //宗亲管理
 import GenerationList from '@/pages/generation/List/index.vue';
@@ -126,9 +128,9 @@ export const pageRouter = [
   },
   {
     path: '/news/list',
-    name: 'BannerList',
+    name: 'NewsList',
     layout,
-    component: BannerList,
+    component: NewsList,
     meta: {
       title: '新闻管理',
     }

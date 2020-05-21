@@ -1,11 +1,11 @@
 <template>
 	<div class="workapply-area">
 		<d2-container>
-			<template slot="header">轮播图管理</template>
+			<template slot="header">新闻管理</template>
 
 			<!---->
 			<table-comb
-					name="轮播图管理"
+					name="新闻管理"
 					ref="tableMain"
 					:search-model-base="tableMainSearchModelBase"
 					:get-action="$api.banner.list"
@@ -66,7 +66,7 @@
   import QRCode from "qrcodejs2";
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
-    name: "BannerList",
+    name: "NewsList",
     components: {
       Edit,
 	},
@@ -80,7 +80,7 @@
           categoryId: ''
         },
 		//1 banner图 2 新闻
-        mienType:1,
+        mienType:2,
         dialogShow:false,
         qrcodeObj:false
       }

@@ -6,17 +6,17 @@ export default {
 	 * @returns {*}
 	 */
 	list(condition, pageInfo) {
-		return axios.post('/hcl-web/web/getBannerList.json', {
+		return axios.post('/hcl-web/web/getMienBaseList.json', {
 			...condition,
-			...pageInfo
+			//...pageInfo
 		})
 	},
 	/**
-	 * 编辑用户信息
+	 * 保存banner 图
 	 * @returns {*}
 	 */
-	upDateUserInfo(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateUserInfo.json', {
+	save(vo) {
+		return axios.post('/hcl-web/web/addOrUpdateMienBaseInfo.json', {
 			...vo,
 		})
 	},

@@ -99,7 +99,7 @@
       return {
         showPage:false,
         //1 banner图 2 新闻
-        mienType:1,
+        mienType:2,
         isClear:true,
         form: {
           id:'',
