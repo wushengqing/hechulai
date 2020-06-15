@@ -1,1 +1,0 @@
-<view class="container data-v-47fd63e7"><block wx:for="{{unionList}}" wx:for-item="item" wx:for-index="__i0__"><uni-list-item vue-id="{{'343289a0-1-'+__i0__}}" title="{{item.name||'未命名宗族'}}" data-event-opts="{{[['^click',[['changeClanId',['$0'],[[['unionList','',__i0__]]]]]]]}}" bind:click="__e" class="data-v-47fd63e7" bind:__l="__l"></uni-list-item></block></view>

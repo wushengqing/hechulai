@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "好友详情",
-  "usingComponents": {
-    "list-cell": "/components/mix-list-cell"
-  }
-}

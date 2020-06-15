@@ -1,1 +1,0 @@
-<view class="full-page"><text class="name">{{clanInfo.name+"族谱"}}</text></view>

@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "通讯录",
-  "usingComponents": {
-    "list-cell": "/components/mix-list-cell"
-  }
-}
