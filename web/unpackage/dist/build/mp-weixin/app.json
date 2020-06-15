@@ -1,0 +1,76 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/set/set",
+    "pages/userinfo/userinfo",
+    "pages/cart/cart",
+    "pages/public/login",
+    "pages/user/user",
+    "pages/detail/detail",
+    "pages/order/order",
+    "pages/money/money",
+    "pages/order/createOrder",
+    "pages/address/address",
+    "pages/address/addressManage",
+    "pages/money/pay",
+    "pages/money/paySuccess",
+    "pages/notice/notice",
+    "pages/news/list",
+    "pages/news/detail",
+    "pages/organization/organization",
+    "pages/album/album",
+    "pages/albumDetail/albumDetail",
+    "pages/contribution/contribution",
+    "pages/contributionDetail/contributionDetail",
+    "pages/lineage/lineage",
+    "pages/union/union",
+    "pages/contacts/list",
+    "pages/contacts/detail",
+    "pages/familyTree/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "何处来",
+    "navigationBarBackgroundColor": "#9e563a"
+  },
+  "tabBar": {
+    "color": "#C0C4CC",
+    "selectedColor": "#fa436a",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tab-home.png",
+        "selectedIconPath": "static/tab-home-current.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/lineage/lineage",
+        "iconPath": "static/tab-cate.png",
+        "selectedIconPath": "static/tab-cate-current.png",
+        "text": "世系表"
+      },
+      {
+        "pagePath": "pages/familyTree/index",
+        "iconPath": "static/tab-book.png",
+        "selectedIconPath": "static/tab-book-current.png",
+        "text": "族谱"
+      },
+      {
+        "pagePath": "pages/contacts/list",
+        "iconPath": "static/tab-mail.png",
+        "selectedIconPath": "static/tab-mail-current.png",
+        "text": "通讯录"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "static/tab-my.png",
+        "selectedIconPath": "static/tab-my-current.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

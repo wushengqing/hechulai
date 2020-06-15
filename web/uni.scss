@@ -1,0 +1,166 @@
+@font-face {
+  font-family: 'iconfont';  /* project id 1765072 */
+  src:url('https://at.alicdn.com/t/font_1765072_bihew87lu5f.ttf') format('truetype'),
+}
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 32upx;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* 页面左右间距 */
+$page-row-spacing: 30upx;
+$page-color-base: #f8f8f8;
+$page-color-light: #f8f6fc;
+$base-color: #fa436a;
+
+/* 文字尺寸 */
+$font-sm: 24upx;
+$font-base: 28upx;
+$font-lg: 32upx;
+/*文字颜色*/
+$font-color-dark: #303133;
+$font-color-base: #606266;
+$font-color-light: #909399;
+$font-color-disabled: #C0C4CC;
+$font-color-spec: #4399fc;
+/* 边框颜色 */
+$border-color-dark: #DCDFE6;
+$border-color-base: #E4E7ED;
+$border-color-light: #EBEEF5;
+/* 图片加载中颜色 */
+$image-bg-color: #eee;
+/* 行为相关颜色 */
+$uni-color-primary:#4399FC;
+$uni-color-success: #4cd964;
+$uni-color-warning: #f0ad4e;
+$uni-color-error: #dd524d;
+
+.c-red{
+	color: $uni-color-error;
+}
+
+.c-yellow{
+	color: $uni-color-warning;
+}
+.c-green{
+	color: $uni-color-success;
+}
+.c-grey{
+	color: $font-color-disabled;
+}
+.tc{
+	text-align: center;
+}
+.h88{
+	height: 88upx;
+}
+.inline{
+	display: inline;
+}
+
+.container{
+	padding: 15upx 10px;
+	color: $font-color-dark;
+}
+.container-dark{
+	padding: 15upx 20px;
+	background: #f8f8f8;
+}
+
+.mt-30{
+	margin-top: 30upx;
+}
+.mr-10{
+	margin-right: 10upx;
+}
+.flex{
+	display: flex;
+}
+.flex-wrap{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.item-link{
+	position: relative;
+	background: #fff;
+	border-radius: 10upx;
+	box-shadow: rgba(0,0,0,.1) 0 3upx 8upx;
+	overflow: hidden;
+	margin-top: 10upx;
+	margin-bottom: 30upx;
+	padding: 20upx 30upx;
+	line-height: 60upx;
+	font-size: 28upx;
+	&:before{
+		position: absolute;
+		font-family: "iconfont" !important;
+		color:$font-color-light;
+		content: "\e608";
+		right: 20upx;
+		top:50%;
+		font-size: 50upx;
+		margin-top: -25upx;
+	}
+	.title{
+	
+		font-size: 32upx;
+	}
+	.field{
+		&.field-user:before{
+			font-family: "iconfont" !important;
+			color:$font-color-light;
+			content: "\e604";
+			margin-right: 8upx;
+			display: inline-block;
+		}
+		&.field-clock:before{
+			font-family: "iconfont" !important;
+			color:$font-color-light;
+			content: "\e60d";
+			margin-right: 8upx;
+			display: inline-block;
+		}
+		.label{
+			color:$font-color-light;
+		}
+		.value{
+			color: $uni-color-primary;
+			&.yellow{
+				color: $uni-color-warning;
+			}
+		}
+	}
+}
+
+.full-page{
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: calc(100% - 88upx);
+	background: #F0AD4E;
+}
+
+/**表单相关样式**/
+.form-box{
+	padding-top: 40upx;
+	.form-item{
+		display: flex;
+		min-height: 66upx;
+		border-bottom: $border-color-dark solid 1upx;
+		margin-bottom: 30upx;
+		.label{
+			width: 180upx;
+			font-weight: 600;
+			color: $font-color-light;
+			padding-right: 20upx;
+			text-align: right;
+		}
+		.field{
+			flex: 1;
+		}
+	}
+}

@@ -27,7 +27,7 @@ import NewsList from '@/pages/news/List/index.vue';
 //宗亲管理
 import GenerationList from '@/pages/generation/List/index.vue';
 //目录管理
-import BranchList from '@/pages/banner/List/index.vue';
+import BranchList from '@/pages/branch/List/index.vue';
 //风采管理
 import MienList from '@/pages/mien/List/index.vue';
 

@@ -1,0 +1,264 @@
+{
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "何处来",
+		"navigationBarBackgroundColor": "#9e563a"
+	},
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "何处来",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent",
+						"searchInput": {
+							"backgroundColor": "rgba(231, 231, 231,.7)",
+							"borderRadius": "16px",
+							"placeholder": "请输入姓名查询",
+							"disabled": true,
+							"placeholderColor": "#606266"
+						},
+						"buttons": [
+							{
+								"fontSrc": "/static/yticon.ttf",
+								"text": "\ue744",
+								"fontSize": "27",
+								"color": "#303133",
+								"background": "rgba(0,0,0,0)",
+								"redDot": true
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/set/set",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+
+		{
+			"path": "pages/userinfo/userinfo",
+			"style": {
+				"navigationBarTitleText": "修改资料"
+			}
+		}, {
+			"path": "pages/cart/cart",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		}, {
+			"path": "pages/public/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				}
+			}
+		}, {
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "我的",
+				// #ifdef MP
+				"navigationStyle": "custom",
+				// #endif
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": {
+						"type": "transparent",
+						"buttons": [{
+								"fontSrc": "/static/yticon.ttf",
+								"text": "\ue60f",
+								"fontSize": "24",
+								"color": "#303133",
+								"width": "46px",
+								"background": "rgba(0,0,0,0)"
+							},
+							{
+								"fontSrc": "/static/yticon.ttf",
+								"text": "\ue744",
+								"fontSize": "28",
+								"color": "#303133",
+								"background": "rgba(0,0,0,0)",
+								"redDot": true
+							}
+						]
+					}
+				}
+			}
+		}, {
+			"path": "pages/detail/detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+		}, {
+			"path": "pages/order/order",
+			"style": {
+				"navigationBarTitleText": "我的订单",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/money/money",
+			"style": {}
+		}, {
+			"path": "pages/order/createOrder",
+			"style": {
+				"navigationBarTitleText": "创建订单"
+			}
+		}, {
+			"path": "pages/address/address",
+			"style": {
+				"navigationBarTitleText": "收货地址"
+			}
+		}, {
+			"path": "pages/address/addressManage",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}, {
+			"path": "pages/money/pay",
+			"style": {
+				"navigationBarTitleText": "支付"
+			}
+		},
+		{
+			"path": "pages/money/paySuccess",
+			"style": {
+				"navigationBarTitleText": "支付成功"
+			}
+		}, {
+			"path": "pages/notice/notice",
+			"style": {
+				"navigationBarTitleText": "通知"
+			}
+		}, {
+			"path": "pages/news/list",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "新闻列表"
+			}
+		}, {
+			"path": "pages/news/detail",
+			"style": {
+				"navigationBarTitleText": "新闻详情"
+			}
+		},{
+            "path" : "pages/organization/organization",
+            "style": {
+            	"navigationBarTitleText": "族委会"
+            }
+        }
+        ,{
+            "path" : "pages/album/album",
+            "style": {
+            	"navigationBarTitleText": "相册"
+            }
+        }
+        ,{
+            "path" : "pages/albumDetail/albumDetail",
+            "style": {
+            	"navigationBarTitleText": "相册"
+            }
+        }
+        ,{
+            "path" : "pages/contribution/contribution",
+            "style": {
+            	"navigationBarTitleText": "乐捐榜"
+            }
+        }
+        ,{
+            "path" : "pages/contributionDetail/contributionDetail",
+            "style": {
+            	"navigationBarTitleText": "乐捐详情"
+            }
+        }
+        ,{
+            "path" : "pages/lineage/lineage",
+            "style": {
+            	"navigationBarTitleText": "世系表"
+            }
+        }
+        ,{
+            "path" : "pages/union/union",
+            "style": {
+            	"navigationBarTitleText": "选择宗族"
+            }
+        }
+        ,{
+            "path" : "pages/contacts/list",
+            "style" : {
+				"navigationBarTitleText": "通讯录"
+			}
+        },
+		{
+		    "path" : "pages/contacts/detail",
+		    "style" : {
+				"navigationBarTitleText": "好友详情"
+			}
+		}
+        ,{
+            "path" : "pages/familyTree/index",
+            "style" : {
+            	"navigationBarTitleText": "族谱"
+            }
+        }
+       
+        ,{
+            "path" : "pages/bindLineage/index",
+           "style" : {
+				"navigationBarTitleText": "绑定宗亲"
+           }
+        }
+    ],
+	"tabBar": {
+		"color": "#C0C4CC",
+		"selectedColor": "#fa436a",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tab-home.png",
+				"selectedIconPath": "static/tab-home-current.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/lineage/lineage",
+				"iconPath": "static/tab-cate.png",
+				"selectedIconPath": "static/tab-cate-current.png",
+				"text": "世系表"
+			},
+			{
+				"pagePath": "pages/familyTree/index",
+				"iconPath": "static/tab-book.png",
+				"selectedIconPath": "static/tab-book-current.png",
+				"text": "族谱"
+			},
+			{
+				"pagePath": "pages/contacts/list",
+				"iconPath": "static/tab-mail.png",
+				"selectedIconPath": "static/tab-mail-current.png",
+				"text": "通讯录"
+			},
+			
+			{
+				"pagePath": "pages/user/user",
+				"iconPath": "static/tab-my.png",
+				"selectedIconPath": "static/tab-my-current.png",
+				"text": "我的"
+			}
+		]
+	}
+}

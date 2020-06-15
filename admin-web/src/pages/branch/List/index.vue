@@ -146,7 +146,7 @@
             id:item.id,
             name:item.name,
             directoryType:item.directoryType,
-            scIds:item.scIds.map(i =>{
+            scIds:(item.scIds||[]).map(i =>{
               return i.id;
 			}),
           }
