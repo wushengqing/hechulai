@@ -78,8 +78,8 @@
 	  //添加角色
       addOrUpdateUserAccessRel(item){
         this.$api.user.addOrUpdateUserAccessRel({
-          userId:this.form.userId,
-          accessId:this.form.accessId
+          userId:this.userId,
+          accessId:item.id
         }).then(res=>{
           if(res.code===0){
             this.$message.success('新增成功！');
