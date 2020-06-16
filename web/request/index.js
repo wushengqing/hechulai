@@ -157,6 +157,22 @@ async function sxList(data){
 		}
 	}
 }
+//获取族委会
+async function organizationList(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}getClanOrganizationList.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+}
 
 //​绑定宗亲
 function userRelClanMain(data){
@@ -189,4 +205,6 @@ export default {
 	userMsgList,
 	//世系表
 	sxList,
+	//族委会
+	organizationList,
 }

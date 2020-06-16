@@ -51,14 +51,30 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex';
 	export default {
 		data() {
 			return {
-				
+				organizationList:[],
 			}
 		},
+		computed: {
+			...mapState([ 'userInfo','clanInfo'])
+		},
 		methods: {
+			async getClanOrganizationList(){
+				let organizationList = await this.$api.request.organizationList({
+					clanId:this.clanInfo.id
+				});
+				this.organizationList = organizationList;
+			},
 			
+		},
+		onShow(){
+			if(!this.checkRouter()){
+				return;
+			}
+			this.getClanOrganizationList();
 		}
 	}
 </script>

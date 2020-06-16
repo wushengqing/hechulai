@@ -6,8 +6,12 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
 		hasLogin: false,
-		userInfo: {},
-		clanInfo:{},
+		userInfo: {
+			id:''
+		},
+		clanInfo:{
+			id:''
+		},
 	},
 	mutations: {
 		//缓存宗族id

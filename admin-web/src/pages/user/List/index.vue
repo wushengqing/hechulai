@@ -4,8 +4,12 @@
 			<template slot="header">用户管理</template>
 
 			<!---->
-			<table-comb name="用户管理" ref="tableMain" :search-model-base="tableMainSearchModelBase" :get-action="$api.user.list"
-						:get-action-where="getActionWhere" :afterFetchData="afterFetchData">
+			<table-comb
+				name="用户管理"
+				ref="tableMain"
+				:search-model-base="tableMainSearchModelBase"
+				:get-action="$api.user.list"
+				:get-action-where="getActionWhere">
 				<!--基础查询-->
 				<template slot="baseSearchForm" slot-scope="scope">
 					<el-input placeholder="请输入关键字" prefix-icon="el-icon-search" clearable v-model="scope.form.keyword" style="width: 250px; margin-left: 10px; margin-right: 10px">
@@ -29,9 +33,10 @@
 						</template>
 					</el-table-column>
 
-					<el-table-column label="操作" width="200px">
+					<el-table-column label="操作" width="240px">
 						<template slot-scope="props">
 							<el-button type="text" size="mini" @click="resetPassword(props.row)">重置密码</el-button>
+							<el-button type="text" size="mini" @click="openRolePage(props.row)">角色设置</el-button>
 							<el-button type="text" size="mini" @click="editRubbish(props.row)">族谱管理</el-button>
 							<el-button v-if="props.row.status===1" type="text" size="mini" @click="changeUserState(props.row)">停用</el-button>
 							<el-button v-if="props.row.status!==1" type="text" size="mini" @click="changeUserState(props.row)">启用</el-button>
@@ -41,17 +46,19 @@
 			</table-comb>
 			<template slot="footer"></template>
 		</d2-container>
-
-
+		<UserRole ref="userRolePage" @back="refreshTable" />
 	</div>
 </template>
 
 <script>
+  import UserRole from '../UserRole'
   import listMixin from "@/mixins/list.mixin";
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
-    name: "UnionList",
-    components: {},
+    name: "UserList",
+    components: {
+      UserRole,
+	},
     mixins: [
       listMixin
     ],
@@ -66,7 +73,7 @@
     computed: {
       getActionWhere() {
         return {
-
+          clanId:this.clanId
         }
       }
     },
@@ -118,6 +125,9 @@
           this.$message.info('已取消操作');
         });
       },
+      openRolePage(item){
+        this.$refs.userRolePage.open(item.id);
+	  }
     },
     mounted() {
 

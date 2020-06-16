@@ -61,11 +61,11 @@ Vue.prototype.checkRouter = function(isLogin = true, isRelZq = true,ask=true){
 			icon: "none",
 			duration: 500
 		});
-		setTimeout(() => {
-			uni.navigateTo({
-				url: "./pages/public/login"
+		setTimeout(()=>{
+			uni.redirectTo({
+				url: "/pages/public/login"
 			});
-		}, 500)
+		},200)
 		return false;
 	}
 	if (isRelZq && !this.userInfo.isRelZq) {

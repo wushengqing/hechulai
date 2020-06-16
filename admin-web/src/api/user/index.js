@@ -56,6 +56,24 @@ export default {
 			...vo,
 		})
 	},
+	/**
+	 * 保存用户角色信息
+	 * @returns {*}
+	 */
+  addOrUpdateUserAccessRel(vo) {
+		return axios.post('/hcl-web/web/addOrUpdateUserAccessRel.json', {
+			...vo,
+		})
+	},
+	/**
+	 * 删除用户角色
+	 * @returns {*}
+	 */
+  delUserAccessRel(relId) {
+		return axios.post('/hcl-web/web/delUserAccessRel.json', {
+      relId
+		})
+	},
 	//根据宗族，世称，房系查询用户列表
 	getClanUserRelList(vo) {
     return axios.post('/hcl-web/web/getClanUserRelList.json', {
