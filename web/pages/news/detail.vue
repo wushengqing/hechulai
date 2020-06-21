@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		文章详情页面
+		文章详情页面<>
 	</view>
 </template>
 
@@ -8,18 +8,28 @@
 	export default{
 		data() {
 			return {
-				
+				id:'',
+				detailVo:{}
 			};
 		},
-		async onLoad(options){
-			let id = options.id;
-			if(id){
-				this.$api.msg(`点击了${id}`);
-			}
+		methods: {
+			async loadData() {
+				//获取轮播图
+				const detailVo = await this.$api.request.newsDetail({id:this.id});
+				this.detailVo = detailVo.data;
+		
+			},
+		},
+		computed: {
+		
 			
 		},
-		methods:{
-		
+		async onLoad(options){
+			this.id = options.id;
+			if(this.id){
+				this.loadData();
+			}
+			
 		},
 
 	}

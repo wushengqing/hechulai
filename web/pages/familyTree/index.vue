@@ -27,6 +27,9 @@
 			
 		},
 		onShow(){
+			if(!this.checkRouter()){
+				return;
+			}
 			this.show = false;
 			setTimeout(()=>{
 				this.show=true;

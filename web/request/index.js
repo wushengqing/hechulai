@@ -72,6 +72,24 @@ async function newsList(data){
 	}
 	
 }
+//获取新闻详情
+async function newsDetail(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}getMienBaseInfo.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+	
+}
+
 
 //获取世称列表
 async function generationList(data){
@@ -246,6 +264,8 @@ export default {
 	bannerList,
 	//新闻列表
 	newsList,
+	//新闻详情
+	newsDetail,
 	//获取世称列表
 	generationList,
 	//获取房系列表

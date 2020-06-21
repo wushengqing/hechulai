@@ -2,14 +2,16 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "何处来",
-		"navigationBarBackgroundColor": "#9e563a"
+		"navigationBarBackgroundColor":"#9e563a",
+		"h5":{
+			"titleNView":false
+		}
 	},
 	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "何处来",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "何处来"
 			}
 		},
 		{
