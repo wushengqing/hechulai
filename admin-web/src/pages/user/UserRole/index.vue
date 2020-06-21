@@ -12,8 +12,8 @@
 				<el-table-column prop="name" label="角色名称"></el-table-column>
 				<el-table-column prop="" label="操作" width="200px">
 					<template slot-scope="props">
-						<el-button v-if="owned(props.row.id)" type="text" size="mini" @click="delRubbish(props.row)">删除角色</el-button>
-						<el-button v-else="owned(props.row.id)" type="text" size="mini" @click="addOrUpdateUserAccessRel(props.row)">添加角色</el-button>
+						<el-button v-if="owned(props.row.id)" type="text" size="mini" @click="delRubbish(props.row)">删除</el-button>
+						<el-button v-else="owned(props.row.id)" type="text" size="mini" @click="addOrUpdateUserAccessRel(props.row)">添加</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

@@ -9,29 +9,7 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "何处来",
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": {
-						"type": "transparent",
-						"searchInput": {
-							"backgroundColor": "rgba(231, 231, 231,.7)",
-							"borderRadius": "16px",
-							"placeholder": "请输入姓名查询",
-							"disabled": true,
-							"placeholderColor": "#606266"
-						},
-						"buttons": [
-							{
-								"fontSrc": "/static/yticon.ttf",
-								"text": "\ue744",
-								"fontSize": "27",
-								"color": "#303133",
-								"background": "rgba(0,0,0,0)",
-								"redDot": true
-							}
-						]
-					}
-				}
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -174,13 +152,13 @@
             }
         }
         ,{
-            "path" : "pages/contribution/contribution",
+            "path" : "pages/contribution/list",
             "style": {
             	"navigationBarTitleText": "乐捐榜"
             }
         }
         ,{
-            "path" : "pages/contributionDetail/contributionDetail",
+            "path" : "pages/contribution/detail",
             "style": {
             	"navigationBarTitleText": "乐捐详情"
             }
@@ -222,6 +200,7 @@
 				"navigationBarTitleText": "绑定宗亲"
            }
         }
+    
     ],
 	"tabBar": {
 		"color": "#C0C4CC",

@@ -54,35 +54,38 @@ Vue.prototype.$api = {
 	request
 };
 
-Vue.prototype.checkRouter = function(isLogin = true, isRelZq = true,ask=true){
-	if (isLogin && !this.userInfo.id) {
+Vue.prototype.checkRouter = function(isLogin = true, isRelZq = true, ask = true) {
+	//获取userInfo
+	let userInfo = uni.getStorageSync('userInfo')||{id:''};
+	console.log(userInfo);
+	if (isLogin && !userInfo.id) {
 		uni.showToast({
 			title: '请先登录',
 			icon: "none",
 			duration: 500
 		});
-		setTimeout(()=>{
+		setTimeout(() => {
 			uni.redirectTo({
 				url: "/pages/public/login"
 			});
-		},200)
+		}, 200)
 		return false;
 	}
-	if (isRelZq && !this.userInfo.isRelZq) {
+	if (isRelZq && !userInfo.isRelZq) {
 		uni.showModal({
-		    title: '提示',
-		    content: '该功能需要绑定宗族，是否前往？',
-		    success: function (res) {
-		        if (res.confirm) {
-		           uni.navigateTo({
-		           	url: "../bindLineage/index"
-		           });
-		        } else if (res.cancel) {
-		          uni.switchTab({
-		              url: '/pages/index/index'
-		          });
-		        }
-		    }
+			title: '提示',
+			content: '该功能需要绑定宗族，是否前往？',
+			success: function(res) {
+				if (res.confirm) {
+					uni.navigateTo({
+						url: "../bindLineage/index"
+					});
+				} else if (res.cancel) {
+					uni.switchTab({
+						url: '/pages/index/index'
+					});
+				}
+			}
 		});
 		return false
 	}

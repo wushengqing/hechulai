@@ -3,21 +3,12 @@
 		<view class="full-page"  :class="{show:show}">
 			<text class="name">{{ clanInfo.name }}族谱</text>
 		</view>
-		<view class="title1" style="padding: 30upx 0 0 0;">族谱简介</view>
+		<view class="title1" style="padding: 30upx 0 0 0;">祖训</view>
 		<view class="content">
-			<view>本族谱修订于公元二零零八年，由巫晓明（仁宗房，二十四世）等宗亲出资修订。</view>
-			<view style="font-weight: 600;">特别感谢乐捐宗亲：</view>
-			<view>巫晓明：60000元</view>
-			<view>巫晓明：60000元</view>
-			<view>巫晓明：60000元</view>
-			<view>巫晓明：60000元</view>
-			<view>巫晓明：60000元</view>
-			<view>巫晓明：60000元</view>
-			<view>巫晓明：60000元</view>
-			<view>巫晓明：60000元</view>
-			<view>巫晓明：60000元</view>
-			<view>巫晓明：60000元</view>
+			{{ clanInfo.summary }}
 		</view>
+		<!--开山始祖-->
+		<view></view>
 	</view>
 </template>
 

@@ -1,12 +1,12 @@
 <template>
 	<view class="container">
-		<view class="title">修缮宗祠</view>
-		<view class="detail">氏宗祠建于XXXX年，至今已有XXX年氏宗祠建于XXXX年，至今已有XXX年氏宗祠建于XXXX年，至今已有XXX年氏宗祠建于XXXX年，至今已有XXX年</view>
-		<view class="mt-30 field"><text class="iconfont mr-10">&#xe604</text>发起人：陈总总</view>
-		<view class="mt-30 field"><text class="iconfont mr-10">&#xe60d</text>发起时间：2020-02-22 14:2</view>
+		<view class="title">{{detailVo.name}}</view>
+		<view class="detail">{{detailVo.givingDec }}</view>
+		<view class="mt-30 field"><text class="iconfont mr-10">&#xe604</text>发起人：{{ detailVo.createUserId}}</view>
+		<view class="mt-30 field"><text class="iconfont mr-10">&#xe60d</text>发起时间：{{detailVo.createTime}}</view>
 		<view class="mt-30 field"><text class="iconfont mr-10">&#xe60f</text>当前进度：进行中</view>
-		<view class="mt-30 field"><text class="iconfont mr-10">&#xe610</text>乐捐人数：234</view>
-		<view class="mt-30 field"><text class="iconfont mr-10">&#xe611</text>乐捐金额：34000.00元</view>
+		<view class="mt-30 field"><text class="iconfont mr-10">&#xe610</text>乐捐人数：{{ userList.length }}</view>
+		<view class="mt-30 field"><text class="iconfont mr-10">&#xe611</text>乐捐金额：{{ totalMoney}}元</view>
 		<view class="title2 mt-30">乐捐排行榜</view>
 		<view class="user flex">
 			<view class="flex1">
@@ -68,15 +68,45 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex';
 	export default {
 		data() {
 			return {
-				
+				id:'',
+				detailVo:{
+					
+				},
+				userList:[]
 			}
 		},
 		methods: {
+			async loadData() {
+				//获取轮播图
+				let par = {
+					clanId:this.clanInfo.id,
+				};
+				const detailVo = await this.$api.request.projectList(par);
+				const userList = await this.$api.request.projectUserList({givingId:this.id})
+				this.detailVo = detailVo.filter(item=>item.id===parseInt(this.id))[0];
+				//this.userList = userList;
+			},
+		},
+		computed: {
+			...mapState(['clanInfo']),
+			totalMoney(){
+				if(this.userList.length===0){
+					return '0.00';
+				}
+				return '0.00';
+			}
+		},
+		async onLoad(options){
+			this.id = options.id;
+			if(this.id){
+				this.loadData();
+			}
 			
-		}
+		},
 	}
 </script>
 

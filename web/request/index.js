@@ -55,7 +55,7 @@ async function bannerList(data){
 	}
 	
 }
-//获取轮播图
+//获取新闻列表
 async function newsList(data){
 	var [error, res] = await uni.request({
 	    url: `${baseUrl}getNewList.json`,
@@ -183,6 +183,59 @@ function userRelClanMain(data){
 	});
 }
 
+//获取乐捐列表
+async function projectList(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}getGivingBaseList.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+	
+}
+
+//获取乐捐详情
+async function projectDetail(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}getGivingBaseList.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+	
+}
+//获取乐捐详情
+async function projectUserList(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}getGivingUserRelList.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+	
+}
+//族谱获取单个宗亲的信息
 
 export default {
 	//获取宗族列表
@@ -207,4 +260,10 @@ export default {
 	sxList,
 	//族委会
 	organizationList,
+	//乐捐列表
+	projectList,
+	//乐捐详情
+	projectDetail,
+	//乐捐榜
+	projectUserList,
 }

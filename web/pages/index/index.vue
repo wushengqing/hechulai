@@ -33,7 +33,7 @@
 				<image src="/static/index/p2.png"></image>
 				<text>相册</text>
 			</navigator>
-			<navigator url="../contribution/contribution" class="cate-item">
+			<navigator url="../contribution/list" class="cate-item">
 				<image src="/static/index/p3.png"></image>
 				<text>乐捐榜</text>
 			</navigator>

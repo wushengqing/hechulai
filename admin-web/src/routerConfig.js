@@ -29,7 +29,7 @@ import GenerationList from '@/pages/generation/List/index.vue';
 //目录管理
 import BranchList from '@/pages/branch/List/index.vue';
 //风采管理
-import MienList from '@/pages/mien/List/index.vue';
+import ProjectList from '@/pages/project/List/index.vue';
 
 
 
@@ -145,12 +145,12 @@ export const pageRouter = [
     }
   },
   {
-    path: '/album/list',
-    name: 'BannerList',
+    path: '/project/list',
+    name: 'ProjectList',
     layout,
-    component: BannerList,
+    component: ProjectList,
     meta: {
-      title: '项目管理',
+      title: '乐捐管理',
     }
   },
   {

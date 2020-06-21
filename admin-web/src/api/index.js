@@ -8,6 +8,7 @@ import branch from './branch'
 import clansmen from './clansmen'
 import mien from './mien'
 import banner from './banner'
+import project from './project'
 export default {
   common,
   user,
@@ -19,4 +20,5 @@ export default {
   clansmen,
   mien,
   banner,
+  project,
 }
