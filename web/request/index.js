@@ -192,6 +192,24 @@ async function organizationList(data){
 	}
 }
 
+//获取宗亲详情
+async function clanUserInfo(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}getClanUserInfo.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+}
+
+
 //​绑定宗亲
 function userRelClanMain(data){
 	return globalRequest({
@@ -276,6 +294,8 @@ export default {
 	userRelClanMain,
 	//获取宗亲消息列表
 	userMsgList,
+	//宗亲详情
+	clanUserInfo,
 	//世系表
 	sxList,
 	//族委会

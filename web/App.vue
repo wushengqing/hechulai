@@ -53,7 +53,6 @@
 
 	.title1 {
 		font-size: 30rpx;
-		padding: 0 20rpx;
 		line-height: 50rpx;
 		font-weight: bold;
 

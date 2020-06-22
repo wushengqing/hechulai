@@ -194,9 +194,20 @@
             "style" : {
             	"navigationBarTitleText": "族谱"
             }
-        }
-       
-        ,{
+        },
+		{
+		    "path" : "pages/familyTree/generation",
+		    "style" : {
+		    	"navigationBarTitleText": "目录详情"
+		    }
+		},
+		{
+		    "path" : "pages/familyTree/clan",
+		    "style" : {
+		    	"navigationBarTitleText": "目录详情"
+		    }
+		},
+		{
             "path" : "pages/bindLineage/index",
            "style" : {
 				"navigationBarTitleText": "绑定宗亲"
