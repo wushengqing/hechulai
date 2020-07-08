@@ -21,10 +21,16 @@
 					<el-table-column prop="name" label="乐捐项目">
 					</el-table-column>
 					<el-table-column prop="givingDec" label="项目描述">
+						<template slot-scope="props">
+							<div :title="props.row.givingDec" class="ellipsis">{{ props.row.givingDec }}</div>
+						</template>
 					</el-table-column>
-					<el-table-column prop="createUserId" label="发起人">
+					<el-table-column prop="createUserName" label="发起人">
 					</el-table-column>
-					<el-table-column prop="createTime" label="发起时间"></el-table-column>
+					<el-table-column prop="givingEtime" label="发起时间"></el-table-column>
+					<el-table-column prop="givingBtime" label="结束时间"></el-table-column>
+					<el-table-column prop="givingUserSum" label="乐捐人次"></el-table-column>
+					<el-table-column prop="givingMoneySum" label="乐捐金额"></el-table-column>
 					<el-table-column label="操作" width="240px">
 						<template slot-scope="props">
 							<el-button type="text" size="mini" @click="openDialog(props.row)">编辑</el-button>
@@ -34,7 +40,6 @@
 				</template>
 			</table-comb>
 			<template slot="footer"></template>
-			<GivingUserList ref="givingUserListPage" @back="refreshTable" />
 			<el-dialog :title="dialogVO.id?'编辑':'新增'" :visible.sync="dialogShow" width="600px" apend-to-body>
 				<el-form ref="dialogVO" :model="dialogVO" label-width="100px" :rules="rules">
 					<el-form-item label="乐捐项目：" prop="name">
@@ -56,6 +61,7 @@
 				</div>
 			</el-dialog>
 		</d2-container>
+		<GivingUserList ref="givingUserListPage" @back="refreshTable" />
 	</div>
 </template>
 

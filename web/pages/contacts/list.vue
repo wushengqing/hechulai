@@ -6,7 +6,7 @@
 </template>
 
 <script>
-		import listCell from '@/components/mix-list-cell';
+	import listCell from '@/components/mix-list-cell';
 	export default {
 		data() {
 			return {

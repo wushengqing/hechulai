@@ -3,7 +3,7 @@
 		<view class="full-page"  :class="{show:show}">
 			<text class="name">{{ clanInfo.name }}族谱</text>
 		</view>
-		<view class="title1" style="padding: 30upx 0 0 0;">祖训</view>
+		<view class="title1" style="padding: 30upx 0 0 0;">宗族简介</view>
 		<view class="content">
 			{{ clanInfo.summary }}
 		</view>

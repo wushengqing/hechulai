@@ -23,89 +23,13 @@
 			</view>
 		</view>
 		<view class="title1">配偶1</view>
-		<view class="form-box">
-			<view class="form-item">
-				<view class="label">出生年月</view>
-				<view class="field">
-					{{ clanUserInfo.birthDay }}
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">性别</view>
-				<view class="field">
-					{{ clanUserInfo.sex }}
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">简介</view>
-				<view class="field">
-					{{ clanUserInfo.dec }}
-				</view>
-			</view>
-		</view>
+		
 		<view class="title1">配偶2</view>
-		<view class="form-box">
-			<view class="form-item">
-				<view class="label">出生年月</view>
-				<view class="field">
-					{{ clanUserInfo.birthDay }}
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">性别</view>
-				<view class="field">
-					{{ clanUserInfo.sex }}
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">简介</view>
-				<view class="field">
-					{{ clanUserInfo.dec }}
-				</view>
-			</view>
-		</view>
+		
 		<view class="title1">子女1</view>
-		<view class="form-box">
-			<view class="form-item">
-				<view class="label">出生年月</view>
-				<view class="field">
-					{{ clanUserInfo.birthDay }}
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">性别</view>
-				<view class="field">
-					{{ clanUserInfo.sex }}
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">简介</view>
-				<view class="field">
-					{{ clanUserInfo.dec }}
-				</view>
-			</view>
-		</view>
+		
 		<view class="title1">子女2</view>
-		<view class="form-box">
-			<view class="form-item">
-				<view class="label">出生年月</view>
-				<view class="field">
-					{{ clanUserInfo.birthDay }}
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">性别</view>
-				<view class="field">
-					{{ clanUserInfo.sex }}
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">简介</view>
-				<view class="field">
-					{{ clanUserInfo.dec }}
-				</view>
-			</view>
-		</view>
+		
 		<view class="control">
 			<view class="action-btn" @click="changeShowBottom()">切换目录</view>
 			<view class="current">

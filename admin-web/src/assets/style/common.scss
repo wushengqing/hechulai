@@ -142,3 +142,8 @@ div[class^=d2-container-full] {
   height: 100px;
   display: block;
 }
+.ellipsis{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}

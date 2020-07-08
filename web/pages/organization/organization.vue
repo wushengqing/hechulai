@@ -1,49 +1,28 @@
 <template>
 	<view class="container">
 		<view class="title">族委会会长</view>
-		<view class="item-view">
-			<image class="avatar" src="../../static/missing-face.png"></image>
+		<view class="item-view" v-for="item in list1">
+			<image class="avatar" :src="item.headFileUrl ||'../../static/missing-face.png' "></image>
 			<view class="desc-view">
-				<view class="name">陈孟星</view>
-				<view class="desc">第三十九世 长子</view>
+				<view class="name">{{ item.clansmanName}}</view>
+				<view class="desc">世称：{{ item.scName||'-' }} 性别：{{ item.sex}}</view>
 			</view>
 		</view>
 		<view class="title mt-30">族委会副会长</view>
-		<view class="item-view">
-			<image class="avatar" src="../../static/missing-face.png"></image>
+		<view class="item-view" v-for="item in list2">
+			<image class="avatar" :src="item.headFileUrl ||'../../static/missing-face.png' "></image>
 			<view class="desc-view">
-				<view class="name">陈孟星</view>
-				<view class="desc">第三十九世 长子</view>
+				<view class="name">{{ item.clansmanName}}</view>
+				<view class="desc">世称：{{ item.scName||'-' }} 性别：{{ item.sex}}</view>
 			</view>
 		</view>
 		<view class="title mt-30">族委会委员</view>
 		<view class="list flex">
-			<view class="item-view">
-				<image class="avatar" src="../../static/missing-face.png"></image>
+			<view class="item-view" v-for="item in list3">
+				<image class="avatar" :src="item.headFileUrl ||'../../static/missing-face.png' "></image>
 				<view class="desc-view">
-					<view class="name">陈孟星</view>
-					<view class="desc">第三十九世 长子</view>
-				</view>
-			</view>
-			<view class="item-view">
-				<image class="avatar" src="../../static/missing-face.png"></image>
-				<view class="desc-view">
-					<view class="name">陈孟星</view>
-					<view class="desc">第三十九世 长子</view>
-				</view>
-			</view>
-			<view class="item-view">
-				<image class="avatar" src="../../static/missing-face.png"></image>
-				<view class="desc-view">
-					<view class="name">陈孟星</view>
-					<view class="desc">第三十九世 长子</view>
-				</view>
-			</view>
-			<view class="item-view">
-				<image class="avatar" src="../../static/missing-face.png"></image>
-				<view class="desc-view">
-					<view class="name">陈孟星</view>
-					<view class="desc">第三十九世 长子</view>
+					<view class="name">{{ item.clansmanName}}</view>
+					<view class="desc">世称：{{ item.scName||'-' }} 性别：{{ item.sex}}</view>
 				</view>
 			</view>
 		</view>
@@ -59,7 +38,19 @@
 			}
 		},
 		computed: {
-			...mapState([ 'userInfo','clanInfo'])
+			...mapState([ 'userInfo','clanInfo']),
+			//宗族族委会会长
+			list1(){
+				return this.organizationList.filter(item=>item.userAccessId===5)
+			},
+			//宗族族委会副会长
+			list2(){
+				return this.organizationList.filter(item=>item.userAccessId===6)
+			},
+			//宗族委员
+			list3(){
+				return this.organizationList.filter(item=>item.userAccessId===3)
+			}
 		},
 		methods: {
 			async getClanOrganizationList(){

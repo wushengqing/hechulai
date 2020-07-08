@@ -75,6 +75,9 @@
 				<el-form-item label="详细地址：" prop="address">
 					<el-input style="width: 100%" placeholder='请输入详细地址' v-model="dialogVO.address"></el-input>
 				</el-form-item>
+				<el-form-item label="祖训：">
+					<el-input type="textarea" :rows="5" style="width: 100%" placeholder="请输入祖训" v-model="dialogVO.dec"></el-input>
+				</el-form-item>
 				<el-form-item label="宗族简介：">
 					<el-input type="textarea" :rows="5" style="width: 100%" placeholder="请输入宗族简介" v-model="dialogVO.summary"></el-input>
 				</el-form-item>
@@ -173,7 +176,6 @@
 			
 			save() {
 				this.$refs['dialogVO'].validate((valid) => {
-                  debugger
 					if (valid) {
 						let vo = {
 							...this.dialogVO,
