@@ -1,27 +1,13 @@
 <template>
 	<view class="container">
 		<!-- <view style="padding: 30upx 0 0 0;"  class="title1">{{ name }}</view> -->
-
-		<view class="title1">巫锡松子嗣</view>
-		<view class="c-list">
-			<view class="c-list-item" v-for="(item,index) in clanUserRelList"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
-		</view>
-		
-		<view class="title1">巫锡珍子嗣</view>
-		<view class="c-list">
-			<view class="c-list-item" v-for="(item,index) in clanUserRelList"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
-		</view>
-		
-		<view class="title1">巫锡珠子嗣</view>
-		<view class="c-list">
-			<view class="c-list-item" v-for="(item,index) in clanUserRelList"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
-		</view>
-		
-		<view class="title1">巫锡荣子嗣</view>
-		<view class="c-list">
-			<view class="c-list-item" v-for="(item,index) in clanUserRelList"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
-		</view>
-		
+		<template v-for="pItem in clanUserRelList">
+			<view class="title1" v-if="pItem[0].parentName">{{ pItem[0].parentName }}子嗣</view>
+			<view class="title1" v-else>开山始祖</view>
+			<view class="c-list">
+				<view class="c-list-item" v-for="(item,index) in pItem"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
+			</view>
+		</template>	
 		<view class="control">
 			<view class="action-btn" @click="changeShowBottom()">切换目录</view>
 			<view class="current">
@@ -68,8 +54,25 @@
 					pageSize:9999
 				}
 				const clanUserRelList = await this.$api.request.clanUserRelList(par);
-				this.clanUserRelList = clanUserRelList;
-		
+				//通过 parentId 分组
+				Array.prototype.groupBy = function(groupName){
+					if(!groupName){ return this};
+					let newAyy = [];
+					let groupNameArr = [];
+					let emptyGroupName = 'empty';
+					this.forEach(item=>{
+						let groupNameValue = item[groupName] || 'empty'
+						let index = groupNameArr.indexOf(groupNameValue)
+						if(index == -1){
+							index = newAyy.length;
+							groupNameArr.push(groupNameValue)
+							newAyy.push([]);
+						};
+						newAyy[index].push(item);
+					})
+					return newAyy;
+				}
+				this.clanUserRelList = clanUserRelList.groupBy('parentId');
 			},
 			openClanPage(item){
 				uni.navigateTo({

@@ -36,6 +36,19 @@
         <el-form-item label="宗亲姓名：" prop="clansmanName">
           <el-input class="w200" v-model="dialogVO.clansmanName" placeholder="请输入"></el-input>
         </el-form-item>
+        <el-form-item label="宗亲头像：" prop="headFileId">
+          <el-upload
+                  class="banner-uploader"
+                  :action="$api.common.uploadAction"
+                  :data="fileData"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload">
+            <img v-if="dialogVO.headFileUrl" :src="dialogVO.headFileUrl" class="banner-image" />
+            <i v-else class="el-icon-plus banner-uploader-icon"></i>
+          </el-upload>
+          <span class="color-grey" style="vertical-align: bottom"> 请上传 小于2M的jpg 图片</span>
+        </el-form-item>
         <el-form-item label="出生日期：" prop="name">
           <el-input  class="w200"  v-model="dialogVO.clansmanBirthDay" placeholder="请输入"></el-input>
         </el-form-item>
@@ -106,6 +119,8 @@
     "id": '',
     "clanId": '',
     "scId": '',
+    "headFileId":'',
+    "headFileUrl":'',
     "directoryId": '',
     "parentId": '',
     "clansmanName": '',
@@ -124,7 +139,7 @@
   }
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
-    name: "ClansmenTree",
+    name: "ClansmenTreeNode",
     components: {},
     mixins: [
       listMixin
@@ -140,6 +155,9 @@
         clansmenList:[],
         dialogShow:false,
         showMore:false,
+        fileData:{
+          defaultSuffix:'',
+        },
         dialogVO:cloneDeep(defaultDialogVO),
         rules:{}
       };
@@ -161,6 +179,8 @@
           let newVo = cloneDeep(vo);
           this.dialogVO= {
             id:newVo.id,
+            headFileUrl:newVo.headFileUrl,
+            headFileId:newVo.headFileUrl,
             auditUserId:'',
             clansmanId:newVo.clansmanId,
             clansmanBirthDay:newVo.clansmanBirthDay,
@@ -198,6 +218,23 @@
       },
       getData(){
         this.$emit('getData');
+      },
+      handleAvatarSuccess(res, file) {
+        this.dialogVO.headFileUrl =  res.uploadedImgUrl;
+        this.dialogVO.headFileId = res.id;
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt10M = file.size / 1024 / 1024 < 10;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt10M) {
+          this.$message.error('上传头像图片大小不能超过 10MB!');
+        }
+        this.fileData.defaultSuffix = '.'+file.name.split('.').pop();
+        return isJPG && isLt10M;
       },
       save(){
         this.$refs['dialogVO'].validate((valid) => {

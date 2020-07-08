@@ -1,45 +1,43 @@
 <template>
-	<view class="container">
-		<!-- <view style="padding: 30upx 0 0 0;"  class="title1">{{ name }}</view> -->
-		<view class="title1">{{ clanUserInfo.name }}</view>
-		<view class="form-box">
-			<view class="form-item">
-				<view class="label">出生年月</view>
-				<view class="field">
-					{{ clanUserInfo.birthDay }}
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">性别</view>
-				<view class="field">
-					{{ clanUserInfo.sex }}
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">简介</view>
-				<view class="field">
-					{{ clanUserInfo.dec }}
-				</view>
-			</view>
+	<view>
+		<view class="img-bg">
+			<image class="img-jp" src="../../static/jiapu.jpg"></image>
 		</view>
-		<view class="title1">配偶1</view>
-		
-		<view class="title1">配偶2</view>
-		
-		<view class="title1">子女1</view>
-		
-		<view class="title1">子女2</view>
-		
-		<view class="control">
-			<view class="action-btn" @click="changeShowBottom()">切换目录</view>
-			<view class="current">
-				当前目录：{{ generationName }}
+		<view class="container">
+			<view class="title1">{{ clanUserInfo.name }}</view>
+			<view class="desc">
+				<view>世称：{{ generationName }}</view>
+				<view>性别：{{ clanUserInfo.sex||'男' }}</view>
+				<view>性别：{{ clanUserInfo.sex||'男' }}</view>
+				<view>出生日期：{{ clanUserInfo.birthDay }}</view>
+				<view v-if=" clanUserInfo.endDay">去世日期：{{ clanUserInfo.endDay }}</view>
 			</view>
-		</view>
-		<view class="bottom-box" :class="showBottom?'show':''">
-			<view class="bottom-item"  v-for="(item,index) in generationList" @click="openGenerationPage(item)">{{ item.name }}</view>
+			
+			<view class="title1 mt-30">简介</view>
+			<view class="mt-30">{{ clanUserInfo.dec }}</view>
+			
+			<view class="title1 mt-30">配偶</view>
+			<view class="c-list">
+				<view v-if="!clanUserInfo.spouseDtoList || clanUserInfo.spouseDtoList.length==0">暂未收录</view>
+				<view class="c-list-item" v-for="(item,index) in clanUserInfo.spouseDtoList"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
+			</view>
+			<view class="title1 mt-30">子女</view>
+			<view class="c-list">
+				<view v-if="!clanUserInfo.daughterDtoList|| clanUserInfo.daughterDtoList.length==0">暂未收录</view>
+				<view class="c-list-item" v-for="(item,index) in clanUserInfo.daughterDtoList"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
+			</view>
+			<view class="control">
+				<view class="action-btn" @click="changeShowBottom()">切换目录</view>
+				<view class="current">
+					当前目录：{{ generationName }}
+				</view>
+			</view>
+			<view class="bottom-box" :class="showBottom?'show':''">
+				<view class="bottom-item"  v-for="(item,index) in generationList" @click="openGenerationPage(item)">{{ item.name }}</view>
+			</view>
 		</view>
 	</view>
+	
 </template>
 
 <script>
@@ -109,8 +107,21 @@
 </script>
 
 <style lang='scss' scoped>
+	.img-bg{
+		.img-jp{
+			width: 100%;
+			height: 350upx;
+		}
+	}
 	.container{
 		padding-bottom: 88upx;
+		.title1{
+			font-size: 40upx;
+		}
+		.desc{
+			line-height: 60upx;
+			margin-top: 20upx;
+		}
 	}
 	.control{
 		position:fixed;
@@ -154,5 +165,16 @@
 			border-top:$border-color-dark solid 1upx
 		}
 		
+	}
+	.c-list{
+		margin: 20upx 0;
+		display: flex;
+		flex-wrap: wrap;
+		.c-list-item{
+			line-height: 60upx;
+			color: #693604;
+			flex: 0 0 20%;
+			text-align: center;
+		}
 	}
 </style>
