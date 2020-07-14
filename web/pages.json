@@ -214,10 +214,16 @@
            }
         }
     
+        ,{
+            "path" : "pages/quan/quan",
+            "style" : {
+				"navigationBarTitleText": "宗亲圈"
+			}
+        }
     ],
 	"tabBar": {
 		"color": "#C0C4CC",
-		"selectedColor": "#fa436a",
+		"selectedColor": "#c65c4c",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"list": [{
@@ -239,10 +245,10 @@
 				"text": "族谱"
 			},
 			{
-				"pagePath": "pages/contacts/list",
-				"iconPath": "static/tab-mail.png",
-				"selectedIconPath": "static/tab-mail-current.png",
-				"text": "通讯录"
+				"pagePath": "pages/quan/quan",
+				"iconPath": "static/tab-quan.png",
+				"selectedIconPath": "static/tab-quan-current.png",
+				"text": "宗亲圈"
 			},
 			
 			{

@@ -115,10 +115,12 @@
 		content: "\e619";
 	}
 
+	.icon-shenhe:before {
+		content: "\e615";
+	}
 	.icon-iconfontweixin:before {
 		content: "\e611";
 	}
-
 	.icon-alipay:before {
 		content: "\e636";
 	}

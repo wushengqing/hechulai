@@ -1,15 +1,14 @@
 <template>
 	<view class="container">
-		 <uni-list-item :title=" item.name||'未命名宗族'" v-for="item in unionList" @click="changeClanId(item)"></uni-list-item>
+		 <list-cell  v-for="item in unionList" :title="item.name||'未命名宗族'" border="" @eventClick="changeClanId(item)"></list-cell>
 	</view>
 </template>
 
 <script>
 	import { mapMutations } from 'vuex';
-	import uniList from "@/components/uni-list/uni-list.vue"
-	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
+	import listCell from '@/components/mix-list-cell';
 	export default {
-		components: {uniList,uniListItem},
+		components: {listCell},
 		data() {
 			return {
 				unionList:[],

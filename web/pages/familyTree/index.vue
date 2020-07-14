@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<view class="full-page"  :class="{show:show}">
+		<view class="full-page" @click="show=true"  :class="{show:show}">
 			<text class="name">{{ clanInfo.name }}族谱</text>
 		</view>
 		<view class="title1" style="padding: 30upx 0 0 0;">宗族简介</view>
@@ -52,7 +52,7 @@
 			setTimeout(()=>{
 				this.show=true;
 				this.getGenerationList();
-			},2000)
+			},1000)
 		}
 	}
 </script>

@@ -4,11 +4,10 @@
 		<view class="mix-list-cell" :class="border" @click="eventClick" hover-class="cell-hover"  :hover-stay-time="50">
 			<text
 				v-if="icon"
-				class="cell-icon yticon"
+				:class="`cell-icon ${type=='old'?'yticon':'iconfont'} ${icon}`"
 				:style="[{
 					color: iconColor,
 				}]"
-				:class="icon"
 			></text>
 			<text class="cell-tit clamp">{{title}}</text>
 			<text v-if="tips" class="cell-tip">{{tips}}</text>
@@ -40,6 +39,10 @@
 			icon: {
 				type: String,
 				default: ''
+			},
+			type: {
+				type: String,
+				default: 'old'
 			},
 			title: {
 				type: String,

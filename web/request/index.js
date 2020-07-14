@@ -150,7 +150,7 @@ async function userMsgList(data){
 	    data
 	});
 	if(res){
-		return res.data.data;
+		return res.data;
 	}else{
 		return {
 			code:'1',
@@ -208,8 +208,22 @@ async function clanUserInfo(data){
 		}
 	}
 }
-
-
+//获取宗亲详情
+async function getZpList(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}getZpList.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+}
 //​绑定宗亲
 function userRelClanMain(data){
 	return globalRequest({
@@ -306,4 +320,6 @@ export default {
 	projectDetail,
 	//乐捐榜
 	projectUserList,
+	//获取族谱中宗亲的详情
+	getZpList,
 }

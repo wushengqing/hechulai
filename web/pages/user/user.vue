@@ -56,6 +56,7 @@
 			<!-- 浏览历史 -->
 			<view class="history-section icon">
 				<list-cell icon="icon-iconfontweixin" iconColor="#e07472" title="我的家族" tips="家族成员管理"></list-cell>
+				<list-cell type="new" icon="icon-shenhe" iconColor="#ee883b" title="审核记录" :tips="userInfo.msgNum ? userInfo.msgNum条未读:''"></list-cell>
 				<list-cell icon="icon-dizhi" iconColor="#5fcda2" title="我的乐捐" ></list-cell>
 				<list-cell icon="icon-share" iconColor="#9789f7" title="分享" tips=""></list-cell>
 				<list-cell icon="icon-pinglun-copy" iconColor="#ee883b" title="我的消息" :tips="userInfo.msgNum ? userInfo.msgNum条未读消息:''"></list-cell>

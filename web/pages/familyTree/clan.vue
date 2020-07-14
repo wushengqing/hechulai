@@ -4,24 +4,28 @@
 			<image class="img-jp" src="../../static/jiapu.jpg"></image>
 		</view>
 		<view class="container">
-			<view class="title1">{{ clanUserInfo.name }}</view>
+			<view class="title1">{{ clanUserInfo.clansmanName }}</view>
 			<view class="desc">
-				<view>世称：{{ generationName }}</view>
+				<view>世称：{{ clanUserInfo.scName }}</view>
 				<view>性别：{{ clanUserInfo.sex||'男' }}</view>
-				<view>性别：{{ clanUserInfo.sex||'男' }}</view>
-				<view>出生日期：{{ clanUserInfo.birthDay }}</view>
-				<view v-if=" clanUserInfo.endDay">去世日期：{{ clanUserInfo.endDay }}</view>
+				<view>出生日期：{{ clanUserInfo.clansmanBirthDay }}</view>
+				<view v-if=" clanUserInfo.endDay">去世日期：{{ clanUserInfo.clansmanendDay }}</view>
 			</view>
 			
 			<view class="title1 mt-30">简介</view>
-			<view class="mt-30">{{ clanUserInfo.dec }}</view>
+			<view class="mt-30">{{ clanUserInfo.clansmanDec }}</view>
 			
 			<view class="title1 mt-30">配偶</view>
 			<view class="c-list">
 				<view v-if="!clanUserInfo.spouseDtoList || clanUserInfo.spouseDtoList.length==0">暂未收录</view>
-				<view class="c-list-item" v-for="(item,index) in clanUserInfo.spouseDtoList"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
+				<view class="c-list-item" v-for="(item,index) in clanUserInfo.spouseDtoList"  @click="openClanPage(item)">{{ item.spouseName }}</view>
 			</view>
-			<view class="title1 mt-30">子女</view>
+			<view class="title1 mt-30">儿子</view>
+			<view class="c-list">
+				<view v-if="!clanUserInfo.sonDtoList|| clanUserInfo.sonDtoList.length==0">暂未收录</view>
+				<view class="c-list-item" v-for="(item,index) in clanUserInfo.sonDtoList"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
+			</view>
+			<view class="title1 mt-30">女儿</view>
 			<view class="c-list">
 				<view v-if="!clanUserInfo.daughterDtoList|| clanUserInfo.daughterDtoList.length==0">暂未收录</view>
 				<view class="c-list-item" v-for="(item,index) in clanUserInfo.daughterDtoList"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
@@ -69,14 +73,17 @@
 			},
 			async loadData() {
 				let par = {
-					id: parseInt(this.id)
+					clansmanId: parseInt(this.id),
+					clanId:this.clanInfo.id
 				}
-				const clanUserInfo = await this.$api.request.clanUserInfo(par);
-				this.clanUserInfo = clanUserInfo;
+				const clanUserInfo = await this.$api.request.getZpList(par);
+				this.clanUserInfo = clanUserInfo[0];
 		
 			},
 			openClanPage(item){
-				
+				uni.navigateTo({
+				    url: `./clan?id=${item.clansmanId || item.spouseId}`
+				});
 			},
 			openGenerationPage(item){
 				uni.navigateTo({
@@ -145,7 +152,7 @@
 		}
 	}
 	.bottom-box{
-		height: 240upx;
+		max-height: 50%;
 		overflow: auto;
 		transition: all .2s;
 		position: fixed;

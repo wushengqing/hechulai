@@ -76,7 +76,7 @@
 			},
 			openClanPage(item){
 				uni.navigateTo({
-				    url: `./clan?id=${item.clansmanId}&generationName=${this.name}&generationId=${this.id}`
+				    url: `./clan?id=${item.clansmanId}`
 				});
 			},
 			openGenerationPage(item){
@@ -132,7 +132,7 @@
 		}
 	}
 	.bottom-box{
-		height: 240upx;
+		max-height: 50%;
 		overflow: auto;
 		transition: all .2s;
 		position: fixed;
