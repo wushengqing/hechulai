@@ -3,6 +3,7 @@
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "何处来",
 		"navigationBarBackgroundColor":"#9e563a",
+		"navigationStyle":"custom",
 		"h5":{
 			"titleNView":false
 		}
@@ -213,13 +214,18 @@
 				"navigationBarTitleText": "绑定宗亲"
            }
         }
-    
         ,{
-            "path" : "pages/quan/quan",
+            "path" : "pages/quan/index",
             "style" : {
 				"navigationBarTitleText": "宗亲圈"
 			}
-        }
+        },
+		{
+		    "path" : "pages/quan/publish",
+		    "style" : {
+				"navigationBarTitleText": "发布宗亲圈"
+			}
+		}
     ],
 	"tabBar": {
 		"color": "#C0C4CC",
@@ -245,7 +251,7 @@
 				"text": "族谱"
 			},
 			{
-				"pagePath": "pages/quan/quan",
+				"pagePath": "pages/quan/index",
 				"iconPath": "static/tab-quan.png",
 				"selectedIconPath": "static/tab-quan-current.png",
 				"text": "宗亲圈"
