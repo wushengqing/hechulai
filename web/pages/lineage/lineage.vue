@@ -56,11 +56,13 @@
 	text-align: center;
 	.sx-desc{
 		border: $uni-color-primary solid 1upx;
+		border-radius: 10upx;
+		background: $uni-color-primary ;
 		line-height: 80upx;
-		color: $uni-color-primary;
+		color: #fff;
 		.scName{
-		
-			color: $font-color-light;
+			color: $uni-color-warning;
+			margin-right: 10upx;
 		}
 		.cmName{
 			

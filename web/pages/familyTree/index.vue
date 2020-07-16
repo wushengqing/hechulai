@@ -61,19 +61,30 @@
 .full-page{
 	position: fixed;
 	z-index: 999;
-	font-size: 80upx;
+	font-size: 40upx;
+	line-height: 80upx;
 	display: flex;
+	text-align: center;
 	justify-content: center;
-	align-items: center;
+	align-items: top;
 	background: #ccc59d;
+	background-image: url( '~@/static/book-bg.jpg');
+	background-size: 100% 100%;
 	transform: translateX(0%);
 	&.show{
 		transition: all .2s;
 		transform: translateX(-100%);
 	}
 	.name{
-		display: block;
-		flex: 0 0 80upx;
+		margin: 250upx 0;
+		display: inline-block;
+		text-align: center;
+		line-height: 80upx;
+		letter-spacing: 12upx;
+		writing-mode: vertical-rl;
+		writing-mode: tb-lr;
+		overflow: hidden;
+		font-size: 60upx;
 	}
 }
 	.content{
