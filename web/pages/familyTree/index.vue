@@ -49,10 +49,10 @@
 				return;
 			}
 			this.show = false;
-			// setTimeout(()=>{
-			// 	this.show=true;
-			// 	this.getGenerationList();
-			// },1000)
+			setTimeout(()=>{
+				this.show=true;
+				this.getGenerationList();
+			},2000)
 		}
 	}
 </script>

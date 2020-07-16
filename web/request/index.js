@@ -158,6 +158,22 @@ async function userMsgList(data){
 		}
 	}
 }
+//获取宗亲消息列表
+async function userApproveList(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}getAuditMsgList.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+}
 
 //获取世系表
 async function sxList(data){
@@ -322,4 +338,6 @@ export default {
 	projectUserList,
 	//获取族谱中宗亲的详情
 	getZpList,
+	//获取我的审核列表
+	userApproveList
 }

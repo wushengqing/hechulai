@@ -81,12 +81,12 @@
 		
 			},
 			openClanPage(item){
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: `./clan?id=${item.clansmanId || item.spouseId}`
 				});
 			},
 			openGenerationPage(item){
-				uni.navigateTo({
+				uni.redirectTo({
 				    url: `./generation?id=${item.id}&name=${item.name}`
 				});
 			},

@@ -2,14 +2,13 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "何处来",
-		"navigationBarBackgroundColor":"#9e563a",
-		"navigationStyle":"custom",
-		"h5":{
-			"titleNView":false
+		"navigationBarBackgroundColor": "#9e563a",
+		"navigationStyle": "custom",
+		"h5": {
+			"titleNView": false
 		}
 	},
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "何处来"
@@ -42,38 +41,26 @@
 					"animationType": "slide-in-bottom"
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/user/user",
 			"style": {
-				"navigationBarTitleText": "我的",
-				// #ifdef MP
-				"navigationStyle": "custom",
-				// #endif
-				"app-plus": {
-					"bounce": "none",
-					"titleNView": {
-						"type": "transparent",
-						"buttons": [{
-								"fontSrc": "/static/yticon.ttf",
-								"text": "\ue60f",
-								"fontSize": "24",
-								"color": "#303133",
-								"width": "46px",
-								"background": "rgba(0,0,0,0)"
-							},
-							{
-								"fontSrc": "/static/yticon.ttf",
-								"text": "\ue744",
-								"fontSize": "28",
-								"color": "#303133",
-								"background": "rgba(0,0,0,0)",
-								"redDot": true
-							}
-						]
-					}
-				}
+				"navigationBarTitleText": "我的"
 			}
-		}, {
+		},
+		{
+			"path": "pages/user/approve",
+			"style": {
+				"navigationBarTitleText": "我的审核"
+			}
+		},
+		{
+			"path": "pages/user/family",
+			"style": {
+				"navigationBarTitleText": "家庭成员"
+			}
+		},
+		{
 			"path": "pages/detail/detail",
 			"style": {
 				"navigationBarTitleText": "",
@@ -136,97 +123,88 @@
 			"style": {
 				"navigationBarTitleText": "新闻详情"
 			}
-		},{
-            "path" : "pages/organization/organization",
-            "style": {
-            	"navigationBarTitleText": "族委会"
-            }
-        }
-        ,{
-            "path" : "pages/album/album",
-            "style": {
-            	"navigationBarTitleText": "相册"
-            }
-        }
-        ,{
-            "path" : "pages/albumDetail/albumDetail",
-            "style": {
-            	"navigationBarTitleText": "相册"
-            }
-        }
-        ,{
-            "path" : "pages/contribution/list",
-            "style": {
-            	"navigationBarTitleText": "乐捐榜"
-            }
-        }
-        ,{
-            "path" : "pages/contribution/detail",
-            "style": {
-            	"navigationBarTitleText": "乐捐详情"
-            }
-        }
-        ,{
-            "path" : "pages/lineage/lineage",
-            "style": {
-            	"navigationBarTitleText": "世系表"
-            }
-        }
-        ,{
-            "path" : "pages/union/union",
-            "style": {
-            	"navigationBarTitleText": "选择宗族"
-            }
-        }
-        ,{
-            "path" : "pages/contacts/list",
-            "style" : {
+		}, {
+			"path": "pages/organization/organization",
+			"style": {
+				"navigationBarTitleText": "族委会"
+			}
+		}, {
+			"path": "pages/album/album",
+			"style": {
+				"navigationBarTitleText": "相册"
+			}
+		}, {
+			"path": "pages/albumDetail/albumDetail",
+			"style": {
+				"navigationBarTitleText": "相册"
+			}
+		}, {
+			"path": "pages/contribution/list",
+			"style": {
+				"navigationBarTitleText": "乐捐榜"
+			}
+		}, {
+			"path": "pages/contribution/detail",
+			"style": {
+				"navigationBarTitleText": "乐捐详情"
+			}
+		}, {
+			"path": "pages/lineage/lineage",
+			"style": {
+				"navigationBarTitleText": "世系表"
+			}
+		}, {
+			"path": "pages/union/union",
+			"style": {
+				"navigationBarTitleText": "选择宗族"
+			}
+		}, {
+			"path": "pages/contacts/list",
+			"style": {
 				"navigationBarTitleText": "通讯录"
 			}
-        },
+		},
 		{
-		    "path" : "pages/contacts/detail",
-		    "style" : {
+			"path": "pages/contacts/detail",
+			"style": {
 				"navigationBarTitleText": "好友详情"
 			}
-		}
-        ,{
-            "path" : "pages/familyTree/index",
-            "style" : {
-            	"navigationBarTitleText": "族谱"
-            }
-        },
-		{
-		    "path" : "pages/familyTree/generation",
-		    "style" : {
-		    	"navigationBarTitleText": "目录详情"
-		    }
+		}, {
+			"path": "pages/familyTree/index",
+			"style": {
+				"navigationBarTitleText": "族谱"
+			}
 		},
 		{
-		    "path" : "pages/familyTree/clan",
-		    "style" : {
-		    	"navigationBarTitleText": "目录详情"
-		    }
+			"path": "pages/familyTree/generation",
+			"style": {
+				"navigationBarTitleText": "目录详情"
+			}
 		},
 		{
-            "path" : "pages/bindLineage/index",
-           "style" : {
+			"path": "pages/familyTree/clan",
+			"style": {
+				"navigationBarTitleText": "目录详情"
+			}
+		},
+		{
+			"path": "pages/bindLineage/index",
+			"style": {
 				"navigationBarTitleText": "绑定宗亲"
-           }
-        }
-        ,{
-            "path" : "pages/quan/index",
-            "style" : {
+			}
+		}, {
+			"path": "pages/quan/index",
+			"style": {
 				"navigationBarTitleText": "宗亲圈"
 			}
-        },
+		},
 		{
-		    "path" : "pages/quan/publish",
-		    "style" : {
+			"path": "pages/quan/publish",
+			"style": {
 				"navigationBarTitleText": "发布宗亲圈"
 			}
 		}
-    ],
+	],
 	"tabBar": {
 		"color": "#C0C4CC",
 		"selectedColor": "#c65c4c",
@@ -256,7 +234,7 @@
 				"selectedIconPath": "static/tab-quan-current.png",
 				"text": "宗亲圈"
 			},
-			
+
 			{
 				"pagePath": "pages/user/user",
 				"iconPath": "static/tab-my.png",
