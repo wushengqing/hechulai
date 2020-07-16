@@ -49,10 +49,10 @@
 				return;
 			}
 			this.show = false;
-			setTimeout(()=>{
-				this.show=true;
-				this.getGenerationList();
-			},1000)
+			// setTimeout(()=>{
+			// 	this.show=true;
+			// 	this.getGenerationList();
+			// },1000)
 		}
 	}
 </script>
@@ -85,6 +85,7 @@
 		writing-mode: tb-lr;
 		overflow: hidden;
 		font-size: 60upx;
+		padding-bottom: 80upx;
 	}
 }
 	.content{
