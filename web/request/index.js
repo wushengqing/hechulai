@@ -21,7 +21,24 @@ async function getClanList(data={
 	}
 	
 }
-
+//注册
+async function userRegistered(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}userRegistered.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+	
+}
+//登录
 async function userLogin(data){
 	var [error, res] = await uni.request({
 	    url: `${baseUrl}userLogin.json`,
@@ -306,6 +323,8 @@ async function projectUserList(data){
 export default {
 	//获取宗族列表
 	getClanList,
+	//注册
+	userRegistered,
 	//用户登录
 	userLogin,
 	//获取轮播图

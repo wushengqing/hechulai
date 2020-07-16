@@ -98,7 +98,7 @@
 			getUserApproveList() {
 				this.approveList = this.$api.request.userApproveList({
 					clanId: this.clanInfo.id,
-					clanMainId: this.userInfo.clanManId
+					auditUserClanManId: this.userInfo.auditUserClanManId
 				});
 			},
 		},

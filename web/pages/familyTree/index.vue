@@ -49,9 +49,9 @@
 				return;
 			}
 			this.show = false;
+			this.getGenerationList();
 			setTimeout(()=>{
 				this.show=true;
-				this.getGenerationList();
 			},2000)
 		}
 	}

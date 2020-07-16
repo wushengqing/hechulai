@@ -16,7 +16,7 @@
 				<navigator v-if="!userInfo.id" class="b-btn"  url="../public/login">
 					立即登录
 				</navigator>
-				<navigator  class="b-btn"  v-else-if="!userInfo.isRelZq"  url="../public/login">绑定宗亲</navigator>
+				<navigator  v-else-if="!userInfo.isRelZq" class="b-btn" url="../public/login">绑定宗亲</navigator>
 				<view class="tit">
 					<text class="yticon icon-iLinkapp-"></text>
 					<text>{{ userInfo.id ?'您好，欢迎回来':'登录之后可以绑定宗族' }}</text>

@@ -78,11 +78,28 @@
 				//判断用户是否登录
 				const result = await this.$api.request.userLogin(sendData);
 				if(result.code === 0){
+					result.data.isRelZq =result.isRelZq;
 					this.login(result.data);
-                    this.navBack();  
+          this.navBack();  
 				}else{
-					this.$api.msg(result.msg);
-					this.logining = false;
+					//尝试注册
+					const registerResult = await this.$api.request.userRegistered(sendData);
+					if(registerResult.code ===0){
+						const loginResult  = await this.$api.request.userLogin(sendData)
+						if(loginResult.code === 0){
+							loginResult.data.isRelZq =loginResult.isRelZq;
+							this.login(loginResult.data);
+						  this.navBack();  
+						}else{
+							this.$api.msg(loginResult.msg);
+							this.logining = false;
+						}
+					}else{
+						this.$api.msg(registerResult.msg);
+						this.logining = false;
+					}
+					
+				
 				}
 			}
 		},
