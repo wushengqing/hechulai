@@ -43,6 +43,7 @@
 </script>
 
 <style lang='scss'>
+	@import "~@/components/cool/ui/static/css/index.scss";
 	/*
 		全局公共样式和字体图标
 	*/

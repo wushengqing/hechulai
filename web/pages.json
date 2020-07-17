@@ -242,5 +242,11 @@
 				"text": "我的"
 			}
 		]
+	},
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"cl-(.*)": "@/components/cool/ui/components/$1/$1.vue"
+		}
 	}
 }

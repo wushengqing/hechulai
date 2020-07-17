@@ -6,6 +6,7 @@
 				'cl-input--prefix': prefixIcon,
 				'cl-input--suffix': suffixIcon,
 				'cl-input--focus': isFocus,
+				'cl-textarea': type==='textarea',
 				'is-disabled': disabled,
 				'is-fill': fill,
 				'is-round': round,
@@ -107,6 +108,27 @@
 					v-model="value2"
 					type="digit"
 					:password="password"
+					:placeholder="placeholder"
+					:disabled="disabled"
+					:focus="focus"
+					:placeholder-style="placeholderStyle"
+					:placeholder-class="placeholderClass"
+					:maxlength="maxlength"
+					:cursor-spacing="cursorSpacing"
+					:confirm-hold="confirmHold"
+					:adjust-position="adjustPosition"
+					:holdKeyboard="holdKeyboard"
+					@input="onInput"
+					@focus="onFocus"
+					@blur="onBlur"
+					@confirm="onConfirm"
+					@keyboardheightchange="onKeyboardheightchange"
+				/>
+			</template>
+			<template v-else-if="type == 'textarea'">
+				<textarea
+					class="cl-input__inner"
+					v-model="value2"
 					:placeholder="placeholder"
 					:disabled="disabled"
 					:focus="focus"

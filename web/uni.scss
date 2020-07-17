@@ -40,6 +40,9 @@ $uni-color-error: #dd524d;
 .c-red{
 	color: $uni-color-error;
 }
+.c-base{
+	color: $base-color;
+}
 
 .c-yellow{
 	color: $uni-color-warning;
@@ -53,8 +56,15 @@ $uni-color-error: #dd524d;
 .tc{
 	text-align: center;
 }
+
 .h88{
 	height: 88upx;
+}
+.mt30{
+	margin-top: 30upx;
+}
+.mb30{
+	margin-bottom: 30upx;
 }
 .inline{
 	display: inline;

@@ -1,7 +1,10 @@
 .cl-input {
+	&.cl-textarea{
+		min-height: 150upx;
+	}
 	display: flex;
 	align-items: center;
-	height: 70rpx;
+	min-height: 70rpx;
 	width: 100%;
 	line-height: 68rpx;
 	background-color: #fff;

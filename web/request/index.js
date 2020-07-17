@@ -183,7 +183,23 @@ async function userApproveList(data){
 	    data
 	});
 	if(res){
-		return res.data;
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+}
+//审核
+async function auditUserUpdateClanMain(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}auditUserUpdateClanMain.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data.data;
 	}else{
 		return {
 			code:'1',
@@ -358,5 +374,7 @@ export default {
 	//获取族谱中宗亲的详情
 	getZpList,
 	//获取我的审核列表
-	userApproveList
+	userApproveList,
+	//审核员审核
+	auditUserUpdateClanMain,
 }
