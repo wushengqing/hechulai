@@ -175,10 +175,10 @@ async function userMsgList(data){
 		}
 	}
 }
-//获取宗亲消息列表
+//获取宗亲审核员获取用户关联宗亲审查消息列表
 async function userApproveList(data){
 	var [error, res] = await uni.request({
-	    url: `${baseUrl}getAuditMsgList.json`,
+	    url: `${baseUrl}getAuditMsgListByUser.json`,
 		method:'POST',
 	    data
 	});
@@ -241,7 +241,7 @@ async function clanUserInfo(data){
 		}
 	}
 }
-//获取宗亲详情
+//获取族谱宗亲详情
 async function getZpList(data){
 	var [error, res] = await uni.request({
 	    url: `${baseUrl}getZpList.json`,

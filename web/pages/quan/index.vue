@@ -21,7 +21,7 @@
 				<view class="thumbnails">
 					<view :class="post.content.images.length === 1?'my-gallery':'thumbnail'" v-for="(image, index_images) in post.content.images"
 					 :key="index_images">
-						<image class="gallery_img" lazy-load mode="aspectFill" :src="image" :data-src="image" @tap="previewImage(post.content.images,index_images)"></image>
+						<image class="gallery_img" lazy-load mode="widthFix" :src="image" :data-src="image" @tap="previewImage(post.content.images,index_images)"></image>
 					</view>
 				</view>
 				<!-- 资料条 -->
@@ -415,8 +415,7 @@
 	}
 
 	.my-gallery {
-		width: 250upx;
-		height: 400upx;
+		width: 300upx;
 		margin: 4upx;
 		background: #757575;
 		overflow: hidden

@@ -1,95 +1,44 @@
 <template>
 	<view class="container">
-		<view class="notice-item">
-			<text class="time">11:30</text>
-			<view class="content">
-				<text class="title">申请绑定宗亲</text>
-				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
-				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
+		<cl-tabs v-model="tabIndex" lazy>
+			<cl-tab-pane
+				v-for="(item, index) in labels"
+				:key="index"
+				:label="item.label"
+				:name="index"
+			>
+				<view class="notice-item" v-for=" item in approveList">
+					<text class="time">11:30</text>
+					<view class="content">
+						<text class="title">申请绑定宗亲</text>
+						<text class="introduce">
+							用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
+						</text>
+						<view class="bot b-t">
+							<text>查看详情</text>
+							<text class="more-icon yticon icon-you"></text>
+						</view>
+					</view>
 				</view>
-			</view>
-		</view>
-		<view class="notice-item">
-			<text class="time">昨天 12:30</text>
-			<view class="content">
-				<text class="title">申请绑定宗亲</text>
-				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
-				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
-				</view>
-			</view>
-		</view>
-		<view class="notice-item">
-			<text class="time">2019-07-26 12:30</text>
-			<view class="content">
-				<text class="title">申请绑定宗亲</text>
-				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
-				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
-				</view>
-			</view>
-		</view>
-		<view class="notice-item">
-			<text class="time">2019-07-26 12:30</text>
-			<view class="content">
-				<text class="title">申请绑定宗亲</text>
-				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
-				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
-				</view>
-			</view>
-		</view>
-		<view class="notice-item">
-			<text class="time">2019-07-26 12:30</text>
-			<view class="content">
-				<text class="title">申请绑定宗亲</text>
-				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
-				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
-				</view>
-			</view>
-		</view>
-		<view class="notice-item">
-			<text class="time">2019-07-26 12:30</text>
-			<view class="content">
-				<text class="title">申请绑定宗亲</text>
-				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
-				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
-				</view>
-			</view>
-		</view>
+			</cl-tab-pane>
+		</cl-tabs>
 	</view>
 </template>
 
 <script>
-	import {
-		mapState
-	} from 'vuex';
+	import {mapState} from 'vuex';
+	import clTabs from '@/components/cool/ui/components/tabs/tabs.vue'
+	import clTabPane from '@/components/cool/ui/components/tab-pane/tab-pane.vue'
 	export default {
 		data() {
 			return {
-				approveList: []
+				tabIndex:0,
+				approveList: [],
+				labels: [{ label: '绑定宗亲' }, { label: '宗亲添丁' }],
 			}
+		},
+		components: {
+			clTabs,clTabPane
 		},
 		computed: {
 			...mapState(['clanInfo', 'userInfo']),
@@ -98,9 +47,10 @@
 			getUserApproveList() {
 				this.approveList = this.$api.request.userApproveList({
 					clanId: this.clanInfo.id,
-					auditUserClanManId: this.userInfo.auditUserClanManId
+					id: this.userInfo.clanManId
 				});
 			},
+		
 		},
 		onShow() {
 			if (!this.checkRouter()) {
