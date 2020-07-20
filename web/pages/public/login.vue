@@ -78,7 +78,7 @@
 				//判断用户是否登录
 				const result = await this.$api.request.userLogin(sendData);
 				if(result.code === 0){
-					result.data.isRelZq =result.isRelZq;
+					//result.data.isRelZq =result.isRelZq;
 					this.login(result.data);
           this.navBack();  
 				}else{
@@ -87,7 +87,8 @@
 					if(registerResult.code ===0){
 						const loginResult  = await this.$api.request.userLogin(sendData)
 						if(loginResult.code === 0){
-							loginResult.data.isRelZq =loginResult.isRelZq;
+							//loginResult.data.isRelZq =loginResult.isRelZq;
+						
 							this.login(loginResult.data);
 						  this.navBack();  
 						}else{
