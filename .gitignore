@@ -1,0 +1,13 @@
+.DS_Store
+*.iml
+.idea/
+.project
+*/.settings/
+${sys:log.dir}/
+*/.classpath
+target/
+logs/
+.classpath
+.settings/
+node_modules/
+unpackage/

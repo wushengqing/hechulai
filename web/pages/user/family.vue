@@ -1,89 +1,16 @@
 <template>
-</template>
-
-<script>
-</script>
-
-<style>
-</style>
-<template>
-	<view class="container">
-		<view class="notice-item">
-			<text class="time">11:30</text>
+	<view class="container-dark" >
+		<view class="notice-item mt30" style="display: flex;" v-for="item in familyList">
+			<view class="headFileUrl-wrap"><image class="headFileUrl" :src="item.headFileUrl||`../../static/missing-face.png`"></image></view>
 			<view class="content">
-				<text class="title">申请绑定宗亲</text>
-				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
+				<text class="title">
+					<text class="c-base">{{ item.name }} </text>
+					<text class=" font30" style="margin-left: 20upx;">{{ item.scName }}</text>
+					<text class=" font30" style="margin-left: 20upx;">称呼：{{ item.call }}</text>
 				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
-				</view>
-			</view>
-		</view>
-		<view class="notice-item">
-			<text class="time">昨天 12:30</text>
-			<view class="content">
-				<text class="title">申请绑定宗亲</text>
 				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
+					{{item.dec || '暂无介绍'}}
 				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
-				</view>
-			</view>
-		</view>
-		<view class="notice-item">
-			<text class="time">2019-07-26 12:30</text>
-			<view class="content">
-				<text class="title">申请绑定宗亲</text>
-				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
-				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
-				</view>
-			</view>
-		</view>
-		<view class="notice-item">
-			<text class="time">2019-07-26 12:30</text>
-			<view class="content">
-				<text class="title">申请绑定宗亲</text>
-				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
-				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
-				</view>
-			</view>
-		</view>
-		<view class="notice-item">
-			<text class="time">2019-07-26 12:30</text>
-			<view class="content">
-				<text class="title">申请绑定宗亲</text>
-				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
-				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
-				</view>
-			</view>
-		</view>
-		<view class="notice-item">
-			<text class="time">2019-07-26 12:30</text>
-			<view class="content">
-				<text class="title">申请绑定宗亲</text>
-				<text class="introduce">
-					用戶u23213213，微信号：妖气的卡卡，申请绑定为宗亲巫卡卡
-				</text>
-				<view class="bot b-t">
-					<text>查看详情</text>
-					<text class="more-icon yticon icon-you"></text>
-				</view>
 			</view>
 		</view>
 	</view>
@@ -96,25 +23,68 @@
 	export default {
 		data() {
 			return {
-				approveList: []
+				familyList: []
 			}
 		},
 		computed: {
 			...mapState(['clanInfo', 'userInfo']),
 		},
 		methods: {
-			getUserApproveList() {
-				this.approveList = this.$api.request.userApproveList({
+			async getZpList() {
+				let family = await this.$api.request.getZpList({
 					clanId: this.clanInfo.id,
-					clanMainId: this.userInfo.clanManId
+					clansmanId: this.userInfo.clanManId,
 				});
+				family = family[0];
+				this.familyList =[];
+				//妻子列表
+				family.spouseDtoList.forEach(item =>{
+					this.familyList.push({
+						name:item.spouseName,
+						headFileUrl:item.headFileUrl,
+						call:'妻子',
+						scName:family.scName,
+						dec:item.spouseDec
+					})
+				})
+				//儿女列表
+				family.sonDtoList.forEach(item =>{
+					this.familyList.push({
+						name:item.clansmanName,
+						headFileUrl:item.headFileUrl,
+						call:item.sex==='男'?"儿子":'女儿',
+						scName:	item.scName,
+						dec:item.clansmanDec
+					});
+					//儿媳妇
+					item.spouseDtoList.forEach(wife=>{
+						this.familyList.push({
+							name:wife.spouseName||'不详',
+							headFileUrl:item.headFileUrl,
+							call:`儿媳妇(${item.clansmanName})之妻`,
+							scName:	item.scName,
+							dec:wife.spouseDec
+						});
+					});
+					//孙辈
+					item.sonDtoList.forEach(son=>{
+						this.familyList.push({
+							name:son.clansmanName,
+							headFileUrl:son.headFileUrl,
+							call:son.sex==='男'?`孙子(${item.clansmanName})之子`:`孙女(${item.clansmanName})之女`,
+							scName:	son.scName,
+							dec:son.clansmanDec
+						});
+					})
+				})
+				console.log(family);
 			},
 		},
 		onShow() {
 			if (!this.checkRouter()) {
 				return;
 			}
-			this.getUserApproveList();
+			this.getZpList();
 		}
 	}
 </script>
@@ -128,25 +98,25 @@
 	.notice-item {
 		margin-bottom: 20upx;
 		display: flex;
-		flex-direction: column;
-		align-items: center;
+		background-color: #fff;
+		padding:10upx;
 	}
-
-	.time {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 80upx;
-		padding-top: 10upx;
-		font-size: 26upx;
-		color: #7d7d7d;
+	.headFileUrl-wrap{
+	
+		width: 150upx;
+		.headFileUrl{
+			width: 150upx;
+			height: 150upx;
+			border-radius: 50%;
+		}
 	}
 
 	.content {
-		width: 710upx;
-		padding: 0 24upx;
-		background-color: #fff;
+		
+		flex: 1;
+		padding: 0 20upx 0;
 		border-radius: 4upx;
+	
 	}
 
 	.title {

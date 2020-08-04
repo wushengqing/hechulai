@@ -1,5 +1,5 @@
 
-const baseUrl = '/hcl-web/web/'
+const baseUrl = 'http://www.hclzz.com/hcl-web/web/'
 import globalRequest from './globalRequest.js'
 //获取宗族列表
 async function getClanList(data={
@@ -10,6 +10,23 @@ async function getClanList(data={
 	    url: `${baseUrl}getClanList.json`,
 		method:'POST',
 	    data
+	});
+	if(res){
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+	
+}
+//获取宗族和子域名关联列表
+async function getDnsList(){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}getDnsList.json`,
+		method:'POST',
+		data:{}
 	});
 	if(res){
 		return res.data.data;
@@ -191,21 +208,21 @@ async function userApproveList(data){
 		}
 	}
 }
+//审核员审查用户绑定宗亲的消息
+function auditUserUpdateClanMainRel(data){
+	return globalRequest({
+	    url: `${baseUrl}auditUserUpdateClanMainRel.json`,
+		method:'POST',
+	    data,
+	});
+}
 //审核
-async function auditUserUpdateClanMain(data){
-	var [error, res] = await uni.request({
+function auditUserUpdateClanMain(data){
+	return globalRequest({
 	    url: `${baseUrl}auditUserUpdateClanMain.json`,
 		method:'POST',
-	    data
+	    data,
 	});
-	if(res){
-		return res.data.data;
-	}else{
-		return {
-			code:'1',
-			error
-		}
-	}
 }
 
 //获取世系表
@@ -337,6 +354,8 @@ async function projectUserList(data){
 //族谱获取单个宗亲的信息
 
 export default {
+	//获取域名和宗族的关系
+	getDnsList,
 	//获取宗族列表
 	getClanList,
 	//注册
@@ -377,4 +396,5 @@ export default {
 	userApproveList,
 	//审核员审核
 	auditUserUpdateClanMain,
+	auditUserUpdateClanMainRel,
 }

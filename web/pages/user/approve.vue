@@ -8,7 +8,8 @@
 						<view class="content ">
 							<view class="title flex">
 								<view class="flex1">申请绑定宗亲</view>
-								<view class="c-yellow ">{{ approveItem.messageDec }}</view>
+								<view v-if="approveItem.messageDec !='审查通过'" class="c-yellow ">{{ approveItem.messageDec }}</view>
+								<view v-if="approveItem.messageDec =='审查通过'" class="c-grey ">{{ approveItem.messageDec }}</view>
 							</view>
 							<text class="introduce">
 								{{ approveItem.messageContent }}
@@ -85,6 +86,7 @@
 			},
 			//立即审核
 			approve(item){
+				debugger
 				this.currentApprove = item;
 				uni.showActionSheet({
 				    itemList: ['通过申请', '拒绝申请'],
@@ -103,7 +105,7 @@
 				});
 			},
 			async setApprove(actionName){
-				let auditState = actionName==='success'?0:1;
+				let messageDec = actionName==='success'?'审查通过':this.auditDec;
 				if(actionName==='fail' && !this.auditDec){
 					this.$refs["message"].open({
 						type:'cancel',
@@ -111,11 +113,10 @@
 					});
 					return false;
 				}
-				this.$api.request.auditUserUpdateClanMain({
-					auditUserClanManId:this.userInfo.clanManId,
-					clanId: this.clanInfo.id,
-					auditDec:this.auditDec,
-					auditState
+				this.$api.request.auditUserUpdateClanMainRel({
+					auditUserId:this.userInfo.clanManId,
+					messageDec,
+					id:this.currentApprove.id,
 				}).then(res=>{
 					console.log(res);
 					this.getUserApproveList();

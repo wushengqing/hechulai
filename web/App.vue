@@ -72,17 +72,20 @@
 	.c-red {
 		color: red;
 	}
-
-	.font30 {
-		font-size: 30rpx;
+	.font24 {
+		font-size: 24upx;
 	}
 
+	.font30 {
+		font-size: 30upx;
+	}
+	
 	.font40 {
-		font-size: 40rpx;
+		font-size: 40upx;
 	}
 
 	.font50 {
-		font-size: 50rpx;
+		font-size: 50upx;
 	}
 
 	.flex {

@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		 <list-cell  v-for="item in unionList" :title="item.name||'未命名宗族'" border="" @eventClick="changeClanId(item)"></list-cell>
+		 <list-cell  v-for="item in unionList" :title="item.clanName||'未命名宗族'" border="" @eventClick="changeClanId(item)"></list-cell>
 	</view>
 </template>
 
@@ -16,8 +16,8 @@
 		},
 		methods: {
 			...mapMutations(['setClanInfo']),
-			async getClanList(){
-				this.unionList =  await this.$api.request.getClanList();
+			async getDnsList(){
+				this.unionList =  await this.$api.request.getDnsList();
 			},
 			changeClanId(clanInfo){
 				this.setClanInfo(clanInfo);
@@ -28,7 +28,7 @@
 			}
 		},
 		onLoad(){
-			this.getClanList()
+			this.getDnsList()
 		}
 	}
 </script>
