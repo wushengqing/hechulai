@@ -13,13 +13,13 @@
 			</view>
 			<view class="vip-card-box">
 				<image class="card-bg" src="/static/vip-card-bg.png" mode=""></image>
-				<navigator v-if="!userInfo.id" class="b-btn"  url="../public/login">
+				<navigator v-if="!userInfo.userId" class="b-btn"  url="../public/login">
 					立即登录
 				</navigator>
-				<navigator  v-else-if="!userInfo.isRelZq" class="b-btn" url="../public/login">绑定宗亲</navigator>
+				<navigator  v-else-if="!userInfo.isRelZq" class="b-btn" url="../bindLineage/index">绑定宗亲</navigator>
 				<view class="tit">
 					<text class="yticon icon-iLinkapp-"></text>
-					<text>{{ userInfo.id ?'您好，欢迎回来':'登录之后可以绑定宗族' }}</text>
+					<text>{{ userInfo.userId ?'您好，欢迎回来':'登录之后可以绑定宗族' }}</text>
 			
 				</view>
 				<text class="e-m">如果你也是宗亲</text>

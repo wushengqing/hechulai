@@ -2,7 +2,7 @@
 	<view class="container form-box">
 		<form @submit="formSubmit" @reset="formReset">
 			<view class="form-item">
-				<view class="label">祖宗名称</view>
+				<view class="label">宗族名称</view>
 				<view class="field">
 					{{ clanInfo.name }}
 				</view>

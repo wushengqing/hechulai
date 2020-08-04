@@ -7,7 +7,7 @@ const store = new Vuex.Store({
 	state: {
 		hasLogin: false,
 		userInfo: {
-			id: ''
+			userId: ''
 		},
 		clanInfo: {
 			id: ''
@@ -27,7 +27,6 @@ const store = new Vuex.Store({
 				key: 'userInfo',
 				data: userInfo
 			})
-
 		},
 		logout(state) {
 			state.hasLogin = false;
