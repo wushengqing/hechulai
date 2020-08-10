@@ -34,7 +34,7 @@ const store = new Vuex.Store({
 			uni.removeStorage({
 				key: 'userInfo'
 			})
-		}
+		},
 	},
 	actions: {
 

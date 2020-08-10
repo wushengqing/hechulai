@@ -37,7 +37,10 @@
 			</view>
 			<button class="confirm-btn" @click="toLogin" :disabled="logining">登录/注册	</button>
 			<view class="forget-section">
-				忘记密码?
+				快速登录
+			</view>
+			<view class="forget-section" @click="loginByWechat()">
+				<image class="wechat" src="../../static/wechat.png"></image>
 			</view>
 		</view>
 	</view>
@@ -68,6 +71,17 @@
 			navBack(){
 				uni.navigateBack();
 			},
+			//获取微信授权
+			loginByWechat(){
+				//#ifdef  H5
+				let APPID = 'wxff47f0bed871c55c';
+				let redirect_uri = 'http://www.hclzz.com/web/#/pages/user/user';
+				// this.$api.request.getOAuth().then(res=>{
+				// 	console.log(res);
+				// });
+				location.href=`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff47f0bed871c55c&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect`
+				//#endif
+			},
 			async toLogin(){
 				this.logining = true;
 				const {userNum, userPassword} = this;
@@ -80,7 +94,7 @@
 				if(result.code === 0){
 					//result.data.isRelZq =result.isRelZq;
 					this.login(result.data);
-          this.navBack();  
+					this.navBack();  
 				}else{
 					//尝试注册
 					const registerResult = await this.$api.request.userRegistered(sendData);
@@ -123,7 +137,6 @@
 	.wrapper{
 		position:relative;
 		z-index: 90;
-		background: #fff;
 		padding-bottom: 40upx;
 	}
 	.back-btn{
@@ -243,5 +256,9 @@
 			color: $font-color-spec;
 			margin-left: 10upx;
 		}
+	}
+	.wechat{
+		width: 100upx;
+		height:100upx;
 	}
 </style>

@@ -1,10 +1,18 @@
 <template>
-	<view class="container">
-		 <list-cell  v-for="item in unionList" :title="item.clanName||'未命名宗族'" border="" @eventClick="changeClanId(item)"></list-cell>
-	</view>
+	<view class="container" >
+		<template v-if="!loading">
+			<list-cell  
+			v-for="item in unionList" 
+			:title="item.clanName || item.name||'未命名宗族'" 
+			border="" 
+			@eventClick="changeClanId(item)">
+			</list-cell>	
+		</template>
+		 </view>
 </template>
 
 <script>
+	import tools from '@/utils/tools';
 	import { mapMutations } from 'vuex';
 	import listCell from '@/components/mix-list-cell';
 	export default {
@@ -12,23 +20,50 @@
 		data() {
 			return {
 				unionList:[],
+				dnsList:[],
+				loading:false,
 			}
 		},
 		methods: {
 			...mapMutations(['setClanInfo']),
+			async getClanList(){
+				this.unionList =  await this.$api.request.getClanList();
+			},
 			async getDnsList(){
-				this.unionList =  await this.$api.request.getDnsList();
+				this.dnsList =  await this.$api.request.getDnsList();
 			},
 			changeClanId(clanInfo){
 				this.setClanInfo(clanInfo);
+				console.log(clanInfo)
 				uni.reLaunch({
 					url: '/pages/index/index'
 				});
-				
-			}
+			},
+			async initPage(){
+				await this.getClanList();
+				//判断当前环境
+				//#ifdef  H5
+				await this.getDnsList();
+				 let dnsName = window.location.origin +'/web';
+				 let clan = this.dnsList.filter(item=>{
+					 console.log(item.dnsName)
+					 return item.dnsName===dnsName
+				 });
+				 let clanId = '';
+				 if(clan && clan.length===1){
+					 clanId = clan[0].clanId
+				 };
+				 if(clanId){
+					 this.changeClanId(this.unionList.filter(item=>item.id===clanId)[0]);
+				 }
+				//#endif
+			},
 		},
-		onLoad(){
-			this.getDnsList()
+		async onLoad(){
+			this.loading = true;
+			await this.initPage();
+			this.loading = false;
+			
 		}
 	}
 </script>

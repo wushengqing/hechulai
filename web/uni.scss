@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'iconfont';  /* project id 1765072 */
-  src:url('https://at.alicdn.com/t/font_1765072_j54z3rcjlfg.ttf') format('truetype'),
+  src:url('https://at.alicdn.com/t/font_1765072_urzqy2qjl7.ttf') format('truetype'),
 }
 .iconfont {
   font-family: "iconfont" !important;
@@ -94,12 +94,27 @@ $uni-color-error: #dd524d;
 .mr-20{
 	margin-right: 20upx;
 }
+.pb100{
+	padding-bottom: 100upx;
+}
+.fotter-bar{
+	height: 100upx;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	padding: 10upx 20upx;
+	line-height: 80upx;
+}
 .flex{
 	display: flex;
 }
 .flex-wrap{
 	display: flex;
 	flex-wrap: wrap;
+}
+.w100off{
+	width: 100%;
 }
 
 .item-link{

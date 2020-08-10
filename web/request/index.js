@@ -72,6 +72,14 @@ async function userLogin(data){
 	}
 	
 }
+//获取openid;
+async function getOAuth(data){
+	return globalRequest({
+	    url: `${baseUrl}getOAuth.json`,
+		method:'POST',
+	    data,
+	});
+}
 //获取轮播图
 async function bannerList(data){
 	var [error, res] = await uni.request({
@@ -208,6 +216,22 @@ async function userApproveList(data){
 		}
 	}
 }
+//获取宗亲审核员获取用户关联宗亲审查消息列表
+async function getAuditMsgList(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}getAuditMsgList.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+}
 //审核员审查用户绑定宗亲的消息
 function auditUserUpdateClanMainRel(data){
 	return globalRequest({
@@ -298,6 +322,14 @@ function userRelClanMain(data){
 	    data,
 	});
 }
+//​宗亲添加家庭成员
+function addOrUpdateClanUserRelByApp(data){
+	return globalRequest({
+	    url: `${baseUrl}addOrUpdateClanUserRelByApp.json`,
+		method:'POST',
+	    data,
+	});
+}
 
 //获取乐捐列表
 async function projectList(data){
@@ -362,6 +394,8 @@ export default {
 	userRegistered,
 	//用户登录
 	userLogin,
+	//获取openId
+	getOAuth,
 	//获取轮播图
 	bannerList,
 	//新闻列表
@@ -394,7 +428,12 @@ export default {
 	getZpList,
 	//获取我的审核列表
 	userApproveList,
+	//审核员查询审核宗亲消息列表
+	getAuditMsgList,
 	//审核员审核
 	auditUserUpdateClanMain,
+	//绑定宗亲的审核
 	auditUserUpdateClanMainRel,
+	//宗亲添加家庭成员
+	addOrUpdateClanUserRelByApp,
 }

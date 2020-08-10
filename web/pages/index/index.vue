@@ -120,6 +120,10 @@
 				let par = {
 					clanId:this.clanInfo.id,
 				};
+				//设置
+				uni.setNavigationBarTitle({
+				    title: this.clanInfo.name ||'何处来'
+				});
 				const bannerList = await this.$api.request.bannerList(par);
 				//获取新闻列表
 				const newsList = await this.$api.request.newsList({
