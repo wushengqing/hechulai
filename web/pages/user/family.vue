@@ -117,7 +117,7 @@
 			},
 			addOrUpdateClanUserRelByApp(){
 				let par = {
-					id:this.userInfo.userInfo.clanManId,
+					id:this.userInfo.clanManId,
 					sonDtoList:[],
 					spouseDtoList:[],
 					daughterDtoList:[],

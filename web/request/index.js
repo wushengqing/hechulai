@@ -383,6 +383,15 @@ async function projectUserList(data){
 	}
 	
 }
+//发起乐捐
+async function addOrUpdateGivingUserRel(data){
+	return globalRequest({
+	    url: `${baseUrl}addOrUpdateGivingUserRel.json`,
+		method:'POST',
+	    data,
+	});
+	
+}
 //族谱获取单个宗亲的信息
 
 export default {
@@ -422,6 +431,8 @@ export default {
 	projectList,
 	//乐捐详情
 	projectDetail,
+	//新增乐捐
+	addOrUpdateGivingUserRel,
 	//乐捐榜
 	projectUserList,
 	//获取族谱中宗亲的详情
