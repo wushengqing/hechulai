@@ -204,7 +204,13 @@
 				"navigationBarTitleText": "发布宗亲圈"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/public/wxLogin",
+            "style" : {
+							"navigationBarTitleText": "正在使用微信登录"
+						}
+        }
+    ],
 	"tabBar": {
 		"color": "#C0C4CC",
 		"selectedColor": "#c65c4c",

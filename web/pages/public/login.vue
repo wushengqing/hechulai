@@ -75,11 +75,23 @@
 			loginByWechat(){
 				//#ifdef  H5
 				let APPID = 'wxff47f0bed871c55c';
-				let redirect_uri = 'http://www.hclzz.com/web/#/pages/user/user';
+				let redirect_uri = encodeURIComponent(location.origin+'/web/#/pages/public/wxLogin');
+				alert(redirect_uri);
 				// this.$api.request.getOAuth().then(res=>{
 				// 	console.log(res);
 				// });
-				location.href=`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxff47f0bed871c55c&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect`
+				let wx_login_url = 'https://open.weixin.qq.com/connect/oauth2/authorize?';
+				let parArray = [
+					`appid=${APPID}`,
+					`redirect_uri=${redirect_uri}`,
+					'response_type=code',
+					'scope=snsapi_userinfo',
+					'state=1#wechat_redirect',
+				]
+				wx_login_url += parArray.join('&')
+				console.log(wx_login_url)
+				debugger
+				location.href= wx_login_url;
 				//#endif
 			},
 			async toLogin(){
