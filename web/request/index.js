@@ -74,11 +74,19 @@ async function userLogin(data){
 }
 //获取openid;
 async function getOAuth(data){
-	return globalRequest({
+	var [error, res] = await uni.request({
 	    url: `${baseUrl}getOAuth.json`,
 		method:'POST',
-	    data,
+	    data
 	});
+	if(res){
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
 }
 //获取轮播图
 async function bannerList(data){

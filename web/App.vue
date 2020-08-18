@@ -25,12 +25,15 @@
 
 		},
 		onShow: function() {
+			debugger
 			//获取宗族id
-			if (!this.clanInfo.id) {
-				uni.navigateTo({
-					url: '/pages/union/union'
-				});
-			}
+			setTimeout(()=>{
+				if (!this.clanInfo.id && this.pageName!=='union') {
+					uni.navigateTo({
+						url: '/pages/union/union'
+					});
+				}
+			},200)
 		},
 		onHide: function() {
 			console.log('App Hide')

@@ -22,6 +22,7 @@
 				unionList:[],
 				dnsList:[],
 				loading:false,
+				pageName:'union'
 			}
 		},
 		methods: {
@@ -39,10 +40,21 @@
 					url: '/pages/index/index'
 				});
 			},
-			async initPage(){
+			async initPage(opctions){
 				await this.getClanList();
 				//判断当前环境
 				//#ifdef  H5
+				//判断是否为微信授权登录
+				if(opctions.code){
+					const loginVo = await this.$api.request.getOAuth({
+						code:opctions.code,
+						state:opctions.state
+					});
+					console.log(loginVo);
+					if(loginVo.code===0){
+						this.login(loginVo.data);
+					}
+				}
 				await this.getDnsList();
 				 let dnsName = window.location.origin +'/web';
 				 let clan = this.dnsList.filter(item=>{
@@ -56,12 +68,14 @@
 				 if(clanId){
 					 this.changeClanId(this.unionList.filter(item=>item.id===clanId)[0]);
 				 }
+				
 				//#endif
 			},
 		},
-		async onLoad(){
+		async onLoad(opctions){
+			console.log(opctions)
 			this.loading = true;
-			await this.initPage();
+			await this.initPage(opctions);
 			this.loading = false;
 			
 		}

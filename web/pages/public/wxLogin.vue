@@ -26,9 +26,9 @@
 				alert(wx_code);
 				alert(wx_state);
 			})
-			uni.reLaunch({
-				url: '/pages/index/index'
-			});
+			// uni.reLaunch({
+			// 	url: '/pages/index/index'
+			// });
 		},
 	}
 </script>

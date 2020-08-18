@@ -75,8 +75,7 @@
 			loginByWechat(){
 				//#ifdef  H5
 				let APPID = 'wxff47f0bed871c55c';
-				let redirect_uri = encodeURIComponent(location.origin+'/web/#/pages/public/wxLogin');
-				alert(redirect_uri);
+				let redirect_uri = encodeURIComponent('http://www.hclzz.com/hcl-web/index.jsp?r='+location.origin);
 				// this.$api.request.getOAuth().then(res=>{
 				// 	console.log(res);
 				// });
@@ -89,8 +88,6 @@
 					'state=1#wechat_redirect',
 				]
 				wx_login_url += parArray.join('&')
-				console.log(wx_login_url)
-				debugger
 				location.href= wx_login_url;
 				//#endif
 			},
