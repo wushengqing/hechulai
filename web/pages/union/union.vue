@@ -26,7 +26,7 @@
 			}
 		},
 		methods: {
-			...mapMutations(['setClanInfo']),
+			...mapMutations(['setClanInfo','login']),
 			async getClanList(){
 				this.unionList =  await this.$api.request.getClanList();
 			},

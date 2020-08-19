@@ -80,7 +80,7 @@ async function getOAuth(data){
 	    data
 	});
 	if(res){
-		return res.data.data;
+		return res.data;
 	}else{
 		return {
 			code:'1',

@@ -104,10 +104,18 @@
         'd2adminSetMenuAside'
       ]),
       oepnDialog(item){
+		  if(this.userInfo.userId!=='1' && item.id===1){
+			   this.$message.error('权限不足');
+			   return;
+		  }
         this.dialogShow =true;
         //根据角色Id获取角色的权限列表
         this.$api.role.getMenuById({accessId:item.id}).then(res=>{
+			if(this.userInfo.userId!=='1'){
+				res.data = res.data.filter(item=>item.path!=='/union/list' && item.path!=='/menu/list' )
+			}
           this.tableData = res.data;
+		  
           this.currAccessId = item.id;
         })
       },

@@ -1,7 +1,7 @@
 <template>
   <div class="clansmen-node" >
     <div class="clansmen-node-view">
-      <div class="node">
+      <div class="node" :style="{width:showMore?'500px':''}">
         <div class="node-wrap">
           <div class="name">
             <span class="mr5 normal">{{clansman.scName}}</span>
@@ -10,16 +10,23 @@
             <i class="el-icon-arrow-up fr" v-else @click="showMore=false"></i>
             <i class="el-icon-edit fr mr5" @click="openDialog(clansman,true)"></i>
           </div>
-          <div class="desc" v-show="showMore">
+          <div class="desc" v-show="showMore" >
             <div class="">房系：{{clansman.directoryName}}</div>
             <div class="">简介：{{clansman.clansmanDec}}</div>
             <div>妻子:</div>
             <div class="" v-for="wife in clansman.spouseDtoList">
-              <span class="normal">{{ wife.spouseName}}</span>
-              <span class="normal">{{ wife.spouseBirthDay}}</span>
-              <span class="normal">{{ wife.spouseendDay}}</span>
-              <span class="normal">{{ wife.spouseDec}}</span>
+              <span class="normal">姓名：{{ wife.spouseName}},</span>
+              <span class="normal">出生日期：{{ wife.spouseBirthDay}},</span>
+              <span class="normal">逝世日期：{{ wife.spouseendDay}},</span>
+              <span class="normal">简介：{{ wife.spouseDec}};</span>
             </div>
+			<div>女儿:</div>
+			<div class="" v-for="daughter in clansman.daughterDtoList">
+			  <span class="normal">姓名：{{ daughter.daughterName}},</span>
+			  <span class="normal">出生日期：{{ daughter.daughterBirthDay}},</span>
+			  <span class="normal">逝世日期：{{ daughter.daughterendDay}},</span>
+			  <span class="normal">简介：{{ daughter.daughterDec}};</span>
+			</div>
           </div>
         </div>
         <div class="add">
@@ -101,6 +108,49 @@
           </el-table>
 
         </el-form-item>
+		<el-form-item label="女儿：" width="180">
+		  <el-table :data="dialogVO.daughterDtoList" style="width: 100%" border size="mini">
+		    <el-table-column prop="daughterName" label="姓名" width="120">
+		      <template slot-scope="props">
+		        <el-input v-model="props.row.daughterName" placeholder="请输入"></el-input>
+		      </template>
+		    </el-table-column>
+		    <el-table-column prop="daughterBirthDay" label="出生日期" width="135">
+		      <template slot-scope="props">
+		        <el-input v-model="props.row.daughterBirthDay" placeholder="请输入"></el-input>
+		      </template>
+		    </el-table-column>
+		    <el-table-column prop="daughterDay" label="死亡日期" width="135">
+		      <template slot-scope="props">
+		        <el-input v-model="props.row.daughterDay" placeholder="请输入"></el-input>
+		      </template>
+		    </el-table-column>
+		    <el-table-column prop="name" label="简介">
+		      <template slot-scope="props">
+		        <el-input v-model="props.row.daughterDec" placeholder="请输入"></el-input>
+		      </template>
+		    </el-table-column>
+		    <el-table-column prop="name" label="操作" width="100">
+		      <template slot-scope="scope">
+		        <el-button
+		                type="primary"
+		                circle
+		                size="mini"
+		                title="添加到本条记录后面"
+		                @click="addDaughter(scope.$index)"
+		                icon="el-icon-circle-plus-outline"></el-button>
+		        <el-button
+		                type="danger"
+		                title="删除"
+		                circle
+		                size="mini"
+		                @click="deleteDaughter(scope.$index)"
+		                icon="el-icon-delete"></el-button>
+		      </template>
+		    </el-table-column>
+		  </el-table>
+		
+		</el-form-item>
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -135,7 +185,15 @@
         spouseendDay:'',
         spouseDec:''
       },
-    ]
+    ],
+	"daughterDtoList": [
+	  {
+	    daughterName:'',
+	    daughterBirthDay:'',
+	    daughterendDay:'',
+	    daughterDec:''
+	  },
+	]
   }
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
@@ -187,8 +245,12 @@
             clansmanDec:newVo.clansmanDec,
             clansmanName:newVo.clansmanName,
             clansmanendDay:newVo.clansmanendDay,
-            spouseDtoList: newVo.spouseDtoList
+            spouseDtoList: newVo.spouseDtoList,
+			daughterDtoList:newVo.daughterDtoList
           };
+		  if(this.dialogVO.daughterDtoList.length===0){
+			  this.addDaughter(0)
+		  }
           return
         }
         this.dialogVO={
@@ -201,7 +263,8 @@
           directoryId:vo.directoryId,
           parentId:vo.clansmanId,
           scId:vo.scId,
-          spouseDtoList: [{spouseName: "", spouseBirthDay: "", spouseendDay: "", spouseDec: ""}]
+          spouseDtoList: [{spouseName: "", spouseBirthDay: "", spouseendDay: "", spouseDec: ""}],
+		  daughterDtoList: [{daughterName: "", daughterBirthDay: "", daughterendDay: "", daughterDec: ""}]
         };
       },
       //添加夫人
@@ -216,6 +279,19 @@
       deleteWife(index){
         this.dialogVO.spouseDtoList.splice(index,1)
       },
+	  //添加女儿
+	  addDaughter(index){
+	    this.dialogVO.daughterDtoList.splice(index,0,{
+	      daughterName:'',
+	      daughterBirthDay:'',
+	      daughterendDay:'',
+	      daughterDec:''
+	    })
+	  },
+	  //删除女儿
+	  deleteDaughter(index){
+	    this.dialogVO.daughterDtoList.splice(index,1)
+	  },
       getData(){
         this.$emit('getData');
       },

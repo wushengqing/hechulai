@@ -199,8 +199,13 @@
           pageSize:10000,
           currentPage:1
         }).then(res=>{
-          this.setClansmenTree(cloneDeep(res.data));
-          this.clansmenList = cloneDeep(res.data);
+			if(res.code===0){
+				this.setClansmenTree(cloneDeep(res.data));
+				this.clansmenList = cloneDeep(res.data);
+			}else{
+				this.$message.error(res.msg);
+			}
+        
         });
       },
       //数组转树结构

@@ -70,7 +70,7 @@
 		methods: {
 			formSubmit: function(e) {
 				this.$api.request.userRelClanMain({
-					id:this.userInfo.id,
+					id:this.userInfo.userId,
 					clanId: this.clanInfo.id,
 					clanManId:this.formData.clanUserRelId
 				}).then(res=>{

@@ -25,7 +25,6 @@
 
 		},
 		onShow: function() {
-			debugger
 			//获取宗族id
 			setTimeout(()=>{
 				if (!this.clanInfo.id && this.pageName!=='union') {
@@ -33,7 +32,7 @@
 						url: '/pages/union/union'
 					});
 				}
-			},200)
+			},1000)
 		},
 		onHide: function() {
 			console.log('App Hide')

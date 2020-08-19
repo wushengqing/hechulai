@@ -81,18 +81,19 @@ export default {
     d2adminLogin ({ state, commit, rootState }, { vm,vo}) {
       // 开始请求登录接口
       vm.$api.user.login(vo)
-        .then((res) => {
+        .then(res=> {
           //登陆成功
           if(res.code===0){
+			let data = res.data;
             util.cookies.set('token', '1111111111111');
-            util.cookies.set('userId', res.userId);
-            util.cookies.set('name',  vo.userNum);
-            util.cookies.set('clanId',  res.data.clanId);
+            util.cookies.set('userId', data.userId);
+            util.cookies.set('name',  data.userNum);
+            util.cookies.set('clanId',  data.clanId);
             //设置用户信息
             commit('d2adminUserInfoSet', {
-              name: vo.userNum,
-              userId:res.userId,
-              clanId:res.data.clanId
+              name: data.userNum,
+              userId:data.userId,
+              clanId:data.clanId
             });
             //设置菜单信息
             vm.$router.push({
