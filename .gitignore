@@ -10,4 +10,5 @@ logs/
 .classpath
 .settings/
 node_modules/
-unpackage/
+build/
+dist/

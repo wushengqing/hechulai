@@ -39,11 +39,14 @@ div[class^=d2-container-full] {
 .mr10{ margin-right: 10px;}
 .mr20{ margin-right: 20px;}
 .ml10{ margin-left: 10px!important;}
+.mb10{margin-bottom: 10px}
+.mb20{margin-bottom: 20px}
 .header-btn{
   margin: -8px 0 -10px;
   float: right;
 }
-
+.tc{text-align: center}
+.tr{text-align: right}
 .font20{ font-size:20px;}
 .color-error{
   color:#F56C6C;
@@ -146,4 +149,7 @@ div[class^=d2-container-full] {
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
+}
+.el-dialog__body{
+  padding: 10px 20px;
 }

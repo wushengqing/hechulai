@@ -5,7 +5,7 @@
       <div class="controls">
         <slot name="controls"></slot>
       </div>
-      <el-form :model="searchModelDataBase" label-width="120px" size="small" style="font-size: 14px;">
+      <el-form v-show="showSearchBar" :model="searchModelDataBase" label-width="120px" size="small" style="font-size: 14px;">
         <el-input
           placeholder="请输入关键字"
           prefix-icon="el-icon-search"
@@ -123,6 +123,10 @@ export default {
     sortChange: Function,
     afterFetchData:Function,
     showPagination: {
+      type: Boolean,
+      default: true
+    },
+    showSearchBar: {
       type: Boolean,
       default: true
     }

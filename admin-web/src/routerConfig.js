@@ -23,14 +23,18 @@ import ClansmenList from '@/pages/clansmenTree/List/index.vue';
 import BannerList from '@/pages/banner/List/index.vue';
 //新闻管理
 import NewsList from '@/pages/news/List/index.vue';
-
 //宗亲管理
 import GenerationList from '@/pages/generation/List/index.vue';
 //目录管理
 import BranchList from '@/pages/branch/List/index.vue';
 //风采管理
 import ProjectList from '@/pages/project/List/index.vue';
-
+//审核管理
+import ApproveList from '@/pages/approve/List/index.vue';
+//审核管理
+import AncestralHall from '@/pages/ancestralHall/List/index.vue';
+//审核管理
+import AncestralGrave from '@/pages/ancestralGrave/List/index.vue';
 
 
 const routerConfig = [
@@ -169,6 +173,33 @@ export const pageRouter = [
     component: BranchList,
     meta: {
       title: '族谱目录管理',
+    }
+  },
+  {
+    path: '/approve/list',
+    name: 'ApproveList',
+    layout,
+    component: ApproveList,
+    meta: {
+      title: '审核员管理',
+    }
+  },
+  {
+    path: '/ancestralHall/list',
+    name: 'AncestralHall',
+    layout,
+    component: AncestralHall,
+    meta: {
+      title: '宗祠管理',
+    }
+  },
+  {
+    path: '/ancestralGrave/list',
+    name: 'AncestralGrave',
+    layout,
+    component: AncestralGrave,
+    meta: {
+      title: '祖坟管理',
     }
   },
 ]
