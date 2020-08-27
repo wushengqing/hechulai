@@ -8,7 +8,7 @@
 					ref="tableMain"
 					:search-model-base="tableMainSearchModelBase"
 					:showSearchBar="false"
-					:get-action="$api.branch.list"
+					:get-action="$api.approve.userList"
 					:showPagination="false"
 					:autoFetch="false"
 					@tableMounted="tableMounted"
@@ -16,11 +16,15 @@
 				<!--基础查询-->
 				<!--表格-->
 				<template slot="tableColumns">
-					<el-table-column prop="name" label="审核事件"></el-table-column>
-					<el-table-column prop="name" label="审核员"></el-table-column>
+					<el-table-column prop="auditUserName" label="审核员"></el-table-column>
+					<el-table-column prop="name" label="审核事件">
+						<template slot-scope="props">
+							{{ getAuditList(props.row) }};
+						</template>
+					</el-table-column>
 					<el-table-column label="操作" width="240px">
 						<template slot-scope="props">
-							<el-button type="text" size="mini" @click="openDialog(props.row)">设置审核员</el-button>
+							<el-button type="text" size="mini" @click="openDialog(props.row)">设置审核权限</el-button>
 						</template>
 					</el-table-column>
 				</template>
@@ -116,6 +120,10 @@
       }
     },
     methods: {
+      getAuditList(item){
+        let names =  item.auditList.map(audiEvent=>audiEvent.auditName);
+       return names.join('，');
+	  },
       tableMounted(){
         this.$nextTick(()=>{
           this.$refs.tableMain.fetchData();
@@ -204,10 +212,7 @@
       },
     },
     mounted() {
-      //获取世称列表
-      this.$api.generation.list({clanId:this.clanId}).then(res=>{
-        this.generations = res.data;
-      })
+
     },
   };
 </script>

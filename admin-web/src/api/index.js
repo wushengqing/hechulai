@@ -9,6 +9,7 @@ import clansmen from './clansmen'
 import mien from './mien'
 import banner from './banner'
 import project from './project'
+import approve from './approve'
 export default {
   common,
   user,
@@ -21,4 +22,5 @@ export default {
   mien,
   banner,
   project,
+  approve,
 }
