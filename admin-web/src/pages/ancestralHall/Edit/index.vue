@@ -34,48 +34,93 @@
               </el-form-item>
               <el-form-item label="详细地址：" prop="ancestralHallAddess">
                 <el-input class="w400" placeholder='请输入详细地址' v-model="form.ancestralHallAddess"></el-input>
-                <el-button type="text" @click="updateMap()">更新地图定位</el-button>
+                <el-button type="text" class="ml10" @click="updateMap()">查询位置</el-button>
               </el-form-item>
               <el-form-item label="地图信息：" prop="address">
-                <div>
-                  <baidu-map
-                    class="map"
-                    style="width: 500px; height:350px"
-                    ak="9BK1L0RsiHdwM8TBZUmqYl7HyALV4L4c"
-                    :zoom="map.zoom"
-                    :center="{lng: map.center.lng, lat: map.center.lat}"
-                    @ready="mapReady"
-                    @click="setMarker"
-                    :scroll-wheel-zoom="true">
-                    <!--比例尺控件-->
-                    <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
-                    <!--缩放控件-->
-                    <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" ></bm-navigation>
-                    <!--聚合动态添加的点坐标-->
-                    <bm-marker-clusterer :averageCenter="true">
-                      <bm-marker
-                        v-for="marker of map.markers"
-                        :key="marker.code"
-                        :position="{lng: marker.lng, lat: marker.lat}">
-                      </bm-marker>
-                    </bm-marker-clusterer>
-                    <!--信息窗体-->
-                    <bm-info-window
-                      :position="{lng: form.longitude, lat: form.latitude}"
-                      :title="form.name"
-                      :show="map.infoWindow.show"
-                      @close="infoWindowClose">
-                    </bm-info-window>
-                  </baidu-map>
-                </div>
+                <baidu-map
+                        class="map"
+                        style="width: 500px; height:350px"
+                        ak="9BK1L0RsiHdwM8TBZUmqYl7HyALV4L4c"
+                        :zoom="map.zoom"
+                        :center="{lng: map.center.lng, lat: map.center.lat}"
+                        @ready="mapReady"
+                        @click="setMarker"
+                        :scroll-wheel-zoom="true">
+                  <!--比例尺控件-->
+                  <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
+                  <!--缩放控件-->
+                  <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" ></bm-navigation>
+                  <!--聚合动态添加的点坐标-->
+                  <bm-marker-clusterer :averageCenter="true">
+                    <bm-marker
+                            v-for="marker of map.markers"
+                            :key="marker.code"
+                            :position="{lng: marker.lng, lat: marker.lat}">
+                    </bm-marker>
+                  </bm-marker-clusterer>
+                  <!--信息窗体-->
+                  <bm-info-window
+                          :position="{lng: form.longitude, lat: form.latitude}"
+                          :title="form.name"
+                          :show="map.infoWindow.show"
+                          @close="infoWindowClose">
+                  </bm-info-window>
+                </baidu-map>
               </el-form-item>
-
+              <el-form-item label="关联宗亲：" prop="clanManList">
+                <el-tag
+                        v-for="clanMan in form.clanManList"
+                        :key="clanMan.name"
+                        closable
+                        :type="clanMan.type">
+                  {{clanMan.name}}
+                </el-tag>
+                <el-button class="button-new-tag" size="small" @click="openDialog">+ 添加</el-button>
+              </el-form-item>
               <el-form-item label="">
                 <el-button type="primary" @click="save">保存</el-button>
               </el-form-item>
             </el-form>
         </div>
         <template slot="footer"></template>
+        <el-dialog title="添加关联宗亲" :visible.sync="dialogShow" width="400px" append-to-body>
+          <el-form ref="dialogVO" :model="dialogVO" label-width="120px" :rules="rules">
+            <el-form-item label="审核员房系：" prop="directoryId">
+              <el-select v-model="dialogVO.directoryId" placeholder="请选择房系" @change="changeDirectory()">
+                <el-option
+                        v-for="item in directoryList"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="审核员世称：" prop="generationId">
+              <el-select v-model="dialogVO.generationId" placeholder="请选择世称" :disabled="!dialogVO.directoryId"  @change="changeGeneration()">
+                <el-option
+                        v-for="item in generationList"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="审核员：" prop="auditUserClanManId">
+              <el-select v-model="dialogVO.auditUserClanManId" placeholder="请选择世称" :disabled="!dialogVO.generationId"  @change="changeAuditUserClanMan()">
+                <el-option
+                        v-for="item in auditUserClanManList"
+                        :key="item.clansmanId"
+                        :label="item.clansmanName"
+                        :value="item.clansmanId">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="save()" :loading="btnLoading">保 存</el-button>
+            <el-button @click="dialogShow = false">取 消</el-button>
+          </div>
+        </el-dialog>
       </d2-container>
   </transition>
 
@@ -162,13 +207,26 @@
           infoWindow:{
             show:false
           }
-        }
+        },
+        dialogShow:false,
+        dialogVO:{
+          auditUserClanManId:'',
+          directoryId:'',
+          generationId:'',
+          auditUserName:'',
+          userAccessName:'',
+          auditUserId:'',
+        },
+        directoryList:[],
+        generationList:[],
+        auditUserClanManList:[],
+        btnLoading:false
       }
     },
     methods: {
       open(item){
 
-
+        this.getDirectoryList();
         this.showPage= true;
         if(item && item.id){
           this.form = item;
@@ -226,6 +284,49 @@
           })
           this.pcdList = res.data
         });
+      },
+      openDialog(){
+        this.dialogShow =true;
+        //获取角色列表
+      },
+      //获取房系
+      getDirectoryList() {
+        //获取房系列表
+        this.$api.branch.list({clanId: this.clanId}).then(res=>{
+          this.directoryList = res.data;
+        })
+      },
+      changeDirectory(){
+        this.dialogVO.generationId='';
+        this.dialogVO.auditUserClanManId='';
+        this.generationList = [];
+        this.auditUserClanManList = [];
+        this.getGenerationList();
+      },
+      //获取世称
+      getGenerationList() {
+        //获取世称列表
+        this.generationList = this.directoryList.filter(item=>{
+          return item.id === this.dialogVO.directoryId
+        })[0].scIds||[]
+      },
+      changeGeneration(){
+        this.dialogVO.auditUserClanManId='';
+        this.auditUserClanManList = [];
+        this.getClanUserRelList()
+      },
+      //获取宗亲
+      getClanUserRelList() {
+        //获取宗亲列表
+        this.$api.user.getClanUserRelList({
+          clanId: this.clanId,
+          currentPage:0,
+          pageSize:10000,
+          scId:this.dialogVO.generationId,
+          directoryId:this.dialogVO.directoryId,
+        }).then(res=>{
+          this.auditUserClanManList = res.data
+        })
       },
       save(){},
       //百度地图

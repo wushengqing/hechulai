@@ -160,7 +160,7 @@
           this.auditUserClanManList = res.data
 		})
       },
-	  //切线宗亲
+	  //切换宗亲
       changeAuditUserClanMan(){
         let user = this.auditUserClanManList.find(item=>item.clansmanId===this.dialogVO.auditUserClanManId);
         this.dialogVO = {
