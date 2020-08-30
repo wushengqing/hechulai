@@ -1,14 +1,15 @@
 <template>
 	<div class="workapply-area">
 		<d2-container>
-			<template slot="header">宗祠管理</template>
+			<template slot="header">宗祠/祖坟管理</template>
 
 			<!---->
 			<table-comb
-					name="宗祠管理"
+					name="宗祠/祖坟管理"
 					ref="tableMain"
+					:showPagination="false"
 					:search-model-base="tableMainSearchModelBase"
-					:get-action="$api.banner.list"
+					:get-action="$api.ancestralHall.list"
 					:get-action-where="getActionWhere">
 				<!--基础查询-->
 				<template slot="baseSearchForm" slot-scope="scope">
@@ -20,17 +21,20 @@
 				<template slot="tableColumns">
 					<el-table-column prop="mienTitle" label="宗祠名称" min-width="100">
 						<template slot-scope="props">
-							<div class="ellipsis" :title="props.row.mienTitle">{{ props.row.mienTitle }}</div>
+							<div class="ellipsis" :title="props.row.name">{{ props.row.name }}</div>
 						</template>
 					</el-table-column>
-					<el-table-column prop="userNum" label="所在地址">
+					<el-table-column prop="ancestralHallAddess" label="所在地址">
 					</el-table-column>
-					<el-table-column prop="linkUrl" label="简介" min-width="300">
+					<el-table-column prop="ancestralHallDec" label="简介" min-width="300">
 						<template slot-scope="props">
-							<div class="ellipsis" :title="props.row.mienTitle">{{ props.row.mienTitle }}</div>
+							<div class="ellipsis" :title="props.row.ancestralHallDec">{{ props.row.ancestralHallDec }}</div>
 						</template>
 					</el-table-column>
 					<el-table-column prop="userNum" label="关联宗亲">
+						<template slot-scope="props">
+							<div class="ellipsis" :title="toStringClanManList(props.row)">{{ toStringClanManList(props.row) }}</div>
+						</template>
 					</el-table-column>
 
 					<el-table-column label="操作" width="200px">
@@ -69,19 +73,14 @@
       return {
         tableMainSearchModelBase: {
           keyword: '',
-          categoryId: ''
         },
-		//1 banner图 2 新闻
-        mienType:2,
         dialogShow:false,
-        qrcodeObj:false
       }
     },
     computed: {
       getActionWhere() {
         return {
           clanId:this.clanId,
-          mienType:this.mienType,
         }
       }
     },
@@ -89,35 +88,10 @@
       openEditPage(item){
         this.$refs.editPage.open(item);
 	  },
-      setTop(id,isTop){
-        this.$api.banner.save({
-		  id,
-          isTop
-		}).then(res=>{
-          if(res.code===0){
-            this.$message.success('操作成功！');
-            this.refreshTable();
-          }else{
-            this.$message.error(res.msg)
-          }
-		})
-	  },
-	  //预览
-	  openQrcodeDialog(item){
-        this.dialogShow = true;
-        setTimeout(()=>{
-          this.qrcode();
-		},0)
-
-	  },
-      qrcode (url='http://47.105.56.131:8080/web/index.html#/') {
-        //
-        this.qrcodeObj = new QRCode("qrcode", {
-          width: 200, // 二维码宽度，单位像素
-          height: 200, // 二维码高度，单位像素
-          text: url // 生成二维码的链接
-        });
-      },
+      toStringClanManList(vo){
+        let names = vo.clanManList.map(item=>item.name);
+        return names.join(',')
+	  }
     },
     mounted() {
     }

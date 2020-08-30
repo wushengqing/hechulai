@@ -10,6 +10,7 @@ import mien from './mien'
 import banner from './banner'
 import project from './project'
 import approve from './approve'
+import ancestralHall from './ancestralHall'
 export default {
   common,
   user,
@@ -23,4 +24,5 @@ export default {
   banner,
   project,
   approve,
+  ancestralHall,
 }

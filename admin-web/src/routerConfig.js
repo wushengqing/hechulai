@@ -190,7 +190,7 @@ export const pageRouter = [
     layout,
     component: AncestralHall,
     meta: {
-      title: '宗祠管理',
+      title: '宗祠/祖坟管理',
     }
   },
   {
@@ -199,7 +199,7 @@ export const pageRouter = [
     layout,
     component: AncestralGrave,
     meta: {
-      title: '祖坟管理',
+      title: '宗族圈',
     }
   },
 ]
