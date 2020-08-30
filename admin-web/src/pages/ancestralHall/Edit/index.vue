@@ -9,60 +9,69 @@
         <!---->
         <div class="detail-view">
             <el-form ref="form" :model="form" label-width="120px"  :rules="rules" >
-              <el-form-item label="标题：">
-                <el-input class="w400" placeholder="请输入标题" v-model="form.mienTitle"></el-input>
+              <el-form-item label="宗祠/祖坟名称：">
+                <el-input class="w400" placeholder="请输入标题" v-model="form.name"></el-input>
               </el-form-item>
-              <el-form-item label="轮播图：">
-                <el-upload
-                  class="banner-uploader"
-                  :action="$api.common.uploadAction"
-                  :data="fileData"
-                  :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
-                  :before-upload="beforeAvatarUpload">
-                  <img v-if="form.mienImageUrl" :src="form.mienImageUrl" class="banner-image">
-                  <i v-else class="el-icon-plus banner-uploader-icon"></i>
-                </el-upload>
-                <span class="color-grey" style="vertical-align: bottom"> 请上传 小于2M的jpg 图片</span>
-              </el-form-item>
-              <el-form-item label="背景颜色：">
-                <el-color-picker v-model="form.mienBgColor"></el-color-picker>
-                <div style="font-size: 16px;display: inline-block; vertical-align: top" class="ml10" :style="{color: form.mienBgColor }">{{ form.mienBgColor }}</div>
-              </el-form-item>
-              <el-form-item label="文章内容：" >
-                <div class="w800" >
-                  <editor-bar v-model="form.mienContent" placeholder="请输入内容"  :isClear="isClear" @change="changeEditor"></editor-bar>
-                </div>
-              </el-form-item>
-              <el-form-item label="是否开启外链：">
-                <el-radio-group v-model="form.isSkip">
-                  <el-radio :label="true">是</el-radio>
-                  <el-radio :label="false">否</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="外链地址：" v-if="form.isSkip===1">
-                <el-input placeholder="请输入链接地址" class="w400" v-model="form.linkUrl">
-                  <template slot="prepend">Http(s)://</template>
+              <el-form-item label="简介：">
+                <el-input
+                        class="w400"
+                        placeholder="请输入标题"
+                        type="textarea"
+                        maxlength="300"
+                        show-word-limit
+                        v-model="form.ancestralHallDec">
                 </el-input>
               </el-form-item>
-              <!--<el-form-item label="关联宗祠：">
-                <el-select  placeholder="请选择" class="w400">
-                  <el-option
-                      v-for="item in mienOptions"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="关联宗亲："  >
+              <el-form-item label="所在地区：" prop="cityCode">
                 <el-cascader
-                  class="w400"
-                  :options="clansmenOptions">
+                        ref="cityCascader"
+                        v-model="form.cityCode"
+                        placeholder='省/市/区'
+                        class="w400"
+                        clearable
+                        :options="pcdList">
                 </el-cascader>
-              </el-form-item>-->
+              </el-form-item>
+              <el-form-item label="详细地址：" prop="ancestralHallAddess">
+                <el-input class="w400" placeholder='请输入详细地址' v-model="form.ancestralHallAddess"></el-input>
+                <el-button type="text" @click="updateMap()">更新地图定位</el-button>
+              </el-form-item>
+              <el-form-item label="地图信息：" prop="address">
+                <div>
+                  <baidu-map
+                    class="map"
+                    style="width: 500px; height:350px"
+                    ak="9BK1L0RsiHdwM8TBZUmqYl7HyALV4L4c"
+                    :zoom="map.zoom"
+                    :center="{lng: map.center.lng, lat: map.center.lat}"
+                    @ready="mapReady"
+                    @click="setMarker"
+                    :scroll-wheel-zoom="true">
+                    <!--比例尺控件-->
+                    <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
+                    <!--缩放控件-->
+                    <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" ></bm-navigation>
+                    <!--聚合动态添加的点坐标-->
+                    <bm-marker-clusterer :averageCenter="true">
+                      <bm-marker
+                        v-for="marker of map.markers"
+                        :key="marker.code"
+                        :position="{lng: marker.lng, lat: marker.lat}">
+                      </bm-marker>
+                    </bm-marker-clusterer>
+                    <!--信息窗体-->
+                    <bm-info-window
+                      :position="{lng: form.longitude, lat: form.latitude}"
+                      :title="form.name"
+                      :show="map.infoWindow.show"
+                      @close="infoWindowClose">
+                    </bm-info-window>
+                  </baidu-map>
+                </div>
+              </el-form-item>
+
               <el-form-item label="">
-                <el-button type="primary" @click="onSubmit">保存</el-button>
+                <el-button type="primary" @click="save">保存</el-button>
               </el-form-item>
             </el-form>
         </div>
@@ -73,14 +82,40 @@
 </template>
 
 <script>
+  //百度地图
+  import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
+  import BmScale from 'vue-baidu-map/components/controls/Scale'
+  import BmNavigation from 'vue-baidu-map/components/controls/Navigation'
+  import BmMarkerClusterer from  'vue-baidu-map/components/extra/MarkerClusterer'
+  import BmMarker from 'vue-baidu-map/components/overlays/Marker'
+  import BmInfoWindow from 'vue-baidu-map/components/overlays/InfoWindow'
+
   import listMixin from "@/mixins/list.mixin";
-  //调用编辑器
-  import EditorBar from '@/components/wangEnduit'
+  import { cloneDeep } from 'lodash';
+
+  const defaultForm = {
+    id:'',
+    name: '',
+    ancestralHallDec:'',
+    ancestralHallAddess:'',
+    cityCode:[],
+    longitude:'',
+    latitude:'',
+    ancestralHallState:0,
+    fileList:[],
+    clanManList:[],
+  }
+
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
     name: "BannerEdit",
     components: {
-      EditorBar
+      BaiduMap,
+      BmScale,
+      BmNavigation,
+      BmMarkerClusterer,
+      BmMarker,
+      BmInfoWindow
     },
     mixins: [
       listMixin
@@ -101,24 +136,12 @@
         //1 banner图 2 新闻
         mienType:2,
         isClear:true,
-        form: {
-          id:'',
-          mienTitle: '',
-          mienFileId:'',
-          mienImageUrl: '',
-          imageUrl: '',
-          isTop: false,
-          isSkip: false,
-          mienBgColor: '#8F4008',
-          linkUrl: '',
-          mienResource: '',
-          mienContent: ''
-        },
+        form:cloneDeep(defaultForm),
         fileData:{
           defaultSuffix:'',
         },
         rules:{
-          mienTitle: [
+          name: [
             { required: true, message: '请输入标题', trigger: 'blur' },
             { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
           ],
@@ -126,22 +149,36 @@
             { required: true, message: '请上传图片', trigger: 'blur' },
           ],
         },
-        //关联宗祠
-        mienOptions:[],
-        //关联宗亲
-        clansmenOptions:[],
+        //省市区级联
+        pcdList:[],
+        //百度地图相关
+        map:{
+          zoom:1,
+          center:{
+            lng:'',
+            lat:''
+          },
+          markers:[],
+          infoWindow:{
+            show:false
+          }
+        }
       }
     },
     methods: {
       open(item){
-        console.log(item)
+
+
         this.showPage= true;
         if(item && item.id){
           this.form = item;
+          this.map.zoom=10;
+          this.map.center.lat = item.latitude;
+          this.map.center.lng = item.longitude;
         }else{
           this.form = {
             id:'',
-            mienTitle: '',
+            name: '',
             mienFileId:'',
             mienImageUrl: '',
             isTop: false,
@@ -150,69 +187,119 @@
             linkUrl: '',
             mienResource: '',
             mienContent: ''
-          }
+          };
+
         }
       },
       back(){
         this.showPage= false;
         this.$emit('back')
       },
-      handleAvatarSuccess(res, file) {
-        this.form.mienImageUrl =  res.uploadedImgUrl;
-        this.form.mienFileId = res.id;
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt10M = file.size / 1024 / 1024 < 10;
+      getPcdList(){
+        this.$api.common.getPcdList().then(res=>{
+          res.data.forEach(province=>{
+            province.label = province.provinceName;
+            province.value = province.provinceId;
+            province.children = province.cityInfoDtoList;
+            delete province.provinceName;
+            delete province.provinceId;
+            delete province.cityInfoDtoList;
+            province.children.forEach(city=>{
+              city.label = city.cityName;
+              city.value = city.cityId;
+              city.children = city.districtionInfoDtoList;
+              delete city.cityName;
+              delete city.cityId;
+              delete city.districtionInfoDtoList;
+              if(city.children){
+                city.children.forEach(region=>{
+                  region.label = region.districtName;
+                  region.value = region.districtId;
+                  region.children = null;
+                  delete region.districtName;
+                  delete region.districtId;
+                })
+              }
 
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt10M) {
-          this.$message.error('上传头像图片大小不能超过 10MB!');
-        }
-        this.fileData.defaultSuffix = '.'+file.name.split('.').pop();
-        return isJPG && isLt10M;
-      },
-      changeEditor(val) {
-        console.log(val)
-        this.form.mienContent = val;
-      },
-      onSubmit() {
-        console.log('submit!');
-        this.$refs.form.validate((valid)=>{
-          if(!valid){ return}
-          let vo = {
-            id:this.form.id,
-            mienTitle: this.form.mienTitle,
-            mienFileId: this.form.mienFileId,
-            mienImageUrl: this.form.mienImageUrl,
-            isTop: this.form.isTop,
-            isSkip: this.form.isSkip,
-            mienBgColor: this.form.mienBgColor,
-            linkUrl: this.form.linkUrl,
-            mienResource: this.form.mienResource,
-            mienContent: this.form.mienContent,
-            mienType:this.mienType,
-            clanId:this.clanId
-          };
-          if(!vo.id){
-            delete  vo.id;
-          }
-          //保存banner图
-          this.$api.banner.save(vo).then(res=>{
-            if(res.code===0){
-              this.$message.success('新增成功！');
-              this.back();
-            }else{
-              this.$message.error(res.msg)
-            }
+
+            })
           })
-        })
+          this.pcdList = res.data
+        });
       },
-      openPreviewPage(){}
+      save(){},
+      //百度地图
+      mapReady(){
+        //获取浏览器定位
+        let geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(res=>{
+          if(true || !this.map.center.lat){
+            this.map.center.lat = res.latitude;
+            this.map.center.lng = res.longitude;
+          }
+        },{enableHighAccuracy: true});
+      },
+      //根据省市区code 获取省市区名称
+      getCityName(){
+        if(this.form.cityCode.length===0){
+          return {
+            city:'',
+            region:''
+          };
+        }
+        let [provinceCode,cityCode,regionCode] =  this.form.cityCode;
+        let province = this.pcdList.find(item=>item.value===provinceCode);
+        let city = province.children.find(item=>item.value===cityCode);
+        let region = city.children.find(item=>item.value===regionCode);
+        return {
+          city:city.label,
+          region:region.label,
+        };
+
+      },
+      //设置定位地址
+      setMarker(e){
+        console.log(e);
+        this.form.latitude = e.point.lat;
+        this.form.longitude = e.point.lng;
+        this.map.markers = [
+          {
+            code:'code',
+            lat:e.point.lat,
+            lng:e.point.lng,
+          }
+        ]
+        setTimeout(()=>{
+          this.map.infoWindow.show = true;
+        },0)
+      },
+      infoWindowClose(){
+        this.map.infoWindow.show = false;
+      },
+      //根据省市区和详细地址更新地图
+      updateMap(){
+        let addr = this.getCityName();
+        let address = addr.city + addr.region + this.form.ancestralHallAddess;
+        console.log(address)
+        let myGeo = new BMap.Geocoder();
+        myGeo.getPoint(address, point=>{
+          if (point) {
+            this.map.zoom=18;
+            this.map.center.lng = point.lng;
+            this.map.center.lat = point.lat;
+            this.setMarker({
+              point:{
+                ...this.map.center
+              }
+            })
+          }else{
+            alert("您选择地址没有解析到结果!");
+          }
+        },  addr.city);
+      },
     },
     mounted() {
+      this.getPcdList();
 
     }
   };

@@ -19,7 +19,7 @@
 				</template>
 				<!--表格-->
 				<template slot="tableColumns">
-					<el-table-column prop="mienTitle" label="宗祠名称" min-width="100">
+					<el-table-column prop="mienTitle" label="宗祠/祖坟名称" min-width="100">
 						<template slot-scope="props">
 							<div class="ellipsis" :title="props.row.name">{{ props.row.name }}</div>
 						</template>
@@ -36,13 +36,17 @@
 							<div class="ellipsis" :title="toStringClanManList(props.row)">{{ toStringClanManList(props.row) }}</div>
 						</template>
 					</el-table-column>
+					<el-table-column prop="userNum" label="前台是否显示">
+						<template slot-scope="props">
+							{{ props.row.ancestralHallState==0?'不显示':'显示' }}
+						</template>
+					</el-table-column>
 
 					<el-table-column label="操作" width="200px">
 						<template slot-scope="props">
-							<el-button type="text" size="mini" @click="openQrcodeDialog(props.row)">相册管理</el-button>
-							<el-button v-if="props.row.status!==1" type="text" size="mini" @click="openEditPage(props.row)">编辑</el-button>
-							<el-button v-if="props.row.isTop" type="text" size="mini" @click="setTop(props.row.id,false)">取消置顶</el-button>
-							<el-button v-else type="text" size="mini" @click="setTop(props.row.id,true)">置顶</el-button>
+							<el-button type="text" size="mini" @click="openEditPage(props.row)">编辑</el-button>
+							<el-button v-if="props.row.ancestralHallState==0" type="text" size="mini" @click="openEditPage(props.row)">开启显示</el-button>
+							<el-button v-if="props.row.ancestralHallState==1" type="text" size="mini" @click="openEditPage(props.row)">关闭显示</el-button>
 						</template>
 					</el-table-column>
 				</template>
@@ -50,16 +54,12 @@
 			<template slot="footer"></template>
 		</d2-container>
 		<Edit ref="editPage" @back="refreshTable" />
-		<el-dialog title="扫码预览" :visible.sync="dialogShow" width="240px" destroy-on-close>
-			<div id="qrcode" ref="qrcode"></div>
-		</el-dialog>
 	</div>
 </template>
 
 <script>
   import listMixin from "@/mixins/list.mixin";
   import Edit from '../Edit'
-  import QRCode from "qrcodejs2";
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
     name: "NewsList",
