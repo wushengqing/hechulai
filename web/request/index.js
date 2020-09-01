@@ -1,5 +1,5 @@
 
-const baseUrl = 'http://www.hclzz.com/hcl-web/web/'
+const baseUrl = 'https://www.hclzz.com/hcl-web/web/'
 import globalRequest from './globalRequest.js'
 //获取宗族列表
 async function getClanList(data={
@@ -19,7 +19,7 @@ async function getClanList(data={
 			error
 		}
 	}
-	
+
 }
 //获取宗族和子域名关联列表
 async function getDnsList(){
@@ -36,7 +36,7 @@ async function getDnsList(){
 			error
 		}
 	}
-	
+
 }
 //注册
 async function userRegistered(data){
@@ -53,7 +53,7 @@ async function userRegistered(data){
 			error
 		}
 	}
-	
+
 }
 //登录
 async function userLogin(data){
@@ -70,7 +70,7 @@ async function userLogin(data){
 			error
 		}
 	}
-	
+
 }
 //获取openid;
 async function getOAuth(data){
@@ -103,7 +103,7 @@ async function bannerList(data){
 			error
 		}
 	}
-	
+
 }
 //获取新闻列表
 async function newsList(data){
@@ -120,7 +120,7 @@ async function newsList(data){
 			error
 		}
 	}
-	
+
 }
 //获取新闻详情
 async function newsDetail(data){
@@ -137,7 +137,7 @@ async function newsDetail(data){
 			error
 		}
 	}
-	
+
 }
 
 
@@ -156,7 +156,7 @@ async function generationList(data){
 			error
 		}
 	}
-	
+
 }
 
 //获取房系列表
@@ -174,7 +174,7 @@ async function directoryList(data){
 			error
 		}
 	}
-	
+
 }
 //获取宗亲列表
 async function clanUserRelList(data){
@@ -354,7 +354,7 @@ async function projectList(data){
 			error
 		}
 	}
-	
+
 }
 
 //获取乐捐详情
@@ -372,7 +372,7 @@ async function projectDetail(data){
 			error
 		}
 	}
-	
+
 }
 //获取乐捐详情
 async function projectUserList(data){
@@ -389,7 +389,7 @@ async function projectUserList(data){
 			error
 		}
 	}
-	
+
 }
 //发起乐捐
 async function addOrUpdateGivingUserRel(data){
@@ -398,7 +398,7 @@ async function addOrUpdateGivingUserRel(data){
 		method:'POST',
 	    data,
 	});
-	
+
 }
 //族谱获取单个宗亲的信息
 
