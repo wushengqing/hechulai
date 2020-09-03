@@ -85,7 +85,7 @@
         <template slot="footer"></template>
         <el-dialog title="添加关联宗亲" :visible.sync="dialogShow" width="400px" append-to-body>
           <el-form ref="dialogVO" :model="dialogVO" label-width="120px" :rules="rules">
-            <el-form-item label="审核员房系：" prop="directoryId">
+            <el-form-item label="宗亲房系：" prop="directoryId">
               <el-select v-model="dialogVO.directoryId" placeholder="请选择房系" @change="changeDirectory()">
                 <el-option
                         v-for="item in directoryList"
@@ -95,7 +95,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="审核员世称：" prop="generationId">
+            <el-form-item label="宗亲世称：" prop="generationId">
               <el-select v-model="dialogVO.generationId" placeholder="请选择世称" :disabled="!dialogVO.directoryId"  @change="changeGeneration()">
                 <el-option
                         v-for="item in generationList"
@@ -105,10 +105,10 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="审核员：" prop="auditUserClanManId">
-              <el-select v-model="dialogVO.auditUserClanManId" placeholder="请选择世称" :disabled="!dialogVO.generationId"  @change="changeAuditUserClanMan()">
+            <el-form-item label="宗亲名称：" prop="clanManId">
+              <el-select v-model="dialogVO.clanManId" placeholder="请选择世称" :disabled="!dialogVO.generationId"  @change="changeClanMan(item)">
                 <el-option
-                        v-for="item in auditUserClanManList"
+                        v-for="item in clanManList"
                         :key="item.clansmanId"
                         :label="item.clansmanName"
                         :value="item.clansmanId">
@@ -117,7 +117,7 @@
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="save()" :loading="btnLoading">保 存</el-button>
+            <el-button type="primary" @click="addClanMan()" :loading="btnLoading">添 加</el-button>
             <el-button @click="dialogShow = false">取 消</el-button>
           </div>
         </el-dialog>
@@ -210,16 +210,14 @@
         },
         dialogShow:false,
         dialogVO:{
-          auditUserClanManId:'',
+          clanManId:'',
           directoryId:'',
           generationId:'',
-          auditUserName:'',
-          userAccessName:'',
-          auditUserId:'',
+          clansmanName:'',
         },
         directoryList:[],
         generationList:[],
-        auditUserClanManList:[],
+        clanManList:[],
         btnLoading:false
       }
     },
@@ -298,9 +296,9 @@
       },
       changeDirectory(){
         this.dialogVO.generationId='';
-        this.dialogVO.auditUserClanManId='';
+        this.dialogVO.clanManId='';
         this.generationList = [];
-        this.auditUserClanManList = [];
+        this.clanManList = [];
         this.getGenerationList();
       },
       //获取世称
@@ -311,8 +309,8 @@
         })[0].scIds||[]
       },
       changeGeneration(){
-        this.dialogVO.auditUserClanManId='';
-        this.auditUserClanManList = [];
+        this.dialogVO.clanManId='';
+        this.clanManList = [];
         this.getClanUserRelList()
       },
       //获取宗亲
@@ -325,8 +323,15 @@
           scId:this.dialogVO.generationId,
           directoryId:this.dialogVO.directoryId,
         }).then(res=>{
-          this.auditUserClanManList = res.data
+          this.clanManList = res.data
         })
+      },
+      changeClanMan(clanMan){
+        this.dialogVO.clansmanName = clanMan.clansmanName;
+      },
+      //添加关联宗亲
+      addClanMan(){
+
       },
       save(){},
       //百度地图
