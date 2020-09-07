@@ -15,7 +15,7 @@ export default {
    * @returns {*}
    */
   save(vo) {
-    return axios.post('/hcl-web/web/addOrUpdateMienBaseInfo.json', {
+    return axios.post('/hcl-web/web/addOrUpdateAncestralHallInfo.json', {
       ...vo,
     })
   },

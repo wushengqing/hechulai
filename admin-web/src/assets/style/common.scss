@@ -145,6 +145,38 @@ div[class^=d2-container-full] {
   height: 100px;
   display: block;
 }
+/****/
+.img-uploader{
+  display: inline-block;
+  margin-right: 10px;
+  flex: 1;
+  overflow: hidden;
+  height: 100px
+}
+.img-uploader .el-upload {
+  box-sizing: border-box;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+}
+.img-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.img-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 98px;
+  height: 98px;
+  line-height: 100px;
+  text-align: center;
+}
+.img-item {
+  width: 100px;
+  height: 100px;
+  flex: 1;
+  margin-right: 10px
+}
 .ellipsis{
   overflow: hidden;
   text-overflow:ellipsis;

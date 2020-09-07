@@ -12,7 +12,7 @@
 				<el-table-column prop="name" label="角色名称"></el-table-column>
 				<el-table-column prop="" label="操作" width="200px">
 					<template slot-scope="props">
-						<el-button v-if="owned(props.row.id)" type="text" size="mini" @click="delRubbish(props.row)">删除</el-button>
+						<el-button v-if="owned(props.row.id)" type="text" size="mini" @click="delUserAccessRel(props.row)">删除</el-button>
 						<el-button v-else="owned(props.row.id)" type="text" size="mini" @click="addOrUpdateUserAccessRel(props.row)">添加</el-button>
 					</template>
 				</el-table-column>
@@ -50,32 +50,42 @@
       //判断是否拥有了该角色
       owned(id){
         return this.userRoleList.filter(item=>item.accessId===id).length>0
-	  },
+      },
       open(userId){
         this.userId = userId;
         //获取用户角色列表
-         let Promise1 = this.$api.user.getUserAccessRelList({userId});
-         let Promise2 = this.$api.role.list();
-		Promise.all([Promise1,Promise2]).then(res=>{
+        let Promise1 = this.$api.user.getUserAccessRelList({userId});
+        let Promise2 = this.$api.role.list();
+        Promise.all([Promise1,Promise2]).then(res=>{
           this.userRoleList = res[0].data;
+          if(this.userInfo.userId!=="1"){
+            res[1].data = res[1].data.filter(item=>item.id !==1)
+          }
           this.tableData = res[1].data
-		})
-		this.showPage = true;
+        })
+        this.showPage = true;
 
       },
       back(){
         this.showPage= false;
         this.$emit('back')
       },
-      openDialog(){
-        this.dialogShow =true;
-        //获取角色列表
-
-		this.$api.role.list().then(res=>{
-          this.roleList = res.data;
-		})
-	  },
-	  //添加角色
+			//删除角色
+      delUserAccessRel(item){
+        this.$api.user.delUserAccessRel({
+          userId:this.userId,
+          relId:item.id
+        }).then(res=>{
+          if(res.code===0){
+            this.$message.success('删除成功！');
+            //刷新列表
+            this.open(this.userId);
+          }else{
+            this.$message.error(res.msg)
+          }
+        })
+			},
+      //添加角色
       addOrUpdateUserAccessRel(item){
         this.$api.user.addOrUpdateUserAccessRel({
           userId:this.userId,
@@ -89,7 +99,7 @@
             this.$message.error(res.msg)
           }
         })
-	  }
+      }
     },
     mounted() {
 

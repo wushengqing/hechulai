@@ -5,27 +5,27 @@
 
       <!---->
       <table-comb
-              name="角色管理"
-              ref="tableMain"
-              :search-model-base="tableMainSearchModelBase"
-              :get-action="$api.role.list"
-              :get-action-where="getActionWhere"
-              :afterFetchData="afterFetchData">
+        name="角色管理"
+        ref="tableMain"
+        :search-model-base="tableMainSearchModelBase"
+        :get-action="$api.role.list"
+        :get-action-where="getActionWhere"
+        :afterFetchData="afterFetchData">
         <!--基础查询-->
         <template slot="baseSearchForm" slot-scope="scope">
           <el-input
-                  placeholder="请输入关键字"
-                  prefix-icon="el-icon-search"
-                  clearable
-                  v-model="scope.form.keyword"
-                  style="width: 250px; margin-left: 10px; margin-right: 10px">
+            placeholder="请输入关键字"
+            prefix-icon="el-icon-search"
+            clearable
+            v-model="scope.form.keyword"
+            style="width: 250px; margin-left: 10px; margin-right: 10px">
           </el-input>
         </template>
         <!--表格-->
         <template slot="tableColumns">
           <el-table-column
-                  prop="name"
-                  label="角色名称">
+            prop="name"
+            label="角色名称">
           </el-table-column>
           <el-table-column label="操作" width="200px">
             <template slot-scope="props">
@@ -39,22 +39,22 @@
 
     <el-dialog title="权限设置" :visible.sync="dialogShow">
       <el-table
-              :data="tableData"
-              border
-              style="width: 100%">
+        :data="tableData"
+        border
+        style="width: 100%">
         <el-table-column
-                prop="name"
-                label="菜单名称"
+          prop="name"
+          label="菜单名称"
         >
         </el-table-column>
         <el-table-column
-                prop="path"
-                label="菜单路由"
-                width="180">
+          prop="path"
+          label="菜单路由"
+          width="180">
         </el-table-column>
         <el-table-column
-                prop=""
-                label="是否开启权限">
+          prop=""
+          label="是否开启权限">
           <template slot-scope="props">
             <el-switch v-model="props.row.isYes">
             </el-switch>
@@ -104,18 +104,18 @@
         'd2adminSetMenuAside'
       ]),
       oepnDialog(item){
-		  if(this.userInfo.userId!=='1' && item.id===1){
-			   this.$message.error('权限不足');
-			   return;
-		  }
+        if(this.userInfo.userId!=='1' && item.id===1){
+          this.$message.error('权限不足');
+          return;
+        }
         this.dialogShow =true;
         //根据角色Id获取角色的权限列表
         this.$api.role.getMenuById({accessId:item.id}).then(res=>{
-			if(this.userInfo.userId!=='1'){
-				res.data = res.data.filter(item=>item.path!=='/union/list' && item.path!=='/menu/list' )
-			}
+          if(this.userInfo.userId!=='1'){
+            res.data = res.data.filter(item=>item.path!=='/union/list' && item.path!=='/menu/list' )
+          }
           this.tableData = res.data;
-		  
+
           this.currAccessId = item.id;
         })
       },

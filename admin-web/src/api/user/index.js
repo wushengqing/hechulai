@@ -69,10 +69,8 @@ export default {
 	 * 删除用户角色
 	 * @returns {*}
 	 */
-  delUserAccessRel(relId) {
-		return axios.post('/hcl-web/web/delUserAccessRel.json', {
-      relId
-		})
+  delUserAccessRel(vo) {
+		return axios.post('/hcl-web/web/delUserAccessRel.json', vo)
 	},
 	//根据宗族，世称，房系查询用户列表
 	getClanUserRelList(vo) {

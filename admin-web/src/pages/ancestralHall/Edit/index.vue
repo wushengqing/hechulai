@@ -8,8 +8,8 @@
       </template>
       <!---->
       <div class="detail-view">
-        <el-form ref="form" :model="form" label-width="120px"  :rules="rules" >
-          <el-form-item label="宗祠/祖坟名称：">
+        <el-form ref="form" :model="form" label-width="130px"  :rules="formRules" >
+          <el-form-item label="宗祠/祖坟名称："  prop="name">
             <el-input class="w400" placeholder="请输入标题" v-model="form.name"></el-input>
           </el-form-item>
           <el-form-item label="简介：">
@@ -36,7 +36,7 @@
             <el-input class="w400" placeholder='请输入详细地址' v-model="form.ancestralHallAddess"></el-input>
             <el-button type="text" class="ml10" @click="updateMap()">查询位置</el-button>
           </el-form-item>
-          <el-form-item label="地图信息：" prop="address">
+          <el-form-item label="地图信息：" prop="map">
             <baidu-map
               class="map"
               style="width: 500px; height:350px"
@@ -73,28 +73,29 @@
               :key="clanMan.name"
               closable
               class="mr10"
+              @close="deleteClanMan(clanMan)"
               :type="clanMan.type">
               {{clanMan.name}}
             </el-tag>
             <el-button class="button-new-tag" size="small" @click="openDialog">+ 添加</el-button>
           </el-form-item>
           <el-form-item label="相册：" prop="clanManId">
-            <div class="img-list">
+            <div class="img-list flex-wrap">
               <el-image
                 v-for="item in form.fileList"
-                style="width: 200px; height: 150px; margin: 5px"
+                class="img-item"
                 :src="item.fileUrl"
                 fit="cover"
                 :preview-src-list="fileUrlList">
               </el-image>
               <el-upload
-                class="banner-uploader"
+                class="img-uploader"
                 :action="$api.common.uploadAction"
                 :data="fileData"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload">
-                <i class="el-icon-plus banner-uploader-icon"></i>
+                <i class="el-icon-plus img-uploader-icon"></i>
               </el-upload>
             </div>
           </el-form-item>
@@ -142,7 +143,7 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogShow = false">关闭弹窗</el-button>
+          <el-button @click="dialogShow = false">关闭</el-button>
           <el-button type="primary" @click="addClanMan()" :loading="btnLoading">添 加</el-button>
         </div>
       </el-dialog>
@@ -205,6 +206,13 @@
       },
     },
     data() {
+      var validateMap = (rule, value, callback) => {
+        if (this.form.longitude === '') {
+          callback(new Error('请设置定位'));
+        } else {
+          callback();
+        }
+      };
       return {
         showPage:false,
         //1 banner图 2 新闻
@@ -214,13 +222,31 @@
         fileData:{
           defaultSuffix:'',
         },
+        formRules:{
+          name: [
+            { required: true, message: '请输入标题',  },
+            { min: 1, max: 50, message: '长度在 1 到 50 个字符', }
+          ],
+          cityCode: [
+            { required: true, message: '请输入地区',  },
+          ],
+          ancestralHallAddess: [
+            { required: true, message: '请输入详细地址', },
+          ],
+          map: [
+            { required: true, message: '', validator: validateMap, },
+          ],
+        },
         rules:{
           name: [
-            { required: true, message: '请输入标题', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+            { required: true, message: '请输入标题', },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符',  }
           ],
-          mienImageUrl: [
-            { required: true, message: '请上传图片', trigger: 'blur' },
+          cityCode: [
+            { required: true, message: '请输入地区',  },
+          ],
+          ancestralHallAddess: [
+            { required: true, message: '请输入详细地址', },
           ],
         },
         //省市区级联
@@ -258,7 +284,7 @@
         this.getDirectoryList();
         this.showPage= true;
         if(item && item.id){
-          this.form = item;
+          this.form = cloneDeep(item);
           this.map.zoom=10;
           this.map.center.lat = item.latitude;
           this.map.center.lng = item.longitude;
@@ -359,10 +385,20 @@
           this.clanManListLoading = false;
         })
       },
+      //删除关联宗亲
+      deleteClanMan(clanMan){
+        this.$confirm('是否删除该宗亲？', '确认信息', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: '确认',
+          cancelButtonText: '放弃'
+        }).then(() => {
+          this.form.clanManList.splice(this.form.clanManList.findIndex(item=>item.id===clanMan.id),1)
+        }).catch(action => {});
+      },
       //添加关联宗亲
       addClanMan(){
         //判断是否已经存在
-        let isExist =  this.form.clanManList.find(item=>item.id=== this.dialogVO.clanManId);
+        let isExist = this.form.clanManList.length==0 || this.form.clanManList.find(item=>item.id=== this.dialogVO.clanManId);
         if(isExist){
           this.$message.error('该宗亲已在关联列表，请勿重复添加');
           return false;
@@ -376,8 +412,10 @@
       },
       //相册上传
       handleAvatarSuccess(res, file) {
-        this.form.mienImageUrl =  res.uploadedImgUrl;
-        this.form.mienFileId = res.id;
+        this.form.fileList.push({
+          id:res.id,
+          fileUrl:res.uploadedImgUrl
+        })
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
@@ -392,7 +430,40 @@
         this.fileData.defaultSuffix = '.'+file.name.split('.').pop();
         return isJPG && isLt10M;
       },
-      save(){},
+      //保存
+      save(){
+        this.$refs['form'].validate((valid) => {
+          if (!valid) {return;}
+
+          let addr = this.getCityName();
+          let address = addr.city + addr.region + this.form.ancestralHallAddess;
+          let vo = cloneDeep(this.form);
+          vo.address =address;
+          vo.clanId = this.clanId;
+          vo.fileList = this.form.fileList.map(item=>{
+            return {
+              id:item.id,
+            }
+          })
+          vo.clanManList = this.form.clanManList.map(item=>{
+            return {
+              id:item.id,
+            }
+          })
+          delete vo.cityCode;
+          delete vo.updateTime;
+          delete vo.createTime;
+          console.log(vo);
+          this.$api.ancestralHall.save(vo).then(res=>{
+            if (res.code == 0) {
+              this.back();
+              this.$message.success(vo.id ? '修改成功！':'新增成功！');
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+        })
+      },
       //百度地图
       mapReady(){
         //获取浏览器定位
