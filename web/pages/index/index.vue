@@ -29,18 +29,18 @@
 				<image src="/static/index/p1.png"></image>
 				<text>族委会</text>
 			</navigator>
-			<navigator url="../album/album" class="cate-item">
+			<navigator url="../ancestralHall/list" class="cate-item">
 				<image src="/static/index/p2.png"></image>
-				<text>相册</text>
+				<text>宗祠/祖坟</text>
 			</navigator>
 			<navigator url="../contribution/list" class="cate-item">
 				<image src="/static/index/p3.png"></image>
 				<text>乐捐榜</text>
 			</navigator>
-			<view class="cate-item">
+			<navigator url="../album/album" class="cate-item">
 				<image src="/static/index/p4.png"></image>
-				<text>祭祖行</text>
-			</view>
+				<text>相册</text>
+			</navigator>
 		</view>
 		<!-- 通知公告 -->
 		<view class="new-box flex" v-if="userInfo.clanManId && noticeList.length>0" >
@@ -79,7 +79,7 @@
 					<view class="user">{{ item.mienResource}}<text>{{item.updateTime}}</text></view>
 				</view>
 				<view class="image-box">
-					<image mode="scaleToFill" class="image" :src="item.mienImageUrl?item.mienImageUrl:defaultNewsImg"></image>
+					<image mode="aspectFill" class="image" :src="item.mienImageUrl?item.mienImageUrl:defaultNewsImg"></image>
 				</view>
 			</navigator>
 		</view>

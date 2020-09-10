@@ -257,6 +257,30 @@ function auditUserUpdateClanMain(data){
 	});
 }
 
+//获取宗祠祖坟列表
+function getAncestralHallList(data){
+	return globalRequest({
+	    url: `${baseUrl}getAncestralHallList.json`,
+		method:'POST',
+	    data,
+	});
+}
+//获取宗祠祖坟详情
+async function getAncestralHallInfo(data){
+	var [error, res] = await uni.request({
+	    url: `${baseUrl}getAncestralHallInfo.json`,
+		method:'POST',
+	    data
+	});
+	if(res){
+		return res.data.data;
+	}else{
+		return {
+			code:'1',
+			error
+		}
+	}
+}
 //获取世系表
 async function sxList(data){
 	var [error, res] = await uni.request({
@@ -455,4 +479,8 @@ export default {
 	auditUserUpdateClanMainRel,
 	//宗亲添加家庭成员
 	addOrUpdateClanUserRelByApp,
+	//获取宗祠祖坟列表
+	getAncestralHallList,
+	//获取宗祠祖坟详情
+	getAncestralHallInfo
 }

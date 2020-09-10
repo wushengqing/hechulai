@@ -210,6 +210,18 @@
 							"navigationBarTitleText": "正在使用微信登录"
 						}
         }
+        ,{
+            "path" : "pages/ancestralHall/list",
+            "style" : {
+							"navigationBarTitleText": "宗祠/祖坟"
+						}
+        },
+		{
+		    "path" : "pages/ancestralHall/detail",
+		    "style" : {
+							"navigationBarTitleText": "宗祠/祖坟"
+						}
+		}
     ],
 	"tabBar": {
 		"color": "#C0C4CC",
