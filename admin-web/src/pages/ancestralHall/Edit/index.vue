@@ -438,7 +438,7 @@
           let addr = this.getCityName();
           let address = addr.city + addr.region + this.form.ancestralHallAddess;
           let vo = cloneDeep(this.form);
-          vo.address =address;
+          vo.ancestralHallAddess = address;
           vo.clanId = this.clanId;
           vo.fileList = this.form.fileList.map(item=>{
             return {

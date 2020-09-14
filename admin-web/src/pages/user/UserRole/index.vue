@@ -72,9 +72,10 @@
       },
 			//删除角色
       delUserAccessRel(item){
+        let relId=this.userRoleList.find(role=>role.accessId===item.id).relId;
         this.$api.user.delUserAccessRel({
           userId:this.userId,
-          relId:item.id
+          relId
         }).then(res=>{
           if(res.code===0){
             this.$message.success('删除成功！');
