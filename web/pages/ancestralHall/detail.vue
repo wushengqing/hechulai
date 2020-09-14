@@ -1,38 +1,50 @@
 <template>
-	<view class="container">
-		<view class="title">{{detailVo.name }}</view>
-		<view class="content" v-html="detailVo.ancestralHallDec"></view>
-		<view class="content-label">
-			<view class="label">地址：</view>
-			<view class="value mb30">
-				{{ detailVo.ancestralHallAddess }}
-			</view>
-			<view class="label">地图位置：</view>
-			<map 
-				style="width: 100%; height: 400upx;" 
-				:latitude="detailVo.latitude" 
-				scale="14"
-				:longitude="detailVo.longitude" 
-				:markers="covers">
-			</map>
-			<view class="label">关联宗亲：</view>
-			<view class="value">
-				<navigator 
-					class="c-base mr-20"
-					v-for="item in detailVo.clanManList" 
-					:url="'../familyTree/clan?id=${item.id}'">
-					{{ item.name }}
-				</navigator>
-			</view>
-			<view class="label">相册展示：</view>
-			<view class="img-list flex-wrap">
-				<view class="img-view" v-for="(item,index) in detailVo.fileList">
-					<image class="img-cover" mode="aspectFill" @tap="previewImage(index)"  :src="item.fileUrl"></image>
-				</view>
-			
+	<view>
+		<view class="carousel-section">
+			<!-- 背景色区域 -->
+			<view class="titleNview-background" ></view>
+			<swiper class="carousel" circular @change="swiperChange">
+				<swiper-item 
+					v-for="(item, index) in detailVo.fileList" 
+					:key="index" class="carousel-item" >
+					<image mode="aspectFill" :src="item.fileUrl" />
+				</swiper-item>
+			</swiper>
+			<!-- 自定义swiper指示器 -->
+			<view class="swiper-dots">
+				<text class="num">{{swiperCurrent+1}}</text>
+				<text class="sign">/</text>
+				<text class="num">{{ detailVo.fileList.length }}</text>
 			</view>
 		</view>
-		
+		<view class="container">
+			<view class="title">{{detailVo.name }}</view>
+			<view class="content" v-html="detailVo.ancestralHallDec"></view>
+			<view class="content-label">
+				<view class="label">关联宗亲：</view>
+				<view class="value">
+					<navigator 
+						class="c-base mr-20"
+						v-for="item in detailVo.clanManList" 
+						:url="`../familyTree/clan?id=${item.id}`">
+						{{ item.name }}
+					</navigator>
+				</view>
+				<view class="label">地址：</view>
+				<view class="value mb30">
+					{{ detailVo.ancestralHallAddess }}
+				</view>
+				<view class="label">地图位置：</view>
+				<map 
+					style="width: 100%; height: 400upx;" 
+					:latitude="detailVo.latitude" 
+					scale="14"
+					:longitude="detailVo.longitude" 
+					:markers="covers">
+				</map>
+			</view>
+		</view>
+		<view class="c-grey tc line88">我是有底线的~</view>
 	</view>
 </template>
 
@@ -41,6 +53,7 @@
 		data() {
 			return {
 				id:'',
+				swiperCurrent: 0,
 				detailVo:{
 					clanManList:[],
 					fileList:[]
@@ -53,7 +66,7 @@
 				//获取轮播图
 				const detailVo = await this.$api.request.getAncestralHallInfo({id:this.id});
 				this.detailVo = detailVo;
-				let mapVo = this.bMapTransQQMap(118.188087,24.494134)
+				let mapVo = this.bMapTransQQMap(this.detailVo.longitude,this.detailVo.latitude)
 				console.log(mapVo)
 				this.detailVo.latitude= mapVo.lat
 				this.detailVo.longitude= mapVo.lng
@@ -70,6 +83,12 @@
 						}
 					}
 				]
+			},
+			//轮播图切换修改背景色
+			swiperChange(e) {
+				const index = e.detail.current;
+				this.swiperCurrent = index;
+				//this.titleNViewBackground = this.bannerList[index].mienBgColor;
 			},
 			//预览大图
 			previewImage(index) {
@@ -115,14 +134,15 @@
 
 <style lang='scss' scoped>
 	.title{
-		font-size: 30upx;
-		line-height: 45upx;
+		font-size: 40upx;
+		line-height: 80upx;
 		font-weight: bold;
 	}
 	.content-label{
 		margin-top: 15upx;
 		.label{
-			line-height: 80upx;	
+			line-height: 100upx;	
+			font-size: 32upx;
 			color: #222;
 			font-weight: bold;
 		}

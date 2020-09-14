@@ -8,7 +8,7 @@
 					<view class="user">{{ item.mienResource}}<text>{{item.updateTime}}</text></view>
 				</view>
 				<view class="image-box">
-					<image mode="scaleToFill" class="image" :src="item.mienImageUrl?item.mienImageUrl:defaultNewsImg"></image>
+					<image mode="aspectFill" class="image" :src="item.mienImageUrl?item.mienImageUrl:defaultNewsImg"></image>
 				</view>
 			</navigator>
 		</view>

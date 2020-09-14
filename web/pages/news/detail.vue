@@ -44,12 +44,13 @@
 
 <style lang='scss' scoped>
 	.title{
-		font-size: 30upx;
-		line-height: 45upx;
+		font-size: 36upx;
+		line-height: 65upx;
 		font-weight: bold;
 	}
 	.sub-title{
 		margin-top: 15upx;
+		font-size: 32upx;
 		.label{
 			color:$font-color-light;
 		}
@@ -59,7 +60,7 @@
 	}
 	.content{
 		margin-top: 20upx;
-		font-size: 28upx!important;
+		font-size: 30upx!important;
 		line-height: 200%;
 	}
 </style>

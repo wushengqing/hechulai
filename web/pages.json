@@ -203,26 +203,24 @@
 			"style": {
 				"navigationBarTitleText": "发布宗亲圈"
 			}
-		}
-	    ,{
-            "path" : "pages/public/wxLogin",
-            "style" : {
-							"navigationBarTitleText": "正在使用微信登录"
-						}
-        }
-        ,{
-            "path" : "pages/ancestralHall/list",
-            "style" : {
-							"navigationBarTitleText": "宗祠/祖坟"
-						}
-        },
+		}, {
+			"path": "pages/public/wxLogin",
+			"style": {
+				"navigationBarTitleText": "正在使用微信登录"
+			}
+		}, {
+			"path": "pages/ancestralHall/list",
+			"style": {
+				"navigationBarTitleText": "宗祠/祖坟"
+			}
+		},
 		{
-		    "path" : "pages/ancestralHall/detail",
-		    "style" : {
-							"navigationBarTitleText": "宗祠/祖坟"
-						}
+			"path": "pages/ancestralHall/detail",
+			"style": {
+				"navigationBarTitleText": "宗祠/祖坟"
+			}
 		}
-    ],
+	],
 	"tabBar": {
 		"color": "#C0C4CC",
 		"selectedColor": "#c65c4c",

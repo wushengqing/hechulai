@@ -1,5 +1,6 @@
 <template>
-	<view class="container">
+	<view>
+	<view class="container" v-show="ready">
 		<view class="title">族委会会长</view>
 		<view class="item-view" v-for="item in list1">
 			<image class="avatar" :src="item.headFileUrl ||'../../static/missing-face.png' "></image>
@@ -8,6 +9,9 @@
 				<view class="desc">世称：{{ item.scName||'-' }} 性别：{{ item.sex}}</view>
 			</view>
 		</view>
+		<view class="item-view" v-if="list1.length==0">
+			暂未设置
+		</view>
 		<view class="title mt-30">族委会副会长</view>
 		<view class="item-view" v-for="item in list2">
 			<image class="avatar" :src="item.headFileUrl ||'../../static/missing-face.png' "></image>
@@ -15,6 +19,9 @@
 				<view class="name">{{ item.clansmanName}}</view>
 				<view class="desc">世称：{{ item.scName||'-' }} 性别：{{ item.sex}}</view>
 			</view>
+		</view>
+		<view class="item-view" v-if="list2.length==0">
+			暂未设置
 		</view>
 		<view class="title mt-30">族委会委员</view>
 		<view class="list flex">
@@ -26,6 +33,10 @@
 				</view>
 			</view>
 		</view>
+		<view class="item-view" v-if="list3.length==0">
+			暂未设置
+		</view>
+	</view>
 	</view>
 </template>
 
@@ -34,6 +45,7 @@
 	export default {
 		data() {
 			return {
+				ready:false,
 				organizationList:[],
 			}
 		},
@@ -58,6 +70,9 @@
 					clanId:this.clanInfo.id
 				});
 				this.organizationList = organizationList;
+				setTimeout(()=>{
+					this.ready = true;
+				},1000)
 			},
 			
 		},
