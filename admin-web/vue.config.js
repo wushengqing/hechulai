@@ -20,7 +20,7 @@ module.exports = {
     // 代理设置
     proxy: {
       '/': {
-        target: 'http://www.hclzz.com',
+        target: 'https://www.hclzz.com',
         changeOrigin: true,
       }
     }
