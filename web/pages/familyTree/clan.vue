@@ -114,6 +114,9 @@
 </script>
 
 <style lang='scss' scoped>
+	page{
+		background: #d2c4a7;
+	}
 	.img-bg{
 		.img-jp{
 			width: 100%;

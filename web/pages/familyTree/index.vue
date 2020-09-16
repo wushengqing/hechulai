@@ -58,6 +58,9 @@
 </script>
 
 <style lang="scss">
+	page{
+		background: #d2c4a7;
+	}
 .full-page{
 	position: fixed;
 	z-index: 999;

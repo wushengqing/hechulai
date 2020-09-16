@@ -23,7 +23,7 @@
                   <img v-if="form.mienImageUrl" :src="form.mienImageUrl" class="banner-image">
                   <i v-else class="el-icon-plus banner-uploader-icon"></i>
                 </el-upload>
-                <span class="color-grey" style="vertical-align: bottom"> 请上传 小于2M的jpg 图片</span>
+                <span class="color-grey" style="vertical-align: bottom"> 请上传 小于2M的jpg 图片，最佳尺寸1000X500</span>
               </el-form-item>
               <el-form-item label="背景颜色：">
                 <el-color-picker v-model="form.mienBgColor"></el-color-picker>

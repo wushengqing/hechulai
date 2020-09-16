@@ -1,23 +1,23 @@
 <template>
 	<view>
-		<view class="carousel-section">
-			<!-- 背景色区域 -->
-			<view class="titleNview-background" ></view>
-			<swiper class="carousel" circular @change="swiperChange">
-				<swiper-item 
-					v-for="(item, index) in detailVo.fileList" 
-					:key="index" class="carousel-item" >
-					<image mode="aspectFill" :src="item.fileUrl" />
-				</swiper-item>
-			</swiper>
-			<!-- 自定义swiper指示器 -->
-			<view class="swiper-dots">
-				<text class="num">{{swiperCurrent+1}}</text>
-				<text class="sign">/</text>
-				<text class="num">{{ detailVo.fileList.length }}</text>
-			</view>
-		</view>
 		<view class="container">
+			<view class="carousel-section" style="border-radius: 20upx;overflow: hidden;">
+				<!-- 背景色区域 -->
+				<view class="titleNview-background" ></view>
+				<swiper class="carousel" circular @change="swiperChange">
+					<swiper-item 
+						v-for="(item, index) in detailVo.fileList" 
+						:key="index" class="carousel-item" >
+						<image mode="aspectFill" :src="item.fileUrl" />
+					</swiper-item>
+				</swiper>
+				<!-- 自定义swiper指示器 -->
+				<view class="swiper-dots">
+					<text class="num">{{swiperCurrent+1}}</text>
+					<text class="sign">/</text>
+					<text class="num">{{ detailVo.fileList.length }}</text>
+				</view>
+			</view>
 			<view class="title">{{detailVo.name }}</view>
 			<view class="content" v-html="detailVo.ancestralHallDec"></view>
 			<view class="content-label">
