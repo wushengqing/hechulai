@@ -27,8 +27,8 @@
 					</el-table-column>
 					<el-table-column prop="createUserName" label="发起人">
 					</el-table-column>
-					<el-table-column prop="givingEtime" label="发起时间"></el-table-column>
-					<el-table-column prop="givingBtime" label="结束时间"></el-table-column>
+					<el-table-column prop="givingBtime" label="发起时间"></el-table-column>
+					<el-table-column prop="givingEtime" label="结束时间"></el-table-column>
 					<el-table-column prop="givingUserSum" label="乐捐人次"></el-table-column>
 					<el-table-column prop="givingMoneySum" label="乐捐金额"></el-table-column>
 					<el-table-column label="操作" width="240px">
@@ -41,9 +41,9 @@
 			</table-comb>
 			<template slot="footer"></template>
 			<el-dialog :title="dialogVO.id?'编辑':'新增'" :visible.sync="dialogShow" width="600px" apend-to-body>
-				<el-form ref="dialogVO" :model="dialogVO" label-width="100px" :rules="rules">
+				<el-form ref="dialogVO" :model="dialogVO" label-width="140px" :rules="rules">
 					<el-form-item label="乐捐项目：" prop="name">
-						<el-input style="width: 200px" placeholder="请输入" v-model="dialogVO.name"></el-input>
+						<el-input style="width: 220px" placeholder="请输入" v-model="dialogVO.name"></el-input>
 					</el-form-item>
 					<el-form-item label="项目描述：" prop="givingDec">
 						<el-input
@@ -54,6 +54,32 @@
 							v-model="dialogVO.givingDec">
 						</el-input>
 					</el-form-item>
+					<el-form-item label="乐捐目标金额：" prop="givingDec">
+						<el-input
+							style="width: 220px"
+							type="number"
+							maxlength="8"
+							placeholder="请输入金额（元）"
+							v-model="dialogVO.givingDec">
+						</el-input>
+					</el-form-item>
+					<el-form-item label="乐捐开始时间：" prop="givingDec">
+						<el-date-picker
+							v-model="dialogVO.givingBtime"
+							type="date"
+							value-format="yyyy-MM-dd"
+							placeholder="选择日期">
+						</el-date-picker>
+					</el-form-item>
+					<el-form-item label="乐捐截止时间：" prop="givingDec">
+						<el-date-picker
+							v-model="dialogVO.givingEtime"
+							type="date"
+							value-format="yyyy-MM-dd"
+							placeholder="选择日期">
+						</el-date-picker>
+					</el-form-item>
+
 				</el-form>
 				<div slot="footer" class="dialog-footer">
 					<el-button type="primary" @click="save">保 存</el-button>
@@ -88,16 +114,22 @@
           id:'',
           name:'',
           givingDec:'',
+          givingBtime:'',
+          givingEtime:''
 		},
         rules: {
-          name: [{
-            required: true,
-            message: '请输入'
-          }, ],
-          givingDec: [{
-            required: true,
-            message: '请输入'
-          }, ],
+          name: [
+            {required: true, message: '请输入'},
+					],
+          givingDec: [
+            {required: true, message: '请输入'},
+					],
+          givingBtime: [
+            {required: true, message: '请输入'},
+					],
+          givingEtime: [
+            {required: true, message: '请输入'},
+          ],
         },
       }
     },
@@ -116,6 +148,8 @@
             id:'',
             name:'',
             givingDec:'',
+            givingBtime:'',
+            givingEtime:'',
             createUserId:this.userInfo.userId,
           }
         }else{
@@ -123,6 +157,8 @@
             id:item.item,
             name:item.name,
             givingDec:item.givingDec,
+            givingBtime:item.givingBtime,
+            givingEtime:item.givingEtime,
             createUserId:item.createUserId,
           }
         }

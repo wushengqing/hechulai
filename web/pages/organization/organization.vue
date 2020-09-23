@@ -36,6 +36,23 @@
 		<view class="item-view" v-if="list3.length==0">
 			暂未设置
 		</view>
+		<view class="fotter-bar">
+			<button type="primary" @tap="visible=true">我要反馈</button>
+		</view>
+		<cl-popup :visible.sync="visible" direction="bottom">
+			<view class="line88">
+				反馈内容：
+			</view>
+			<cl-input style="width: 100%;" v-model="messageContent" placeholder="请输入" type="textarea">
+			</cl-input>
+			<view class="mb30">
+			</view>
+			<view class="footer flex">
+				<cl-button class="flex1" type="primary" @tap="saveClanMsg">
+					<text>提交反馈</text>
+				</cl-button>
+			</view>
+		</cl-popup>
 	</view>
 	</view>
 </template>
@@ -46,7 +63,9 @@
 		data() {
 			return {
 				ready:false,
+				visible:false,
 				organizationList:[],
+				messageContent:''
 			}
 		},
 		computed: {
@@ -74,6 +93,28 @@
 					this.ready = true;
 				},1000)
 			},
+			saveClanMsg(){
+				console.log(this.userInfo);
+				this.$api.request.saveClanMsg({
+					clanId:this.clanInfo.id,
+					messageContent:this.messageContent,
+					clanMainId:this.userInfo.clanManId
+				}).then(res=>{
+					if(res.code===0){
+						uni.showToast({
+						    title: '提交成功',
+						    duration: 1000
+						});
+						this.visible = false;
+					}else{
+						uni.showToast({
+							title: res.msg,
+							icon:'none',
+						});	
+					}
+				});
+				this.messageContent = '';
+			}
 			
 		},
 		onShow(){

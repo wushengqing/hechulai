@@ -422,8 +422,17 @@ async function addOrUpdateGivingUserRel(data){
 		method:'POST',
 	    data,
 	});
-
 }
+//反馈 saveClanMsg.json
+async function saveClanMsg(data){
+	return globalRequest({
+	    url: `${baseUrl}saveClanMsg.json`,
+		method:'POST',
+	    data,
+	});
+}
+
+
 //族谱获取单个宗亲的信息
 
 export default {
@@ -482,5 +491,7 @@ export default {
 	//获取宗祠祖坟列表
 	getAncestralHallList,
 	//获取宗祠祖坟详情
-	getAncestralHallInfo
+	getAncestralHallInfo,
+	//反馈
+	saveClanMsg
 }
