@@ -1,6 +1,6 @@
 <template>
 	<view class="container-dark pb100" >
-		<view class="notice-item mt30" style="display: flex;" v-for="item in familyList">
+		<view class="notice-item mt30" style="display: flex;" v-for="item in familyList"  @click="openClanPage(item)">
 			<view class="headFileUrl-wrap"><image class="headFileUrl" :src="item.headFileUrl||`../../static/missing-face.png`"></image></view>
 			<view class="content">
 				<text class="title">
@@ -75,32 +75,43 @@
 				family = family[0];
 				this.familyList =[];
 				//妻子列表
+				this.familyList.push({
+					name:family.clansmanName,
+					headFileUrl:family.headFileUrl,
+					call:'自己',
+					scName:family.scName,
+					dec:family.clansmanDec,
+					clansmanId:family.clansmanId
+				})
 				family.spouseDtoList.forEach(item =>{
 					this.familyList.push({
 						name:item.spouseName,
 						headFileUrl:item.headFileUrl,
 						call:'妻子',
 						scName:family.scName,
-						dec:item.spouseDec
+						dec:item.spouseDec,
+						clansmanId:item.spouseId
 					})
 				})
-				//儿女列表
+				//儿子列表
 				family.sonDtoList.forEach(item =>{
 					this.familyList.push({
 						name:item.clansmanName,
 						headFileUrl:item.headFileUrl,
 						call:item.sex==='男'?"儿子":'女儿',
 						scName:	item.scName,
-						dec:item.clansmanDec
+						dec:item.clansmanDec,
+						clansmanId:item.clansmanId
 					});
 					//儿媳妇
 					item.spouseDtoList.forEach(wife=>{
 						this.familyList.push({
 							name:wife.spouseName||'不详',
-							headFileUrl:item.headFileUrl,
+							headFileUrl:wife.headFileUrl,
 							call:`儿媳妇(${item.clansmanName})之妻`,
 							scName:	item.scName,
-							dec:wife.spouseDec
+							dec:wife.spouseDec,
+							clansmanId:wife.spouseId
 						});
 					});
 					//孙辈
@@ -110,9 +121,21 @@
 							headFileUrl:son.headFileUrl,
 							call:son.sex==='男'?`孙子(${item.clansmanName})之子`:`孙女(${item.clansmanName})之女`,
 							scName:	son.scName,
-							dec:son.clansmanDec
+							dec:son.clansmanDec,
+							clansmanId:item.clansmanId
 						});
 					})
+				})
+				//女儿列表
+				family.daughterDtoList.forEach(daughter =>{
+					this.familyList.push({
+						name:daughter.daughterName||'不详',
+						headFileUrl:daughter.headFileUrl,
+						call:`女儿`,
+						scName:	daughter.scName,
+						dec:daughter.daughterDec,
+						clansmanId:daughter.daughterId
+					});
 				})
 			},
 			addOrUpdateClanUserRelByApp(){
@@ -164,6 +187,18 @@
 					}
 				})
 			},
+			openClanPage(item){
+				if(item.call==='自己' || item.call==='儿子'){
+					uni.navigateTo({
+					    url: `../familyTree/clan?id=${item.clansmanId }`
+					});
+				}else{
+					uni.navigateTo({
+					    url: `../familyTree/clan2?id=${item.clansmanId}`
+					});
+				}
+				
+			}
 		},
 		onShow() {
 			if (!this.checkRouter()) {

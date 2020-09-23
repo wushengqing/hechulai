@@ -28,8 +28,12 @@
 			//获取宗族id
 			setTimeout(()=>{
 				if (!this.clanInfo.id && this.pageName!=='union') {
+					let redirect_uri = ''
+					//#ifdef  H5
+					redirect_uri = location.href;
+					//#endif
 					uni.navigateTo({
-						url: '/pages/union/union'
+						url: `/pages/union/union?redirect_uri=${redirect_uri}`
 					});
 				}
 			},1000)

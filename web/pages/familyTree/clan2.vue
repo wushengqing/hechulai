@@ -6,39 +6,18 @@
 		<view class="container">
 			<view class="title1">{{ clanUserInfo.clansmanName }}</view>
 			<view class="desc">
-				<view>房系：{{ clanUserInfo.directoryName }}</view>
-				<view>世称：{{ clanUserInfo.scName }}</view>
+				<view>世称：{{ clanUserInfo.name }}</view>
 				<view>性别：{{ clanUserInfo.sex||'男' }}</view>
-				<view>出生日期：{{ clanUserInfo.clansmanBirthDay }}</view>
-				<view v-if=" clanUserInfo.clansmanendDay">去世日期：{{ clanUserInfo.clansmanendDay }}</view>
+				<view>出生日期：{{ clanUserInfo.birthDay }}</view>
+				<view v-if=" clanUserInfo.endDay">去世日期：{{ clanUserInfo.endDay }}</view>
 			</view>
 			<view class="avatar">
 				<image class="avatar" :src="clanUserInfo.headFileUrl || '../../static/missing-face.png'"></image>
 			</view>
-			
 			<view class="title1 mt-30">简介</view>
-			<view class="mt-30">{{ clanUserInfo.clansmanDec }}</view>
-			
-			<view class="title1 mt-30">配偶</view>
-			<view class="c-list">
-				<view v-if="!clanUserInfo.spouseDtoList || clanUserInfo.spouseDtoList.length==0">暂未收录</view>
-				<view class="c-list-item" v-for="(item,index) in clanUserInfo.spouseDtoList"  @click="openClanPage2(item)">{{ item.spouseName }}</view>
-			</view>
-			<view class="title1 mt-30">儿子</view>
-			<view class="c-list">
-				<view v-if="!clanUserInfo.sonDtoList|| clanUserInfo.sonDtoList.length==0">暂未收录</view>
-				<view class="c-list-item" v-for="(item,index) in clanUserInfo.sonDtoList"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
-			</view>
-			<view class="title1 mt-30">女儿</view>
-			<view class="c-list">
-				<view v-if="!clanUserInfo.daughterDtoList|| clanUserInfo.daughterDtoList.length==0">暂未收录</view>
-				<view class="c-list-item" v-for="(item,index) in clanUserInfo.daughterDtoList"  @click="openClanPage2(item)">{{ item.daughterName }}</view>
-			</view>
+			<view class="mt-30">{{ clanUserInfo.dec }}</view>
 			<view class="control">
 				<view class="action-btn" @click="changeShowBottom()">切换目录</view>
-				<view class="current">
-					当前目录：{{ clanUserInfo.scName }}
-				</view>
 			</view>
 			<view class="bottom-box" :class="showBottom?'show':''">
 				<view class="bottom-item"  v-for="(item,index) in generationList" @click="openGenerationPage(item)">{{ item.name }}</view>
@@ -78,22 +57,16 @@
 			},
 			async loadData() {
 				let par = {
-					clansmanId: parseInt(this.id),
-					clanId:this.clanInfo.id
+					id: parseInt(this.id)
 				}
-				const clanUserInfo = await this.$api.request.getZpList(par);
-				this.clanUserInfo = clanUserInfo[0];
+				const clanUserInfo = await this.$api.request.clanUserInfo(par);
+				this.clanUserInfo = clanUserInfo;
 				this.ready = true
 		
 			},
 			openClanPage(item){
 				uni.redirectTo({
 				    url: `./clan?id=${item.clansmanId || item.spouseId}`
-				});
-			},
-			openClanPage2(item){
-				uni.redirectTo({
-				    url: `./clan2?id=${item.clansmanId || item.spouseId}`
 				});
 			},
 			openGenerationPage(item){

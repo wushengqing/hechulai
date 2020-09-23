@@ -184,7 +184,13 @@
 		{
 			"path": "pages/familyTree/clan",
 			"style": {
-				"navigationBarTitleText": "目录详情"
+				"navigationBarTitleText": "宗亲详情"
+			}
+		},
+		{
+			"path": "pages/familyTree/clan2",
+			"style": {
+				"navigationBarTitleText": "宗亲详情"
 			}
 		},
 		{

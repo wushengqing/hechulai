@@ -21,6 +21,7 @@
 			return {
 				unionList:[],
 				dnsList:[],
+				redirect_uri:'',
 				loading:false,
 				pageName:'union'
 			}
@@ -35,10 +36,19 @@
 			},
 			changeClanId(clanInfo){
 				this.setClanInfo(clanInfo);
-				console.log(clanInfo)
+				console.log(this.redirect_uri.split('/pages/')[1]);
+				//#ifdef  H5
+				 if(this.redirect_uri){
+					uni.reLaunch({
+						url: `/pages/${this.redirect_uri.split('/pages/')[1]}`
+					}); 
+				 }
+				//#endif
+				//#ifndef H5
 				uni.reLaunch({
 					url: '/pages/index/index'
 				});
+				//#endif
 			},
 			async initPage(opctions){
 				await this.getClanList();
@@ -74,6 +84,9 @@
 		},
 		async onLoad(opctions){
 			console.log(opctions)
+			if(opctions.redirect_uri){
+				this.redirect_uri = opctions.redirect_uri;
+			}
 			this.loading = true;
 			await this.initPage(opctions);
 			this.loading = false;

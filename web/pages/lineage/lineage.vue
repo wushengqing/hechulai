@@ -9,7 +9,7 @@
 		</view>
 			<view class="sx-desc">
 				<text class="scName">{{ item.scName}}</text>
-				<text class="cmName">
+				<text class="cmName" @click="openClanPage(item)">
 					{{ item.cmName}}
 					<text v-if="userInfo.clanManId && item.cmId==userInfo.clanManId">(自己)</text>
 				</text>
@@ -37,6 +37,11 @@
 				});
 				sxList.sort((a,b)=>a.scId-b.scId);
 				this.sxList = sxList;
+			},
+			openClanPage(item){
+				uni.navigateTo({
+				    url: `../familyTree/clan?id=${item.cmId}`
+				});
 			},
 		},
 		onShow(){
