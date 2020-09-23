@@ -38,9 +38,13 @@
 				this.setClanInfo(clanInfo);
 				console.log(this.redirect_uri.split('/pages/')[1]);
 				//#ifdef  H5
-				 if(this.redirect_uri){
+				 if(this.redirect_uri && this.redirect_uri.split('/pages/')[1]){
 					uni.reLaunch({
 						url: `/pages/${this.redirect_uri.split('/pages/')[1]}`
+					}); 
+				 }else{
+					uni.reLaunch({
+						url: '/pages/index/index'
 					}); 
 				 }
 				//#endif
