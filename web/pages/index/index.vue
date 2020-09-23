@@ -25,22 +25,23 @@
 		</view>
 		<!-- 快速导航 -->
 		<view class="cate-section">
-			<navigator url="../organization/organization" class="cate-item">
-				<image src="/static/index/p2.png"></image>
-				<text>族委会</text>
+			<navigator url="../lineage/lineage" class="cate-item">
+				<image src="/static/index/p4.png"></image>
+				<text>世系表</text>
 			</navigator>
 			<navigator url="../ancestralHall/list" class="cate-item">
 				<image src="/static/index/p1.png"></image>
 				<text>宗祠/祖坟</text>
 			</navigator>
+			<navigator url="../organization/organization" class="cate-item">
+				<image src="/static/index/p2.png"></image>
+				<text>族委会</text>
+			</navigator>
 			<navigator url="../contribution/list" class="cate-item">
 				<image src="/static/index/p3.png"></image>
 				<text>乐捐榜</text>
 			</navigator>
-			<navigator url="../album/album" class="cate-item">
-				<image src="/static/index/p4.png"></image>
-				<text>祭祖行</text>
-			</navigator>
+
 		</view>
 		<!-- 通知公告 -->
 		<view class="new-box flex" v-if="userInfo.clanManId && noticeList.length>0" >
@@ -49,8 +50,8 @@
 			</view>
 			<view class="notice-box" >
 				<view class="notice-item" v-for="notice in noticeList">
-					<text class="title">{{ notice.title }}</text>
-					<text class="date">{{ notice.date }}</text>
+					<text class="title">{{ notice.messageContent }}</text>
+					<text class="date">{{ notice.updateTime }}</text>
 				</view>
 			</view>
 			<view class="iconfont icon-arrow-right font40"></view>
@@ -107,7 +108,7 @@
 			...mapState(['clanInfo','userInfo']),
 		},
 		onLoad() {
-			
+
 			this.loadData();
 		},
 		methods: {
@@ -135,7 +136,7 @@
 				this.bannerList = bannerList;
 				this.swiperLength = this.bannerList.length;
 				this.newsList = newsList;
-				
+
 				//获取消息列表
 				if(this.userInfo.clanManId){
 					this.noticeList = await this.$api.request.userMsgList({
@@ -143,8 +144,8 @@
 						clanMainId:this.userInfo.clanManId
 					})
 				}
-				
-				
+
+
 			},
 			//轮播图切换修改背景色
 			swiperChange(e) {
@@ -251,7 +252,7 @@
 		margin-top: 16upx;
 	}
 
-	
+
 	/* 分类 */
 	.cate-section {
 		display: flex;
@@ -285,7 +286,7 @@
 		background: #f5f5f5;
 		margin: 10upx;
 		border-radius: 5upx;
-
+		display: flex;
 		.icon-notice-box {
 			width: 15%;
 			line-height: 100upx;
@@ -301,7 +302,7 @@
 
 		.notice-box {
 			margin-top: 15upx;
-			width: 80%;
+			flex: 1;
 			height: 100upx;
 			overflow: hidden;
 			.nodata{
@@ -311,9 +312,9 @@
 				height: 50upx;
 				line-height: 50upx;
 				overflow: hidden;
-
+				display: flex;
 				.title {
-					width: 70%;
+					flex: 1;
 					display: inline-block;
 					height: 50upx;
 					vertical-align: middle;
@@ -325,7 +326,7 @@
 				.date {
 					color: #666;
 					margin-left: 20upx;
-					width: 20%;
+					width:160upx;
 					height: 50upx;
 					display: inline-block;
 					vertical-align: middle;

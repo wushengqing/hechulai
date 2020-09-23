@@ -28,7 +28,7 @@
 			<view class="title1 mt-30">女儿</view>
 			<view class="c-list">
 				<view v-if="!clanUserInfo.daughterDtoList|| clanUserInfo.daughterDtoList.length==0">暂未收录</view>
-				<view class="c-list-item" v-for="(item,index) in clanUserInfo.daughterDtoList"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
+				<view class="c-list-item" v-for="(item,index) in clanUserInfo.daughterDtoList"  @click="openClanPage(item)">{{ item.daughterName }}</view>
 			</view>
 			<view class="control">
 				<view class="action-btn" @click="changeShowBottom()">切换目录</view>

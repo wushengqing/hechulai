@@ -156,7 +156,7 @@
 		}, {
 			"path": "pages/union/union",
 			"style": {
-				"navigationBarTitleText": "选择宗族"
+				"navigationBarTitleText": ""
 			}
 		}, {
 			"path": "pages/contacts/list",
@@ -220,7 +220,8 @@
 				"navigationBarTitleText": "宗祠/祖坟"
 			}
 		}
-	],
+
+    ],
 	"tabBar": {
 		"color": "#C0C4CC",
 		"selectedColor": "#c65c4c",
@@ -231,12 +232,6 @@
 				"iconPath": "static/tab-home.png",
 				"selectedIconPath": "static/tab-home-current.png",
 				"text": "首页"
-			},
-			{
-				"pagePath": "pages/lineage/lineage",
-				"iconPath": "static/tab-cate.png",
-				"selectedIconPath": "static/tab-cate-current.png",
-				"text": "世系表"
 			},
 			{
 				"pagePath": "pages/familyTree/index",

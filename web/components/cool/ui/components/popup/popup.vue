@@ -12,7 +12,7 @@
 	>
 		<view class="cl-popup__modal" @tap="modalClose"></view>
 
-		<view :class="['cl-popup']" :style="{ height, width }">
+		<view :class="['cl-popup']" :style="{ height, width,'max-height':'100%' }">
 			<view class="cl-popup__container">
 				<slot></slot>
 			</view>

@@ -200,7 +200,7 @@ async function userMsgList(data){
 	    data
 	});
 	if(res){
-		return res.data;
+		return res.data.data;
 	}else{
 		return {
 			code:'1',
