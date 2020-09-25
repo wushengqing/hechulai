@@ -68,10 +68,9 @@
 					title="审核记录" 
 					:tips="userInfo.msgNum ? userInfo.msgNum条未读:''">
 				</list-cell>
-				<list-cell icon="icon-dizhi" iconColor="#5fcda2" title="我的乐捐" ></list-cell>
-				<list-cell icon="icon-share" iconColor="#9789f7" title="分享" tips=""></list-cell>
-				<list-cell icon="icon-pinglun-copy" iconColor="#ee883b" title="我的消息" :tips="userInfo.msgNum ? userInfo.msgNum条未读消息:''"></list-cell>
-				<list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" @eventClick="switchTab('../contacts/list')" title="通讯录"></list-cell>
+				<list-cell icon="icon-dizhi" iconColor="#5fcda2"  @eventClick="navTo('/pages/user/contribution')" title="我的乐捐" ></list-cell>
+				<list-cell icon="icon-pinglun-copy" iconColor="#ee883b" title="我的消息" @eventClick="navTo('/pages/user/message')" :tips="userInfo.msgNum ? userInfo.msgNum条未读消息:''"></list-cell>
+				<list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" @eventClick="navTo('/pages/contacts/list')" title="通讯录"></list-cell>
 				<list-cell icon="icon-shezhi1" iconColor="#e07472" title="设置" border="" @eventClick="navTo('/pages/set/set')"></list-cell>
 			</view>
 		</view>

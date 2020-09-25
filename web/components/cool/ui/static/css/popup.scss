@@ -16,6 +16,9 @@
 		.cl-popup {
 			transition: all 0.4s;
 			transform: translate(0, 0);
+			.cl-popup{
+				width: 100%!important;
+			}
 		}
 	}
 

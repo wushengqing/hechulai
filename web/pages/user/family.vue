@@ -28,7 +28,8 @@
 				<cl-input v-model="form.name" placeholder="请输入姓名"></cl-input>
 			</cl-card>
 			<cl-card label="出生日期">
-				<cl-input v-model="form.birthday" placeholder="年/月/日"></cl-input>
+				<cl-date-select v-model="form.birthday" placeholder="年/月/日"></cl-date-select>
+				<!-- <view class="input-readonly" @click="opendDateSelect()" placeholder="年/月/日">{{ form.birthday ||'年/月/日' }}</view> -->
 			</cl-card>
 			<cl-card label="介绍">
 				<cl-input v-model="form.dec" placeholder="请输入介绍"></cl-input>
@@ -52,7 +53,7 @@
 	} from 'vuex';
 	export default {
 		data() {
-			return {
+			return {			
 				familyList: [],
 				visible:false,
 				form:{
@@ -198,7 +199,18 @@
 					});
 				}
 				
-			}
+			},
+			opendDateSelect(){
+				 this.$refs.dateselect.show();
+			},
+			 changeDate(datestr){
+			            //返回的是阳历 数字的  比如:2020-02-02
+			            console.log(datestr);
+			        },
+			        changelunarDate(lunardate){
+			            //返回的是对象 具体对象内容看图片或者自己看控制台输出
+			            console.log(lunardate);
+			        }
 		},
 		onShow() {
 			if (!this.checkRouter()) {

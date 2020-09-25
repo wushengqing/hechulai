@@ -49,11 +49,30 @@
 			}
 		},
 		{
+			"path": "pages/user/contribution",
+			"style": {
+				"navigationBarTitleText": "我的乐捐"
+			}
+		},
+		{
 			"path": "pages/user/approve",
 			"style": {
 				"navigationBarTitleText": "我的审核"
 			}
 		},
+		{
+			"path": "pages/user/message",
+			"style": {
+				"navigationBarTitleText": "我的消息"
+			}
+		},
+		{
+			"path": "pages/user/messageDetail",
+			"style": {
+				"navigationBarTitleText": "消息详情"
+			}
+		},
+		
 		{
 			"path": "pages/user/family",
 			"style": {
@@ -108,7 +127,7 @@
 				"navigationBarTitleText": "支付成功"
 			}
 		}, {
-			"path": "pages/notice/notice",
+			"path": "pages/notice/list",
 			"style": {
 				"navigationBarTitleText": "通知"
 			}

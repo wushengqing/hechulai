@@ -45,9 +45,9 @@
 		</view>
 		<!-- 通知公告 -->
 		<view class="new-box flex" v-if="userInfo.clanManId && noticeList.length>0" >
-			<view class="icon-notice-box">
+			<navigator url="../notice/list" class="icon-notice-box">
 				<image src="/static/index/notice.png"></image>
-			</view>
+			</navigator>
 			<view class="notice-box" >
 				<view class="notice-item" v-for="notice in noticeList">
 					<text class="title">{{ notice.messageContent }}</text>

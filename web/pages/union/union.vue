@@ -37,16 +37,24 @@
 			changeClanId(clanInfo){
 				this.setClanInfo(clanInfo);
 				console.log(this.redirect_uri.split('/pages/')[1]);
+				let reLaunchUrl = this.redirect_uri.split('/pages/')[1];
+				if(reLaunchUrl){
+					reLaunchUrl = reLaunchUrl.split('?')[0]
+				}
+				
 				//#ifdef  H5
-				 if(this.redirect_uri && this.redirect_uri.split('/pages/')[1]){
+				 /* if(reLaunchUrl){
 					uni.reLaunch({
-						url: `/pages/${this.redirect_uri.split('/pages/')[1]}`
+						url: `/pages/${reLaunchUrl}`
 					}); 
 				 }else{
 					uni.reLaunch({
 						url: '/pages/index/index'
 					}); 
-				 }
+				 } */
+				 uni.reLaunch({
+				 	url: '/pages/index/index'
+				 });
 				//#endif
 				//#ifndef H5
 				uni.reLaunch({
