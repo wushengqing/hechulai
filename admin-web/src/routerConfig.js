@@ -23,6 +23,8 @@ import ClansmenList from '@/pages/clansmenTree/List/index.vue';
 import BannerList from '@/pages/banner/List/index.vue';
 //新闻管理
 import NewsList from '@/pages/news/List/index.vue';
+//公告管理
+import NoticeList from '@/pages/notice/List/index.vue';
 //宗亲管理
 import GenerationList from '@/pages/generation/List/index.vue';
 //目录管理
@@ -137,6 +139,15 @@ export const pageRouter = [
     component: NewsList,
     meta: {
       title: '新闻管理',
+    }
+  },
+  {
+    path: '/notice/list',
+    name: 'NoticeList',
+    layout,
+    component: NoticeList,
+    meta: {
+      title: '公告管理',
     }
   },
   {
