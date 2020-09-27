@@ -185,3 +185,15 @@ div[class^=d2-container-full] {
 .el-dialog__body{
   padding: 10px 20px;
 }
+.ellipsis{
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+.ellipsis3{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}

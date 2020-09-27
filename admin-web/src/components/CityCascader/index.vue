@@ -5,7 +5,6 @@
     :options="options"
     :props="props"
     :value="cascaderValue"
-    @active-item-change="itemChange"
     @change="cascaderChange">
   </el-cascader>
 </template>
@@ -20,18 +19,48 @@ export default {
     },
   },
   data () {
+    let _this = this;
     return {
+
       cascaderValue:[],
       options:[],
       displayName:'',
       props: {
         label: 'name',
-        value: 'id'
+        value: 'id',
+        lazy: true,
+        lazyLoad (node, resolve) {
+          if(node.level===1){
+            _this.$api.common.getCity(node.value).then(res=>{
+              let nodes = res.data.map(item=>{
+                return {
+                  name:item.cityName,
+                  id:item.cityId,
+                  children:[]
+                }
+              });
+              resolve(nodes);
+            });
+          }
+          if(node.level===2){
+            _this.$api.common.getDistrict(node.value).then(res=>{
+              let nodes = res.data.map(item=>{
+                return {
+                  name:item.districtName,
+                  id:item.districtId,
+                  leaf:true
+                }
+              });
+              resolve(nodes);
+            });
+          }
+        }
       }
     }
   },
   watch: {
     value(val){
+      console.log(val);
       //调用父组件的input 事件
       this.cascaderValue = [...val];
     }
@@ -39,73 +68,6 @@ export default {
   computed: {
   },
   methods: {
-    //选择省或者市
-    itemChange(valueArray){
-      //如果是省级
-      if(valueArray.length===1){
-        this.getCity(valueArray[0]);
-      }
-      //如果是城市
-      if(valueArray.length===2){
-        this.getDistrict(valueArray[0],valueArray[1]);
-      }
-    },
-    //获取城市
-    getCity(provinceId){
-      let activeProvince = this.options.filter(item=>{
-        return item.id === provinceId;
-      })[0];
-      if(!activeProvince.load){
-        this.$api.common.getCity(provinceId).then(res=>{
-          if(res.data.length===0){
-            //如果是最后级则删除 children
-            delete  activeProvince.children;
-          }else {
-            let children = res.data.map(item=>{
-              return {
-                name:item.cityName,
-                id:item.cityId,
-                children:[]
-              }
-            });
-            activeProvince.children.push(...children)
-            activeProvince.load = true;
-          }
-        });
-      }
-    },
-    //获取县区
-    getDistrict(provinceId,cityId){
-      console.log(provinceId,cityId);
-      //获取当前省
-      let activeProvince = this.options.filter(item=>{
-        return item.id === provinceId;
-      })[0];
-      //获取当前市/区
-      let activeCity = activeProvince.children.filter(item=>{
-        return item.id === cityId;
-      })[0];
-      if(!activeCity.load){
-        this.$api.common.getDistrict(cityId).then(res=>{
-
-          let children = res.data.map(item=>{
-            return {
-              name:item.districtName,
-              id:item.districtId,
-            }
-          });
-          activeCity.children.push(...children);
-          activeCity.load = true;
-
-          if(res.data.length===0) {
-            //如果是最后级则删除 children
-            delete  activeCity.children;
-          }
-        });
-
-      }
-
-    },
     //change 事件
     cascaderChange(valueArray){
       let checkedNodes = this.$refs.cityCascader.getCheckedNodes();

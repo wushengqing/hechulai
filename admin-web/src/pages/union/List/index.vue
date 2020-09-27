@@ -32,6 +32,7 @@
 					</el-table-column>
 
 					<el-table-column prop="summary" label="简介">
+						<div class="ellipsis3" slot-scope="props" :title="props.row.summary">{{ props.row.summary }}</div>
 					</el-table-column>
 
 					<el-table-column label="是否启用">
