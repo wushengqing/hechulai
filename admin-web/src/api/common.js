@@ -41,7 +41,30 @@ export default {
   /**
    * 异步获取省市区级联
    */
-  getPcdList () {
-    return axios.post('/hcl-web/web/getPcdList.json')
+  // getPcdList () {
+  //   return axios.post('/hcl-web/web/getPcdList.json')
+  // },
+  /**
+   * 获取省份列表
+   */
+  getProvince() {
+    return axios.post('/hcl-web/web/getpList.json',{
+    })
+  },
+  /**
+   * 获取城市列表
+   */
+  getCity(provinceId) {
+    return axios.post('/hcl-web/web/getcList.json', {
+      provinceId
+    })
+  },
+  /**
+   * 获取县区列表
+   */
+  getDistrict(cityId) {
+    return axios.post('/hcl-web/web/getdList.json', {
+      cityId
+    })
   },
 }

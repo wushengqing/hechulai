@@ -31,7 +31,15 @@
 					<el-table-column prop="givingEtime" label="结束时间"></el-table-column>
 					<el-table-column prop="givingUserSum" label="乐捐人次"></el-table-column>
 					<el-table-column prop="givingMoneySum" label="乐捐金额"></el-table-column>
-					<el-table-column label="操作" width="240px">
+					<el-table-column prop="givingMoneySum" label="乐捐状态">
+						<template slot-scope="props">
+							<span v-if="getStatus(props.row)===0" class="color-grey">未知状态</span>
+							<span v-if="getStatus(props.row)===1" class="color-primary">未开始</span>
+							<span v-if="getStatus(props.row)===2" class="color-error">进行中</span>
+							<span v-if="getStatus(props.row)===3" class="color-grey">已结束</span>
+						</template>
+					</el-table-column>
+					<el-table-column label="操作" width="140px">
 						<template slot-scope="props">
 							<el-button type="text" size="mini" @click="openDialog(props.row)">编辑</el-button>
 							<el-button type="text" size="mini" @click="openGivingUserList(props.row)">乐捐金额</el-button>
@@ -141,6 +149,27 @@
       }
     },
     methods: {
+      //获取乐捐状态
+      getStatus(row){
+        if(row.givingBtime && row.givingEtime){
+          let now = new Date();
+          let start =  new Date(row.givingBtime.replace(/-/g, '/'));
+          let end =  new Date(row.givingEtime.replace(/-/g, '/'));
+          //未开始
+          if(now.getTime()<start.getTime()){
+            return 1
+					}
+          //进行中
+          else if(now.getTime()<=end.getTime()){
+            return 2
+          }
+          //已结束
+          else{
+            return 3
+					}
+				}
+				return 0;
+			},
       openDialog(item) {
         console.log('userInfo',this.userInfo)
         if(!item){
@@ -154,7 +183,7 @@
           }
         }else{
           this.dialogVO  = {
-            id:item.item,
+            id:item.id,
             name:item.name,
             givingDec:item.givingDec,
             givingBtime:item.givingBtime,

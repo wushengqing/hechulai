@@ -4,19 +4,19 @@
 			<template slot="header">宗族列表</template>
 
 			<!---->
-			<table-comb 
-			name="宗族列表" 
+			<table-comb
+			name="宗族列表"
 			ref="tableMain"
-			:search-model-base="tableMainSearchModelBase" 
+			:search-model-base="tableMainSearchModelBase"
 			:get-action="$api.union.list"
-			 :get-action-where="getActionWhere" 
+			 :get-action-where="getActionWhere"
 			 :afterFetchData="afterFetchData">
 				<!--基础查询-->
 				<template slot="baseSearchForm" slot-scope="scope">
-					<el-input placeholder="请输入关键字" 
-					prefix-icon="el-icon-search" 
-					clearable 
-					v-model="scope.form.keyword" 
+					<el-input placeholder="请输入关键字"
+					prefix-icon="el-icon-search"
+					clearable
+					v-model="scope.form.keyword"
 					style="width: 250px; margin-left: 10px; margin-right: 10px">
 					</el-input>
 					<el-button class="fr ml10" @click="openDialog">新增</el-button>
@@ -30,10 +30,10 @@
 							{{ props.row.pName}}{{ props.row.cName}}{{ props.row.dName}}{{props.row.address}}
 						</template>
 					</el-table-column>
-					
+
 					<el-table-column prop="summary" label="简介">
 					</el-table-column>
-	
+
 					<el-table-column label="是否启用">
 						<template slot-scope="props">
 							{{ props.row.status===1?'启用':'未启用' }}
@@ -65,12 +65,7 @@
 					<el-input show-password style="width: 100%" placeholder="请输入宗族名称" v-model="dialogVO.userPassword"></el-input>
 				</el-form-item>
 				<el-form-item label="所在地区：" prop="cityCode">
-					<el-cascader
-					    v-model="dialogVO.cityCode"
-						placeholder='省/市/区'
-						style="width: 100%"
-						clearable
-					    :options="pcdList"></el-cascader>
+						<city-cascader class="w100off" ref="cityCascader" placeholder="省/市/区" v-model="dialogVO.cityCode" ></city-cascader>
 				</el-form-item>
 				<el-form-item label="详细地址：" prop="address">
 					<el-input style="width: 100%" placeholder='请输入详细地址' v-model="dialogVO.address"></el-input>
@@ -92,10 +87,13 @@
 
 <script>
 	import listMixin from "@/mixins/list.mixin";
+  import CityCascader from "@/components/CityCascader";
 	export default {
 		// 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
 		name: "UnionList",
-		components: {},
+		components: {
+      CityCascader
+		},
 		mixins: [
 			listMixin
 		],
@@ -129,7 +127,23 @@
 					}, ],
 				},
 				//省市区级联
-				pcdList:[],
+        cityProps:{
+          lazy: true,
+          lazyLoad (node, resolve) {
+            const { level } = node;
+            console.log(node);
+            // setTimeout(() => {
+            //   const nodes = Array.from({ length: level + 1 })
+            //     .map(item => ({
+            //       value: ++id,
+            //       label: `选项${id}`,
+            //       leaf: level >= 2
+            //     }));
+            //   // 通过调用resolve将子节点数据返回，通知组件数据加载完成
+            //   resolve(nodes);
+            // }, 1000);
+          }
+        },
 			};
 		},
 		computed: {
@@ -173,7 +187,7 @@
 				}
 				this.dialogShow = true;
 			},
-			
+
 			save() {
 				this.$refs['dialogVO'].validate((valid) => {
 					if (valid) {
@@ -183,14 +197,14 @@
 							cId:this.dialogVO.cityCode[1],
 							dId:this.dialogVO.cityCode[2],
 							state:this.dialogVO.state ?1:0
-							
+
 						};
 						delete vo.cityCode;
 						delete vo.isTrusted;
 						//新增
 						if (!vo.id) {
 							delete vo.id;
-						} 
+						}
 						this.$api.union.add(vo).then(res => {
 							if (res.code == 0) {
 								this.dialogShow = false
@@ -230,8 +244,8 @@
 									delete region.districtId;
 								})
 							}
-							
-							
+
+
 						})
 					})
 					 this.pcdList = res.data
@@ -242,7 +256,7 @@
 			}
 		},
 		mounted() {
-		   this.getPcdList()
+		   //this.getPcdList()
 		}
 	};
 </script>

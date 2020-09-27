@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<view class="notice-list">
-			<navigator class="notice-item" v-for="item in newsList" :url="`../news/detail?id=${item.id}`">
+			<navigator class="notice-item" v-for="item in noticeList" :url="`../notice/detail?id=${item.id}`">
 				<view class="notice-text">
 					<view class="title">{{ item.mienTitle}}</view>
 					<view class="desc"> </view>
@@ -26,7 +26,7 @@
 		data() {
 			return {
 				loadingType:false,
-				newsList:[],
+				noticeList:[],
 				pageSize:10,
 				currentPage:0,
 			};
@@ -58,18 +58,18 @@
 				}
 					
 				//获取新闻列表
-				const newsList = await this.$api.request.newsList({
+				const noticeList = await this.$api.request.noticeList({
 					clanId:this.clanInfo.id,
 					pageSize:this.pageSize,
 					currentPage:this.currentPage
 				});
 				this.currentPage++;
 				if(type === 'refresh'){
-					this.newsList = [];
+					this.noticeList = [];
 					this.currentPage=0;
 				}
-				this.newsList.push(...newsList);
-				this.loadingType  = this.newsList.length > 20 ? 'nomore' : 'more';
+				this.noticeList.push(...noticeList);
+				this.loadingType  = this.noticeList.length > 20 ? 'nomore' : 'more';
 				if(type === 'refresh'){
 					if(loading == 1){
 						uni.hideLoading()

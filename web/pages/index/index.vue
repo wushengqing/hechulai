@@ -44,23 +44,17 @@
 
 		</view>
 		<!-- 通知公告 -->
-		<view class="new-box flex" v-if="userInfo.clanManId && noticeList.length>0" >
-			<navigator url="../notice/list" class="icon-notice-box">
+		<view class="new-box flex" v-if="noticeList.length>0" >
+			<navigator url="/pages/notice/list" class="icon-notice-box">
 				<image src="/static/index/notice.png"></image>
 			</navigator>
 			<view class="notice-box" >
-				<view class="notice-item" v-for="notice in noticeList">
-					<text class="title">{{ notice.messageContent }}</text>
+				<navigator  :url="`/pages/notice/detail?id=${notice.id}`"  class="notice-item" v-for="notice in noticeList">
+					<text class="title">{{ notice.mienTitle }}</text>
 					<text class="date">{{ notice.updateTime }}</text>
-				</view>
+				</navigator>
 			</view>
 			<view class="iconfont icon-arrow-right font40"></view>
-		</view>
-		<view class="new-box flex" v-else-if="!userInfo.clanManId" >
-			<view class="notice-box">
-				<text class="nodata" v-if="!userInfo.id">用户未登陆，请先登陆</text>
-				<text class="nodata" v-else>用户未绑定宗族，请先绑定宗族</text>
-			</view>
 		</view>
 		<!--祖训-->
 		<view class="title1 ml-20">祖训</view>
@@ -117,6 +111,9 @@
 			 * 分次请求未作整合
 			 */
 			async loadData() {
+				if(!this.clanInfo.id){
+					return
+				}
 				//获取轮播图
 				let par = {
 					clanId:this.clanInfo.id,
@@ -132,20 +129,16 @@
 					pageSize:4,
 					currentPage:0
 				});
+				const noticeList = await this.$api.request.noticeList({
+					...par,
+					pageSize:2,
+					currentPage:1
+				});
 				console.log(bannerList)
 				this.bannerList = bannerList;
 				this.swiperLength = this.bannerList.length;
 				this.newsList = newsList;
-
-				//获取消息列表
-				if(this.userInfo.clanManId){
-					this.noticeList = await this.$api.request.userMsgList({
-						clanId:this.clanInfo.id,
-						clanMainId:this.userInfo.clanManId
-					})
-				}
-
-
+				this.noticeList = noticeList;
 			},
 			//轮播图切换修改背景色
 			swiperChange(e) {

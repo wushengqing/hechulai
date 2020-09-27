@@ -21,12 +21,14 @@
 				noData: '<p style="text-align:center;color:#666">加载中...</p>',
 			};
 		},
+		components: {
+			uParse	
+		},
 		methods: {
 			async loadData() {
 				//获取轮播图
 				const detailVo = await this.$api.request.newsDetail({id:this.id});
 				this.detailVo = detailVo;
-		
 			},
 		},
 		computed: {

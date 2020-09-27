@@ -7,17 +7,24 @@
 			<text class="label">发布时间：</text>
 			<text class="value">{{ detailVo.createTime}}</text>
 		</view>
-		<view class="content" v-html="detailVo.mienContent"></view>
+		<view class="content">
+			<u-parse :content="detailVo.mienContent" :noData="noData"></u-parse>
+		</view>
 	</view>
 </template>
 
 <script>
+	import uParse from '@/components/u-parse/parse.vue'
 	export default{
 		data() {
 			return {
 				id:'',
-				detailVo:{}
+				detailVo:{},
+				noData: '<p style="text-align:center;color:#666">加载中...</p>',
 			};
+		},
+		components: {
+			uParse	
 		},
 		methods: {
 			async loadData() {

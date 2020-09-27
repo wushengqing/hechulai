@@ -132,6 +132,12 @@
 				"navigationBarTitleText": "通知"
 			}
 		}, {
+			"path": "pages/notice/detail",
+			"style": {
+				"navigationBarTitleText": "通知详情"
+			}
+		}, 
+		{
 			"path": "pages/news/list",
 			"style": {
 				"enablePullDownRefresh": true,
