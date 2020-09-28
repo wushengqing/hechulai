@@ -8,118 +8,75 @@
 					<view class="user">{{ item.mienResource}}<text>{{item.updateTime}}</text></view>
 				</view>
 			</navigator>
+			<view v-if="noticeList.length>=totalNum" class="tc line88 c-grey">
+				我是有底线的~
+			</view>
+			<view v-if="noticeList.length===0 && totalNum===0" class="tc line88 c-grey">
+				暂无数据~
+			</view>
+			<view v-if="loading" class="tc line88 c-grey">
+				加载中...
+			</view>
 		</view>
-		<uni-load-more :status="loadingType"></uni-load-more>
 	</view>
 </template>
 
 <script>
 	import {mapState} from 'vuex';
-	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	export default {
 		components: {
-			uniLoadMore	
 		},
 		computed: {
 			...mapState(['clanInfo']),
 		},
 		data() {
 			return {
-				loadingType:false,
+				loading:true,
 				noticeList:[],
 				pageSize:10,
-				currentPage:0,
+				totalNum:200,
+				currentPage:1
 			};
 		},
 		
-		onLoad(options){
-			
+		onLoad(options) {
+		
 		},
-		onShow(){
-			this.loadData('refresh');
+		onShow() {
+			this.currentPage == 1;
+			this.loadData();
 		},
 		//下拉刷新
-		onPullDownRefresh(){
-			this.loadData('refresh');
+		onPullDownRefresh() {
+			this.currentPage == 1;
+			this.loadData();
 		},
 		//加载更多
-		onReachBottom(){
+		onReachBottom() {
+			if (this.noticeList.length >= this.totalNum) {
+				return;
+			}
 			this.loadData();
 		},
 		methods: {
-			async loadData(type='add', loading){
-				if(type === 'add'){
-					if(this.loadingType === 'nomore'){
-						return;
-					}
-					this.loadingType = 'loading';
-				}else{
-					this.loadingType = 'more'
-				}
-					
+			async loadData() {
 				//获取新闻列表
+				this.loading = true;
 				const noticeList = await this.$api.request.noticeList({
-					clanId:this.clanInfo.id,
-					pageSize:this.pageSize,
-					currentPage:this.currentPage
+					clanId: this.clanInfo.id,
+					pageSize: this.pageSize,
+					currentPage: this.currentPage
 				});
-				this.currentPage++;
-				if(type === 'refresh'){
+				this.totalNum = noticeList.totalNum
+				if (this.currentPage === 1) {
 					this.noticeList = [];
-					this.currentPage=0;
 				}
-				this.noticeList.push(...noticeList);
-				this.loadingType  = this.noticeList.length > 20 ? 'nomore' : 'more';
-				if(type === 'refresh'){
-					if(loading == 1){
-						uni.hideLoading()
-					}else{
-						uni.stopPullDownRefresh();
-					}
-				}
+				this.currentPage++;
+				this.noticeList.push(...noticeList.data);
+				this.loading = false;
 			},
-			// async loadData(type='add', loading) {
-			// 	//没有更多直接返回
-			// 	if(type === 'add'){
-			// 		if(this.loadingType === 'nomore'){
-			// 			return;
-			// 		}
-			// 		this.loadingType = 'loading';
-			// 	}else{
-			// 		this.loadingType = 'more'
-			// 	}
-				
-			// 	let goodsList = await this.$api.json('goodsList');
-			// 	if(type === 'refresh'){
-			// 		this.goodsList = [];
-			// 	}
-			// 	//筛选，测试数据直接前端筛选了
-			// 	if(this.filterIndex === 1){
-			// 		goodsList.sort((a,b)=>b.sales - a.sales)
-			// 	}
-			// 	if(this.filterIndex === 2){
-			// 		goodsList.sort((a,b)=>{
-			// 			if(this.priceOrder == 1){
-			// 				return a.price - b.price;
-			// 			}
-			// 			return b.price - a.price;
-			// 		})
-			// 	}
-				
-			// 	this.goodsList = this.goodsList.concat(goodsList);
-				
-			// 	//判断是否还有下一页，有是more  没有是nomore(测试数据判断大于20就没有了)
-			// 	this.loadingType  = this.goodsList.length > 20 ? 'nomore' : 'more';
-			// 	if(type === 'refresh'){
-			// 		if(loading == 1){
-			// 			uni.hideLoading()
-			// 		}else{
-			// 			uni.stopPullDownRefresh();
-			// 		}
-			// 	}
-			// },
 			//详情
-			navToDetailPage(item){
+			navToDetailPage(item) {
 				//测试数据没有写id，用title代替
 				let id = item.title;
 				uni.navigateTo({

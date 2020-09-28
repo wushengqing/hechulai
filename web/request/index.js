@@ -69,7 +69,14 @@ async function userLogin(data) {
 			error
 		}
 	}
-
+}
+//获取用户信息
+async function getUserInfo(data) {
+	return globalRequest({
+		url: `${baseUrl}getUserInfo.json`,
+		method: 'POST',
+		data,
+	});
 }
 //获取openid;
 async function getOAuth(data) {
@@ -112,7 +119,7 @@ async function newsList(data) {
 		data
 	});
 	if (res) {
-		return res.data.data;
+		return res.data;
 	} else {
 		return {
 			code: '1',
@@ -133,7 +140,7 @@ async function noticeList(data) {
 		data
 	});
 	if (res) {
-		return res.data.data;
+		return res.data;
 	} else {
 		return {
 			code: '1',
@@ -215,6 +222,21 @@ async function clanUserRelList(data) {
 async function userMsgList(data) {
 	var [error, res] = await uni.request({
 		url: `${baseUrl}getUserMsgList.json`,
+		method: 'POST',
+		data
+	});
+	if (res) {
+		return res.data.data;
+	} else {
+		return {
+			code: '1',
+			error
+		}
+	}
+}
+async function getMsgInfo(data) {
+	var [error, res] = await uni.request({
+		url: `${baseUrl}getMsgInfo.json`,
 		method: 'POST',
 		data
 	});
@@ -417,7 +439,7 @@ async function projectDetail(data) {
 	}
 
 }
-//获取乐捐详情
+//获取我的乐捐列表或者乐捐榜列表，根据传入的参数来区别（givingId，userId）
 async function projectUserList(data) {
 	var [error, res] = await uni.request({
 		url: `${baseUrl}getGivingUserRelList.json`,
@@ -463,6 +485,8 @@ export default {
 	userRegistered,
 	//用户登录
 	userLogin,
+	//获取用户信息
+	getUserInfo,
 	//获取openId
 	getOAuth,
 	//获取轮播图
@@ -483,6 +507,8 @@ export default {
 	userRelClanMain,
 	//获取宗亲消息列表
 	userMsgList,
+	//消息详情
+	getMsgInfo,
 	//宗亲详情
 	clanUserInfo,
 	//世系表

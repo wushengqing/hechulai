@@ -19,8 +19,9 @@
 				<navigator  v-else-if="!userInfo.isRelZq" class="b-btn" url="../bindLineage/index">绑定宗亲</navigator>
 				<view class="tit">
 					<text class="yticon icon-iLinkapp-"></text>
-					<text>{{ userInfo.userId ?'您好，欢迎回来':'登录之后可以绑定宗族' }}</text>
-			
+					<text v-if="userInfo.userId && userInfo.clanId === clanInfo.id" >您好，欢迎回来！</text>
+					<text v-else-if="userInfo.userId && userInfo.clanId !== clanInfo.id" >您已经是其他宗族的宗亲，无法登陆</text>
+					<text v-else-if="!userInfo.userId">登录之后可以绑定宗族</text>
 				</view>
 				<text class="e-m">如果你也是宗亲</text>
 				<text class="e-b">那就快来加入我们吧</text>
@@ -118,7 +119,7 @@
 		},
 		// #endif
         computed: {
-			...mapState(['hasLogin','userInfo'])
+			...mapState(['hasLogin','userInfo','clanInfo'])
 		},
 		onShow(){
 			console.log(this.userInfo)

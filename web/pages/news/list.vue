@@ -5,33 +5,43 @@
 				<view class="news-text">
 					<view class="title">{{ item.mienTitle}}</view>
 					<view class="desc"> </view>
-					<view class="user">{{ item.mienResource}}<text>{{item.updateTime}}</text></view>
+					<view class="user">{{ item.mienResource}}<text>{{item.createTime}}</text></view>
 				</view>
 				<view class="image-box">
-					<image mode="aspectFill" class="image" :src="item.mienImageUrl?item.mienImageUrl:defaultNewsImg"></image>
+					<image mode="aspectFill" class="image" :src="item.mienImageUrl?item.mienImageUrl:'../../static/errorImage.jpg'"></image>
 				</view>
 			</navigator>
+			<view v-if="newsList.length>=totalNum" class="tc line88 c-grey">
+					我是有底线的~
+				</view>
+				<view v-if="newsList.length===0 && totalNum===0" class="tc line88 c-grey">
+						暂无数据~
+					</view>
+					<view v-if="loading" class="tc line88 c-grey">
+						加载中...
+					</view>
 		</view>
-		<uni-load-more :status="loadingType"></uni-load-more>
+		
 	</view>
 </template>
 
 <script>
 	import {mapState} from 'vuex';
-	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
 	export default {
 		components: {
-			uniLoadMore	
+			
 		},
 		computed: {
 			...mapState(['clanInfo']),
 		},
 		data() {
 			return {
-				loadingType:false,
+				loading:true,
 				newsList:[],
 				pageSize:10,
-				currentPage:0,
+				totalNum:200,
+				currentPage:1,
+				defaultNewsImg:''
 			};
 		},
 		
@@ -39,88 +49,38 @@
 			
 		},
 		onShow(){
-			this.loadData('refresh');
+			this.currentPage==1;
+			this.loadData();
 		},
 		//下拉刷新
 		onPullDownRefresh(){
-			this.loadData('refresh');
+			this.currentPage==1;
+			this.loadData();
 		},
 		//加载更多
 		onReachBottom(){
+			if(this.newsList.length>=this.totalNum){
+				return;
+			}
 			this.loadData();
 		},
 		methods: {
-			async loadData(type='add', loading){
-				if(type === 'add'){
-					if(this.loadingType === 'nomore'){
-						return;
-					}
-					this.loadingType = 'loading';
-				}else{
-					this.loadingType = 'more'
-				}
-					
+			async loadData(){	
 				//获取新闻列表
-				const newsList = await this.$api.request.newsList({
+				this.loading = true;
+				const newsListData = await this.$api.request.newsList({
 					clanId:this.clanInfo.id,
 					pageSize:this.pageSize,
 					currentPage:this.currentPage
 				});
-				this.currentPage++;
-				if(type === 'refresh'){
+				this.totalNum = newsListData.totalNum
+				if(this.currentPage===1){
 					this.newsList = [];
-					this.currentPage=0;
 				}
-				this.newsList.push(...newsList);
-				this.loadingType  = this.newsList.length > 20 ? 'nomore' : 'more';
-				if(type === 'refresh'){
-					if(loading == 1){
-						uni.hideLoading()
-					}else{
-						uni.stopPullDownRefresh();
-					}
-				}
+				this.currentPage++;
+				this.newsList.push(...newsListData.data);
+				this.loading = false;
 			},
-			// async loadData(type='add', loading) {
-			// 	//没有更多直接返回
-			// 	if(type === 'add'){
-			// 		if(this.loadingType === 'nomore'){
-			// 			return;
-			// 		}
-			// 		this.loadingType = 'loading';
-			// 	}else{
-			// 		this.loadingType = 'more'
-			// 	}
-				
-			// 	let goodsList = await this.$api.json('goodsList');
-			// 	if(type === 'refresh'){
-			// 		this.goodsList = [];
-			// 	}
-			// 	//筛选，测试数据直接前端筛选了
-			// 	if(this.filterIndex === 1){
-			// 		goodsList.sort((a,b)=>b.sales - a.sales)
-			// 	}
-			// 	if(this.filterIndex === 2){
-			// 		goodsList.sort((a,b)=>{
-			// 			if(this.priceOrder == 1){
-			// 				return a.price - b.price;
-			// 			}
-			// 			return b.price - a.price;
-			// 		})
-			// 	}
-				
-			// 	this.goodsList = this.goodsList.concat(goodsList);
-				
-			// 	//判断是否还有下一页，有是more  没有是nomore(测试数据判断大于20就没有了)
-			// 	this.loadingType  = this.goodsList.length > 20 ? 'nomore' : 'more';
-			// 	if(type === 'refresh'){
-			// 		if(loading == 1){
-			// 			uni.hideLoading()
-			// 		}else{
-			// 			uni.stopPullDownRefresh();
-			// 		}
-			// 	}
-			// },
 			//详情
 			navToDetailPage(item){
 				//测试数据没有写id，用title代替

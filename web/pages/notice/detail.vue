@@ -5,8 +5,7 @@
 			<text class="label">发布时间：</text>
 			<text class="value">{{ detailVo.createTime}}</text>
 		</view>
-		<view class="content">
-			<u-parse :content="detailVo.mienContent" :noData="noData"></u-parse>
+		<view class="content" v-html="detailVo.mienContent">
 		</view>
 	</view>
 </template>

@@ -8,62 +8,18 @@
 		<view class="mt-30 field"><text class="iconfont mr-10">&#xe610</text>乐捐人数：{{ userList.length }}</view>
 		<view class="mt-30 field"><text class="iconfont mr-10">&#xe611</text>乐捐金额：{{ totalMoney}}元</view>
 		<view class="title2 mt-30">乐捐排行榜</view>
-		<view class="user flex">
+		<view class="user flex" v-for="(item,index) in userList">
 			<view class="flex1">
-				<text class="index large c-red">1</text>
+				<text :class="getClassNames(index)">{{ index+1 }}</text>
 				<image class="avatar" src="../../static/temp/avatar.png"></image>
-				<text class="name">巫卡卡</text>
+				<text class="name">{{ item.userName}}</text>
 			</view>
 			<view class="money">
-				<view class="value">50000.00</view>
+				<view class="value">{{ item.giveMoney }}</view>
 				<view class="tip">捐款金额</view>
 			</view>
 		</view>
-		<view class="user flex">
-			<view class="flex1">
-				<text class="index large c-yellow">2</text>
-				<image class="avatar" src="../../static/temp/avatar2.jpg"></image>
-				<text class="name">巫卡卡</text>
-			</view>
-			<view class="money">
-				<view class="value">15840.00</view>
-				<view class="tip">捐款金额</view>
-			</view>
-		</view>
-		<view class="user flex">
-			<view class="flex1">
-				<text class="index  large c-green">3</text>
-				<image class="avatar" src="../../static/temp/avatar4.jpg"></image>
-				<text class="name">巫卡卡</text>
-			</view>
-			<view class="money">
-				<view class="value">1000.00</view>
-				<view class="tip">捐款金额</view>
-			</view>
-		</view>
-		<view class="user flex">
-			<view class="flex1">
-				<text class="index">4</text>
-				<image class="avatar" src="../../static/temp/avatar3.jpg"></image>
-				<text class="name">巫卡卡</text>
-			</view>
-			<view class="money">
-				<view class="value">200.00</view>
-				<view class="tip">捐款金额</view>
-			</view>
-		</view>
-		<view class="user flex">
-			<view class="flex1">
-				<text class="index">5</text>
-				<image class="avatar" src="../../static/temp/avatar.png"></image>
-				<text class="name">巫卡卡</text>
-			</view>
-			<view class="money">
-				<view class="value">100.00</view>
-				<view class="tip">捐款金额</view>
-			</view>
-		</view>
-		<view class="tc c-grey h88">没有了~</view>
+		<view class="tc c-grey h88">暂无乐捐数据~</view>
 		<view class="fotter-bar">
 			<button type="primary" @tap="visible=true">我要乐捐</button>
 		</view>
@@ -124,6 +80,18 @@
 				this.detailVo = detailVo.filter(item => item.id === parseInt(this.id))[0];
 				this.userList = userList;
 			},
+			getClassNams(index){
+				if(index===0){
+					return 'index large c-red'
+				}
+				if(index===1){
+					return 'index large c-yollow'
+				}
+				if(index===2){
+					return 'index large c-green'
+				}
+				return 'index'
+			},
 			//发起乐捐
 			addOrUpdateGivingUserRel() {
 				if(!this.checkRouter()){
@@ -138,12 +106,9 @@
 				}
 				let par = {
 					givingId:this.id,
-					userId:this.userInfo.userId,
+					userId:this.userInfo.clanManId,
 					giveMoney:this.form.giveMoney,
-					giveDec:this.form.giveDec,
-					auditUserId:0,
-					auditState:0,
-					auditDec:''
+					//giveDec:this.form.giveDec
 				}
 				this.$api.request.addOrUpdateGivingUserRel(par).then(res=>{
 					if(res.code===0){

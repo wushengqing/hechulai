@@ -1,47 +1,25 @@
 <template>
 	<view class="container" style="padding: 0;">
-		<cl-tabs v-model="tabIndex" lazy>
-			<cl-tab-pane v-for="(item, index) in labels" :key="index" :label="item.label" :name="index">
-				<view class="approve-body" v-if="tabIndex==0">
-					<view class="notice-item" v-for="approveItem in approveList"  @click="approve(approveItem)">
-						<text class="time">{{ approveItem.createTime }}</text>
-						<view class="content ">
-							<view class="title flex">
-								<view class="flex1">申请绑定宗亲</view>
-								<view v-if="approveItem.messageDec !='审查通过'" class="c-yellow ">{{ approveItem.messageDec }}</view>
-								<view v-if="approveItem.messageDec =='审查通过'" class="c-grey ">{{ approveItem.messageDec }}</view>
-							</view>
-							<text class="introduce">
-								{{ approveItem.messageContent }}
-							</text>
-							<view class="bot b-t">
-								<text class="c-base">{{ approveItem.messageDec !='审查通过'?'立即审核':'已通过审核' }}</text>
-								<text class="more-icon yticon icon-you"></text>
-							</view>
-						</view>
+		<view class="approve-body">
+			<view class="notice-item" v-for="approveItem in approveList"  @click="approve(approveItem)">
+				<text class="time">{{ approveItem.createTime }}</text>
+				<view class="content ">
+					<view class="title flex">
+						<view class="flex1" v-if="approveItem.messageType===1">添加家庭成员</view>
+						<view class="flex1" v-if="approveItem.messageType===5">申请绑定宗亲</view>
+						<view v-if="approveItem.messageDec !='审查通过'" class="c-yellow ">{{ approveItem.messageDec }}</view>
+						<view v-if="approveItem.messageDec =='审查通过'" class="c-grey ">{{ approveItem.messageDec }}</view>
+					</view>
+					<text class="introduce">
+						{{ approveItem.messageContent }}
+					</text>
+					<view class="bot b-t">
+						<text class="c-base">{{ approveItem.messageDec !='审查通过'?'立即审核':'已通过审核' }}</text>
+						<text class="more-icon yticon icon-you"></text>
 					</view>
 				</view>
-				<view class="approve-body" v-if="tabIndex==1">
-					<view class="notice-item" v-for=" item in approveList2" @click="approve2(item)">
-						<text class="time">{{ item.createTime }}</text>
-						<view class="content">
-							<view class="title flex">
-								<view class="flex1">申请添加家庭成员</view>
-							</view>
-							<text class="introduce">
-								{{ item.messageContent }}
-							</text>
-							<view class="bot b-t">
-								<text class="c-base" v-if="item.clanMainRel.auditState===0" >立即审核</text>
-								<text class="c-grey" v-if="item.clanMainRel.auditState===1" >已通过审核</text>
-								<text class="c-red" v-if="item.clanMainRel.auditState===2" >已驳回</text>
-								<text class="more-icon yticon icon-you"></text>
-							</view>
-						</view>
-					</view>
-				</view>
-			</cl-tab-pane>
-		</cl-tabs>
+			</view>
+		</view>
 		<cl-popup :visible.sync="visible" direction="bottom">
 			<view class="bold font30 mb30">拒绝理由</view>
 			<view class="mb30">审核内容：<text class="c-base">{{ currentApprove.messageContent }}</text></view>
@@ -69,7 +47,6 @@
 	export default {
 		data() {
 			return {
-				tabIndex: 0,
 				visible:false,
 				currentApprove:{},
 				//申请绑定宗亲列表
@@ -89,13 +66,9 @@
 		},
 		methods: {
 			async getUserApproveList() {
-				this.approveList = await this.$api.request.userApproveList({
+				this.approveList = await this.$api.request.getAuditMsgList({
 					clanId: this.clanInfo.id,
-					id: this.userInfo.clanManId
-				});
-				this.approveList2 = await this.$api.request.getAuditMsgList({
-					clanId: this.clanInfo.id,
-					id: this.userInfo.clanManId
+					auditUserClanManId: this.userInfo.clanManId
 				});
 			},
 			//立即审核

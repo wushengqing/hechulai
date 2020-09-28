@@ -1,249 +1,72 @@
 <template>
-	<view class="container" style="padding: 0;">
-		<navigator url="/pages/user/messageDetail">点击查看消息详情</navigator>
+	<view class="container">
+		<view v-if="!loading">
+			<navigator v-for="item in list" :url="`/pages/user/messageDetail?id=${item.id}&clanId=${clanInfo.id}`" class="item-link">
+				<view class="title" v-if="item.messageType===1">添加家庭成员</view>
+				<view class="title" v-if="item.messageType===5">绑定宗亲</view>
+				<view class="field ">
+					<text class="label">消息详情：</text>
+					<text class="value ">{{ item.messageContent }}</text>
+				</view>
+				<view class="field field-user">
+					<text class="label">审核员：</text>
+					<text class="value ">{{ item.auditUser ? item.auditUser.name:'' }}</text>
+				</view>
+				<view class="field">
+					<text class="label">审核结果：</text>
+					<text class="value ">{{ item.messageDec }}</text>
+				</view>
+				<view class="field field-clock">
+					<text class="label">发起审核时间：</text>
+					<text class="value yellow">{{ item.createTime }}</text>
+				</view>
+			</navigator>
+			<view v-if="list.length===0" class="tc line88 c-grey">
+				暂无数据~
+			</view>
+		</view>
+		<view v-else class="tc line88 c-grey">
+			加载中...
+		</view>
 	</view>
-</template>
+</template>	
 
 <script>
 	import {mapState} from 'vuex';
 	export default {
 		data() {
 			return {
-				tabIndex: 0,
-				visible:false,
-				currentApprove:{},
-				//申请绑定宗亲列表
-				approveList: [],
-				//添丁列表
-				approveList2:[],
-				auditDec:'',
-				labels: [{
-					label: '用户绑定宗亲'
-				}, {
-					label: '添加家庭成员'
-				}],
+				list:[],
+				loading:true
 			}
 		},
 		computed: {
-			...mapState(['clanInfo', 'userInfo']),
+			...mapState(['clanInfo','userInfo']),
 		},
 		methods: {
-			async getUserApproveList() {
-				this.approveList = await this.$api.request.userApproveList({
-					clanId: this.clanInfo.id,
-					id: this.userInfo.clanManId
-				});
-				this.approveList2 = await this.$api.request.getAuditMsgList({
-					clanId: this.clanInfo.id,
-					id: this.userInfo.clanManId
-				});
+			async loadData() {
+				//
+				let par = {
+					clanId:this.clanInfo.id,
+					clanMainId:this.userInfo.clanManId,
+				};
+				const list = await this.$api.request.userMsgList(par);
+				this.list = list;
+				this.loading=false
 			},
-			//立即审核
-			approve(item){
-				this.currentApprove = item;
-				uni.showActionSheet({
-				    itemList: ['通过申请', '拒绝申请'],
-				    success:(res) => {
-						if(res.tapIndex===0){
-							this.auditDec = '通过申请';
-							this.setApprove('success')
-						}else if(res.tapIndex===1){
-							this.auditDec = '';
-							this.visible = true;
-						}
-				    },
-				    fail: function (res) {
-				        console.log(res.errMsg);
-				    }
-				});
-			},
-			async setApprove(actionName){
-				if(this.tabIndex===1){
-					// 如果审核家庭成员，则跳转到对应的接口
-					this.setApprove2(actionName);
-				}
-				let messageDec = actionName==='success'?'审查通过':this.auditDec;
-				if(actionName==='fail' && !this.auditDec){
-					this.$refs["message"].open({
-						type:'cancel',
-						message: "请填写拒绝理由",
-					});
-					return false;
-				}
-				this.$api.request.auditUserUpdateClanMainRel({
-					auditUserId:this.userInfo.clanManId,
-					messageDec,
-					id:this.currentApprove.id,
-				}).then(res=>{
-					if(res.code===0){
-						this.$refs["message"].open({
-							type: 'success',
-							message: "已提交，请等待审核",
-						});
-						this.visible = false;
-					}else{
-						this.$refs["message"].open({
-							type: 'error',
-							message: res.msg,
-						});
-					}
-					this.getUserApproveList();
-					this.visible = false;
-				});
-				
-				
-				
-			},
-			//立即审核添加家庭成员
-			approve2(item){
-				this.currentApprove = item;
-				uni.showActionSheet({
-				    itemList: ['通过申请', '拒绝申请'],
-				    success:(res) => {
-						if(res.tapIndex===0){
-							this.auditDec = '通过申请';
-							this.setApprove2('success')
-						}else if(res.tapIndex===1){
-							this.auditDec = '';
-							this.visible = true;
-						}
-				    },
-				    fail: function (res) {
-				        console.log(res.errMsg);
-				    }
-				});
-			},
-			async setApprove2(actionName){
-				let auditDec = actionName==='success'?'通过审核':this.auditDec;
-				if(actionName==='fail' && !this.auditDec){
-					this.$refs["message"].open({
-						type:'cancel',
-						message: "请填写拒绝理由",
-					});
-					return false;
-				}
-				debugger
-				this.$api.request.auditUserUpdateClanMain({
-					clanId:this.currentApprove.clanMainRel.id,
-					auditState:actionName==='success'?1:2,
-					auditDec,
-					id:this.currentApprove.id,
-				}).then(res=>{
-					if(res.code===0){
-						this.$refs["message"].open({
-							type: 'success',
-							message: "已提交，请等待审核",
-						});
-						this.visible = false;
-					}else{
-						this.$refs["message"].open({
-							type: 'error',
-							message: res.msg,
-						});
-					}
-					this.getUserApproveList();
-					this.visible = false;
-				});
-				
-				
-				
-			}
-
 		},
-		onShow() {
-			if (!this.checkRouter()) {
+		onShow(){
+			if(!this.checkRouter()){
 				return;
 			}
-			this.getUserApproveList();
+			this.loading=true
+			this.loadData();
 		}
 	}
 </script>
 
-<style lang='scss'>
-	.approve-body{
-		background-color: #f7f7f7;
-	}
-	.notice-item {
-		margin-bottom: 20upx;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.time {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 80upx;
-		padding-top: 10upx;
-		font-size: 26upx;
-		color: #7d7d7d;
-	}
-
-	.content {
-		width: 710upx;
-		padding: 0 24upx;
-		background-color: #fff;
-		border-radius: 4upx;
-	}
-
-	.title {
-		display: flex;
-		align-items: center;
-		height: 90upx;
-		.flex1{
-			color: #303133;
-			font-size: 32upx;
-			font-weight: bold;
-		}
-	}
-
-	.img-wrapper {
-		width: 100%;
-		height: 260upx;
-		position: relative;
-	}
-
-	.pic {
-		display: block;
-		width: 100%;
-		height: 100%;
-		border-radius: 6upx;
-	}
-
-	.cover {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, .5);
-		font-size: 36upx;
-		color: #fff;
-	}
-
-	.introduce {
-		display: inline-block;
-		padding: 16upx 0;
-		font-size: 28upx;
-		color: #606266;
-		line-height: 38upx;
-	}
-
-	.bot {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		height: 80upx;
-		font-size: 24upx;
-		color: #707070;
-		position: relative;
-	}
-
-	.more-icon {
-		font-size: 32upx;
-	}
+<style lang="scss" scoped>
+page{
+	background: #f8f8f8;
+}
 </style>

@@ -1,249 +1,75 @@
 <template>
-	<view class="container" style="padding: 0;">
-		消息详情
+	<view class="container">
+		<view class="title" v-if="detailVo.messageType===1">添加家庭成员</view>
+		<view class="title" v-if="detailVo.messageType===5">绑定宗亲</view>
+		<view class="sub-title">
+			<text class="label">发起时间：</text>
+			<text class="value">{{ detailVo.createTime}}</text>
+		</view>
+		<view class="content" v-html="detailVo.messageContent">
+		</view>
 	</view>
 </template>
 
 <script>
-	import {mapState} from 'vuex';
-	export default {
+	import uParse from '@/components/u-parse/parse.vue'
+	export default{
 		data() {
 			return {
-				tabIndex: 0,
-				visible:false,
-				currentApprove:{},
-				//申请绑定宗亲列表
-				approveList: [],
-				//添丁列表
-				approveList2:[],
-				auditDec:'',
-				labels: [{
-					label: '用户绑定宗亲'
-				}, {
-					label: '添加家庭成员'
-				}],
-			}
+				id:'',
+				clanId:'',
+				detailVo:{},
+				noData: '<p style="text-align:center;color:#666">加载中...</p>',
+			};
 		},
-		computed: {
-			...mapState(['clanInfo', 'userInfo']),
+		components: {
+			uParse	
 		},
 		methods: {
-			async getUserApproveList() {
-				this.approveList = await this.$api.request.userApproveList({
-					clanId: this.clanInfo.id,
-					id: this.userInfo.clanManId
-				});
-				this.approveList2 = await this.$api.request.getAuditMsgList({
-					clanId: this.clanInfo.id,
-					id: this.userInfo.clanManId
-				});
-			},
-			//立即审核
-			approve(item){
-				this.currentApprove = item;
-				uni.showActionSheet({
-				    itemList: ['通过申请', '拒绝申请'],
-				    success:(res) => {
-						if(res.tapIndex===0){
-							this.auditDec = '通过申请';
-							this.setApprove('success')
-						}else if(res.tapIndex===1){
-							this.auditDec = '';
-							this.visible = true;
-						}
-				    },
-				    fail: function (res) {
-				        console.log(res.errMsg);
-				    }
-				});
-			},
-			async setApprove(actionName){
-				if(this.tabIndex===1){
-					// 如果审核家庭成员，则跳转到对应的接口
-					this.setApprove2(actionName);
-				}
-				let messageDec = actionName==='success'?'审查通过':this.auditDec;
-				if(actionName==='fail' && !this.auditDec){
-					this.$refs["message"].open({
-						type:'cancel',
-						message: "请填写拒绝理由",
+			async loadData() {
+				//获取轮播图
+				const detailVo = await this.$api.request.getMsgInfo({
+					clanId:this.clanId,
+					id:this.id,
 					});
-					return false;
-				}
-				this.$api.request.auditUserUpdateClanMainRel({
-					auditUserId:this.userInfo.clanManId,
-					messageDec,
-					id:this.currentApprove.id,
-				}).then(res=>{
-					if(res.code===0){
-						this.$refs["message"].open({
-							type: 'success',
-							message: "已提交，请等待审核",
-						});
-						this.visible = false;
-					}else{
-						this.$refs["message"].open({
-							type: 'error',
-							message: res.msg,
-						});
-					}
-					this.getUserApproveList();
-					this.visible = false;
-				});
-				
-				
-				
+				this.detailVo = detailVo;
 			},
-			//立即审核添加家庭成员
-			approve2(item){
-				this.currentApprove = item;
-				uni.showActionSheet({
-				    itemList: ['通过申请', '拒绝申请'],
-				    success:(res) => {
-						if(res.tapIndex===0){
-							this.auditDec = '通过申请';
-							this.setApprove2('success')
-						}else if(res.tapIndex===1){
-							this.auditDec = '';
-							this.visible = true;
-						}
-				    },
-				    fail: function (res) {
-				        console.log(res.errMsg);
-				    }
-				});
-			},
-			async setApprove2(actionName){
-				let auditDec = actionName==='success'?'通过审核':this.auditDec;
-				if(actionName==='fail' && !this.auditDec){
-					this.$refs["message"].open({
-						type:'cancel',
-						message: "请填写拒绝理由",
-					});
-					return false;
-				}
-				debugger
-				this.$api.request.auditUserUpdateClanMain({
-					clanId:this.currentApprove.clanMainRel.id,
-					auditState:actionName==='success'?1:2,
-					auditDec,
-					id:this.currentApprove.id,
-				}).then(res=>{
-					if(res.code===0){
-						this.$refs["message"].open({
-							type: 'success',
-							message: "已提交，请等待审核",
-						});
-						this.visible = false;
-					}else{
-						this.$refs["message"].open({
-							type: 'error',
-							message: res.msg,
-						});
-					}
-					this.getUserApproveList();
-					this.visible = false;
-				});
-				
-				
-				
-			}
-
 		},
-		onShow() {
-			if (!this.checkRouter()) {
-				return;
+		computed: {
+		
+			
+		},
+		async onLoad(options){
+			this.id = options.id;
+			this.clanId = options.clanId;
+			if(this.id){
+				this.loadData();
 			}
-			this.getUserApproveList();
-		}
+			
+		},
+
 	}
 </script>
 
-<style lang='scss'>
-	.approve-body{
-		background-color: #f7f7f7;
+<style lang='scss' scoped>
+	.title{
+		font-size: 36upx;
+		line-height: 65upx;
+		font-weight: bold;
 	}
-	.notice-item {
-		margin-bottom: 20upx;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.time {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 80upx;
-		padding-top: 10upx;
-		font-size: 26upx;
-		color: #7d7d7d;
-	}
-
-	.content {
-		width: 710upx;
-		padding: 0 24upx;
-		background-color: #fff;
-		border-radius: 4upx;
-	}
-
-	.title {
-		display: flex;
-		align-items: center;
-		height: 90upx;
-		.flex1{
-			color: #303133;
-			font-size: 32upx;
-			font-weight: bold;
+	.sub-title{
+		margin-top: 15upx;
+		font-size: 32upx;
+		.label{
+			color:$font-color-light;
+		}
+		.value{
+			margin-right: 30upx;
 		}
 	}
-
-	.img-wrapper {
-		width: 100%;
-		height: 260upx;
-		position: relative;
-	}
-
-	.pic {
-		display: block;
-		width: 100%;
-		height: 100%;
-		border-radius: 6upx;
-	}
-
-	.cover {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, .5);
-		font-size: 36upx;
-		color: #fff;
-	}
-
-	.introduce {
-		display: inline-block;
-		padding: 16upx 0;
-		font-size: 28upx;
-		color: #606266;
-		line-height: 38upx;
-	}
-
-	.bot {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		height: 80upx;
-		font-size: 24upx;
-		color: #707070;
-		position: relative;
-	}
-
-	.more-icon {
-		font-size: 32upx;
+	.content{
+		margin-top: 20upx;
+		font-size: 30upx!important;
+		line-height: 200%;
 	}
 </style>

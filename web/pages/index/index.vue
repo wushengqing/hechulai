@@ -82,7 +82,7 @@
 </template>
 
 <script>
-	import {mapState} from 'vuex';
+	import {mapState,mapMutations} from 'vuex';
 	export default {
 
 		data() {
@@ -105,11 +105,17 @@
 
 			this.loadData();
 		},
+		onShow(){
+			if(this.userInfo.userId){
+				this.$api.request.getUserInfo({id:this.userInfo.userId}).then(res=>{
+					res.data.userId = res.data.id;
+					res.data.isRelZq = true;
+					this.login(res.data);
+				})
+			}
+		},
 		methods: {
-			/**
-			 * 请求静态数据只是为了代码不那么乱
-			 * 分次请求未作整合
-			 */
+			...mapMutations(['login']),
 			async loadData() {
 				if(!this.clanInfo.id){
 					return
@@ -134,11 +140,10 @@
 					pageSize:2,
 					currentPage:1
 				});
-				console.log(bannerList)
 				this.bannerList = bannerList;
 				this.swiperLength = this.bannerList.length;
-				this.newsList = newsList;
-				this.noticeList = noticeList;
+				this.newsList = newsList.data;
+				this.noticeList = noticeList.data;
 			},
 			//轮播图切换修改背景色
 			swiperChange(e) {

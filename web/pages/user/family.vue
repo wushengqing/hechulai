@@ -82,7 +82,8 @@
 					call:'自己',
 					scName:family.scName,
 					dec:family.clansmanDec,
-					clansmanId:family.clansmanId
+					clansmanId:family.clansmanId,
+					type:0,
 				})
 				family.spouseDtoList.forEach(item =>{
 					this.familyList.push({
@@ -91,7 +92,9 @@
 						call:'妻子',
 						scName:family.scName,
 						dec:item.spouseDec,
-						clansmanId:item.spouseId
+						clansmanId:item.spouseId,
+						type:1,
+						husbandId:item.clansmanId
 					})
 				})
 				//儿子列表
@@ -99,10 +102,11 @@
 					this.familyList.push({
 						name:item.clansmanName,
 						headFileUrl:item.headFileUrl,
-						call:item.sex==='男'?"儿子":'女儿',
+						call:'儿子',
 						scName:	item.scName,
 						dec:item.clansmanDec,
-						clansmanId:item.clansmanId
+						clansmanId:item.clansmanId,
+						type:0,
 					});
 					//儿媳妇
 					item.spouseDtoList.forEach(wife=>{
@@ -112,7 +116,9 @@
 							call:`儿媳妇(${item.clansmanName})之妻`,
 							scName:	item.scName,
 							dec:wife.spouseDec,
-							clansmanId:wife.spouseId
+							clansmanId:wife.spouseId,
+							type:1,
+							husbandId:item.clansmanId
 						});
 					});
 					//孙辈
@@ -135,7 +141,9 @@
 						call:`女儿`,
 						scName:	daughter.scName,
 						dec:daughter.daughterDec,
-						clansmanId:daughter.daughterId
+						clansmanId:daughter.daughterId,
+						type:2,
+						fatherId:item.clansmanId
 					});
 				})
 			},

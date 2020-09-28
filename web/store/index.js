@@ -16,13 +16,13 @@ const store = new Vuex.Store({
 	mutations: {
 		//缓存宗族id
 		setClanInfo(state, clanInfo) {
-			state.hasLogin = true;
 			state.clanInfo = clanInfo;
 
 		},
 		login(state, userInfo) {
 			state.hasLogin = true;
 			state.userInfo = userInfo;
+			console.log(userInfo)
 			uni.setStorage({ //缓存用户登陆状态
 				key: 'userInfo',
 				data: userInfo
