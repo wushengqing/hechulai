@@ -4,7 +4,7 @@
     ref ="cityCascader"
     :options="options"
     :props="props"
-    :value="cascaderValue"
+    v-model="cascaderValue"
     @change="cascaderChange">
   </el-cascader>
 </template>
@@ -21,7 +21,6 @@ export default {
   data () {
     let _this = this;
     return {
-
       cascaderValue:[],
       options:[],
       displayName:'',
@@ -59,11 +58,15 @@ export default {
     }
   },
   watch: {
-    value(val){
-      console.log(val);
-      //调用父组件的input 事件
-      this.cascaderValue = [...val];
-    }
+    value: {
+      immediate: true,
+      handler(val) {
+        console.log(val);
+        //调用父组件的input 事件
+        this.cascaderValue = [...val];
+        //
+      },
+    },
   },
   computed: {
   },

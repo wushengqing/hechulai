@@ -41,12 +41,12 @@
 						</template>
 					</el-table-column>
 
-					<el-table-column label="操作" width="240px">
+					<el-table-column label="操作" width="120px">
 						<template slot-scope="props">
 							<el-button type="text" size="mini" @click="openDialog(props.row)">编辑</el-button>
-							<el-button type="text" size="mini" @click="editRubbish(props.row)">族谱管理</el-button>
-							<el-button type="text" size="mini" @click="editRubbish(props.row)">宗族管理员</el-button>
-							<el-button type="text" size="mini" @click="delRubbish(props.row)">删除</el-button>
+							<!--<el-button type="text" size="mini" @click="editRubbish(props.row)">族谱管理</el-button>-->
+							<!--<el-button type="text" size="mini" @click="editRubbish(props.row)">宗族管理员</el-button>-->
+							<!--<el-button type="text" size="mini" @click="delRubbish(props.row)">删除</el-button>-->
 						</template>
 					</el-table-column>
 				</template>
