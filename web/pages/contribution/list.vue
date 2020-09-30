@@ -4,11 +4,19 @@
 			<view class="title">{{ item.name }}</view>
 			<view class="field field-user">
 				<text class="label">发起人：</text>
-				<text class="value ">{{ item.createUserId }}</text>
+				<text class="value ">{{ item.createUserName }}</text>
+			</view>
+			<view class="field ">
+				<text class="label"><text class="iconfont mr-10">&#xe611</text>目标金额：</text>
+				<text class="value">{{ item.givingSumMoney||'-' }}</text>
 			</view>
 			<view class="field field-clock">
 				<text class="label">发起时间：</text>
-				<text class="value yellow">{{ item.createTime }}</text>
+				<text class="value yellow">{{ item.givingBtime }}</text>
+			</view>
+			<view class="field field-clock">
+				<text class="label">截止时间：</text>
+				<text class="value yellow">{{ item.givingEtime }}</text>
 			</view>
 		</navigator>
 	</view>

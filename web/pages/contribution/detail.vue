@@ -2,11 +2,13 @@
 	<view class="container pb100">
 		<view class="title">{{detailVo.name}}</view>
 		<view class="detail">{{detailVo.givingDec }}</view>
-		<view class="mt-30 field"><text class="iconfont mr-10">&#xe604</text>发起人：{{ detailVo.createUserId}}</view>
-		<view class="mt-30 field"><text class="iconfont mr-10">&#xe60d</text>发起时间：{{detailVo.createTime}}</view>
+		<view class="mt-30 field"><text class="iconfont mr-10">&#xe604</text>发起人：{{ detailVo.createUserName}}</view>
+		<view class="mt-30 field"><text class="iconfont mr-10">&#xe60d</text>发起时间：{{detailVo.givingBtime}}</view>
+		<view class="mt-30 field"><text class="iconfont mr-10">&#xe60d</text>截止时间：{{detailVo.givingEtime}}</view>
 		<view class="mt-30 field"><text class="iconfont mr-10">&#xe60f</text>当前进度：进行中</view>
-		<view class="mt-30 field"><text class="iconfont mr-10">&#xe610</text>乐捐人数：{{ userList.length }}</view>
-		<view class="mt-30 field"><text class="iconfont mr-10">&#xe611</text>乐捐金额：{{ totalMoney}}元</view>
+		<view class="mt-30 field"><text class="iconfont mr-10">&#xe610</text>乐捐人数：{{ detailVo.givingUserSum }}</view>
+		<view class="mt-30 field"><text class="iconfont mr-10">&#xe611</text>乐捐目标金额：{{ detailVo.givingSumMoney}}元</view>
+		<view class="mt-30 field"><text class="iconfont mr-10">&#xe611</text>乐捐已收金额：{{ detailVo.givingMoneySum}}元</view>
 		<view class="title2 mt-30">乐捐排行榜</view>
 		<view class="user flex" v-for="(item,index) in userList">
 			<view class="flex1">

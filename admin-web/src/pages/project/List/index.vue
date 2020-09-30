@@ -30,8 +30,9 @@
 					<el-table-column prop="givingBtime" label="发起时间"></el-table-column>
 					<el-table-column prop="givingEtime" label="结束时间"></el-table-column>
 					<el-table-column prop="givingUserSum" label="乐捐人次"></el-table-column>
+					<el-table-column prop="givingSumMoney" label="乐捐目标金额"></el-table-column>
 					<el-table-column prop="givingMoneySum" label="乐捐金额"></el-table-column>
-					<el-table-column prop="givingMoneySum" label="乐捐状态">
+					<el-table-column prop="" label="乐捐状态">
 						<template slot-scope="props">
 							<span v-if="getStatus(props.row)===0" class="color-grey">未知状态</span>
 							<span v-if="getStatus(props.row)===1" class="color-primary">未开始</span>

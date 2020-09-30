@@ -95,7 +95,7 @@
 			},
 			openClanPage2(item) {
 				uni.redirectTo({
-					url: `./clan2?id=${item.clansmanId || item.spouseId}`
+					url: `./clan2?id=${item.clansmanId || item.spouseId || item.daughterId}`
 				});
 			},
 			openGenerationPage(item) {

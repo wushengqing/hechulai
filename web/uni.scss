@@ -2,10 +2,10 @@
   font-family: 'iconfont';  /* project id 1765072 */
   src:url('https://at.alicdn.com/t/font_1765072_urzqy2qjl7.ttf') format('truetype'),
 }
-@font-face {
-  font-family: 'simkai';  /* project id 1765072 */
-  src:url('@/static/simkai.ttf') format('truetype'),
-}
+// @font-face {
+//   font-family: 'simkai';  /* project id 1765072 */
+//   src:url('@/static/simkai1.ttf') format('truetype'),
+// }
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 32upx;
@@ -41,9 +41,9 @@ $uni-color-success: #4cd964;
 $uni-color-warning: #f0ad4e;
 $uni-color-error: #dd524d;
 
-page{
-	 font-family: 'simkai';
-}
+// page,body{
+// 	 font-family: 'simkai';
+// }
 .c-red{
 	color: $uni-color-error;
 	
