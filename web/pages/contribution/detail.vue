@@ -11,7 +11,7 @@
 		<view class="user flex" v-for="(item,index) in userList">
 			<view class="flex1">
 				<text :class="getClassNames(index)">{{ index+1 }}</text>
-				<image class="avatar" src="../../static/temp/avatar.png"></image>
+				<image class="avatar" src="../../static/missing-face.png"></image>
 				<text class="name">{{ item.userName}}</text>
 			</view>
 			<view class="money">

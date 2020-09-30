@@ -153,17 +153,8 @@
 			"style": {
 				"navigationBarTitleText": "族委会"
 			}
-		}, {
-			"path": "pages/album/album",
-			"style": {
-				"navigationBarTitleText": "相册"
-			}
-		}, {
-			"path": "pages/albumDetail/albumDetail",
-			"style": {
-				"navigationBarTitleText": "相册"
-			}
-		}, {
+		}, 
+		{
 			"path": "pages/contribution/list",
 			"style": {
 				"navigationBarTitleText": "乐捐榜"

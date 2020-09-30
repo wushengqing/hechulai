@@ -26,6 +26,7 @@
 		},
 		onShow: function() {
 			//获取宗族id
+			console.log(uni)
 			setTimeout(()=>{
 				if (!this.clanInfo.id && this.pageName!=='union') {
 					let redirect_uri = ''
@@ -67,7 +68,7 @@
 			float: right;
 			font-weight: normal;
 			font-size: 26rpx;
-			color: #4399FC;
+			color: #984c06;
 		}
 	}
 

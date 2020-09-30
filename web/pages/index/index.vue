@@ -289,7 +289,6 @@
 			width: 15%;
 			line-height: 100upx;
 			text-align: center;
-
 			image {
 				margin-top: 30upx;
 				display: inline-block;

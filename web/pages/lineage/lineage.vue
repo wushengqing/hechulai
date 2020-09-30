@@ -60,9 +60,9 @@
 	margin:0 auto 10upx auto;
 	text-align: center;
 	.sx-desc{
-		border: $uni-color-primary solid 1upx;
+		border: #984c06 solid 1upx;
 		border-radius: 10upx;
-		background: $uni-color-primary ;
+		background: #984c06 ;
 		line-height: 80upx;
 		color: #fff;
 		.scName{

@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="list-cell m-t">
 			<text class="cell-tit">消息推送</text>
-			<switch checked color="#fa436a" @change="switchChange" />
+			<switch checked color="#984c06" @change="switchChange" />
 		</view>
 		<view class="list-cell b-b" @click="navTo('厦门何处来信息科技有限公司')" hover-class="cell-hover" :hover-stay-time="50">
 			<text class="cell-tit">关于我们</text>

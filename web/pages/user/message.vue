@@ -4,11 +4,10 @@
 			<navigator v-for="item in list" :url="`/pages/user/messageDetail?id=${item.id}&clanId=${clanInfo.id}`" class="item-link">
 				<view class="title" v-if="item.messageType===1">添加家庭成员</view>
 				<view class="title" v-if="item.messageType===5">绑定宗亲</view>
-				<view class="field ">
-					<text class="label">消息详情：</text>
-					<text class="value ">{{ item.messageContent }}</text>
+				<view class="field">
+					<text class="">{{ item.messageContent }}</text>
 				</view>
-				<view class="field field-user">
+				<view class="field">
 					<text class="label">审核员：</text>
 					<text class="value ">{{ item.auditUser ? item.auditUser.name:'' }}</text>
 				</view>
@@ -68,5 +67,8 @@
 <style lang="scss" scoped>
 page{
 	background: #f8f8f8;
+}
+.title{
+	font-weight: bold;
 }
 </style>

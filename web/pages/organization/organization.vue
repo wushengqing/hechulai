@@ -7,6 +7,7 @@
 			<view class="desc-view">
 				<view class="name">{{ item.clansmanName}}</view>
 				<view class="desc">世称：{{ item.scName||'-' }} 性别：{{ item.sex}}</view>
+				<view class="desc">简介：{{ item.clansmanDec }}</view>
 			</view>
 		</view>
 		<view class="item-view" v-if="list1.length==0">
@@ -17,7 +18,9 @@
 			<image class="avatar" :src="item.headFileUrl ||'../../static/missing-face.png' "></image>
 			<view class="desc-view">
 				<view class="name">{{ item.clansmanName}}</view>
-				<view class="desc">世称：{{ item.scName||'-' }} 性别：{{ item.sex}}</view>
+				<view class="desc">世称：{{ item.scName||'-' }} </view>
+					<view class="desc">性别：{{ item.sex}}</view>
+					<view class="desc">简介：{{ item.clansmanDec }}</view>
 			</view>
 		</view>
 		<view class="item-view" v-if="list2.length==0">
@@ -29,7 +32,8 @@
 				<image class="avatar" :src="item.headFileUrl ||'../../static/missing-face.png' "></image>
 				<view class="desc-view">
 					<view class="name">{{ item.clansmanName}}</view>
-					<view class="desc">世称：{{ item.scName||'-' }} 性别：{{ item.sex}}</view>
+					<view class="desc">世称：{{ item.scName||'-' }}</view>
+					<view class="desc">性别：{{ item.sex}}</view>
 				</view>
 			</view>
 		</view>

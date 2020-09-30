@@ -59,7 +59,7 @@
 
 <style lang="scss">
 	page{
-		background: #d2c4a7;
+		background: #fff;
 	}
 .full-page{
 	position: fixed;

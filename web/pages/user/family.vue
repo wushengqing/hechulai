@@ -13,7 +13,7 @@
 				</text>
 			</view>
 		</view>
-		<view class="w100off fotter-bar">
+		<view class="w100off fotter-bar" style="background: #fff;">
 			<cl-button @tap="visible = true" class="w100off" type="primary">添加成员</cl-button>
 		</view>
 		<!--添加成员-->

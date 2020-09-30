@@ -2,6 +2,10 @@
   font-family: 'iconfont';  /* project id 1765072 */
   src:url('https://at.alicdn.com/t/font_1765072_urzqy2qjl7.ttf') format('truetype'),
 }
+@font-face {
+  font-family: 'simkai';  /* project id 1765072 */
+  src:url('@/static/simkai.ttf') format('truetype'),
+}
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 32upx;
@@ -24,7 +28,7 @@ $font-color-dark: #303133;
 $font-color-base: #606266;
 $font-color-light: #909399;
 $font-color-disabled: #C0C4CC;
-$font-color-spec: #4399fc;
+$font-color-spec: #984c06;
 /* 边框颜色 */
 $border-color-dark: #DCDFE6;
 $border-color-base: #E4E7ED;
@@ -32,13 +36,17 @@ $border-color-light: #EBEEF5;
 /* 图片加载中颜色 */
 $image-bg-color: #eee;
 /* 行为相关颜色 */
-$uni-color-primary:#4399FC;
+$uni-color-primary:#984c06;
 $uni-color-success: #4cd964;
 $uni-color-warning: #f0ad4e;
 $uni-color-error: #dd524d;
 
+page{
+	 font-family: 'simkai';
+}
 .c-red{
 	color: $uni-color-error;
+	
 }
 .c-base{
 	color: $base-color;

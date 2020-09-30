@@ -1,12 +1,12 @@
 <template>
 	<view v-show="ready">
 		<view class="img-bg">
-			<image class="img-jp" src="../../static/jiapu.jpg"></image>
+			<image class="img-jp" mode="aspectFill" src="../../static/jiapu.jpg"></image>
 		</view>
 		<view class="container">
-			<view class="title1">{{ clanUserInfo.clansmanName }}</view>
+			<view class="title">{{ clanUserInfo.name }}</view>
 			<view class="desc">
-				<view>世称：{{ clanUserInfo.name }}</view>
+				<view>世称：{{ clanUserInfo.generationName }}</view>
 				<view>性别：{{ clanUserInfo.sex||'男' }}</view>
 				<view>出生日期：{{ clanUserInfo.birthDay }}</view>
 				<view v-if=" clanUserInfo.endDay">去世日期：{{ clanUserInfo.endDay }}</view>
@@ -99,7 +99,8 @@
 
 <style lang='scss' scoped>
 	page{
-		background: #d2c4a7;
+		background: #fff;
+		line-height: 60upx;
 	}
 	.img-bg{
 		.img-jp{
@@ -117,8 +118,11 @@
 			top:20upx;
 			right: 40upx;
 		}
-		.title1{
+		.title{
 			font-size: 40upx;
+		}
+		.title1{
+			font-size: 30upx;
 		}
 		.desc{
 			line-height: 60upx;
