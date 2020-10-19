@@ -19,6 +19,15 @@
 				<text class="value yellow">{{ item.givingEtime }}</text>
 			</view>
 		</navigator>
+		<view v-if="!loading && projectList.length>=totalNum" class="tc line88 c-grey">
+			我是有底线的~
+		</view>
+		<view v-if="projectList.length===0 && totalNum===0" class="tc line88 c-grey">
+			暂无数据~
+		</view>
+		<view v-if="loading" class="tc line88 c-grey">
+			加载中...
+		</view>
 	</view>
 </template>	
 
@@ -28,27 +37,57 @@
 		data() {
 			return {
 				projectList:[],
+				loading: true,
+				pageSize: 10,
+				totalNum: 200,
+				currentPage: 1
 			}
 		},
 		computed: {
 			...mapState(['clanInfo']),
 		},
-		methods: {
-			async loadData() {
-				//获取轮播图
-				let par = {
-					clanId:this.clanInfo.id,
-				};
-				const projectList = await this.$api.request.projectList(par);
-				this.projectList = projectList;
-			},
+		onLoad(options) {
+		
 		},
-		onShow(){
-			if(!this.checkRouter()){
+		onShow() {
+			this.currentPage = 1;
+			this.loadData();
+		},
+		//下拉刷新
+		onPullDownRefresh() {
+			this.currentPage = 1;
+			this.loadData();
+		},
+		//加载更多
+		onReachBottom() {
+			if (this.projectList.length >= this.totalNum) {
 				return;
 			}
 			this.loadData();
-		}
+		},
+		methods: {
+			async loadData() {
+				if(!this.checkRouter()){
+					return;
+				}
+
+				//获取
+				this.loading = true;
+				const projectList = await this.$api.request.projectList({
+					clanId: this.clanInfo.id,
+					pageSize: this.pageSize,
+					currentPage: this.currentPage
+				});
+				this.totalNum = projectList.totalNum
+				if (this.currentPage === 1) {
+					this.projectList = [];
+				}
+				this.currentPage++;
+				this.projectList.push(...projectList.data);
+				uni.stopPullDownRefresh();
+				this.loading = false;
+			},
+		},
 	}
 </script>
 

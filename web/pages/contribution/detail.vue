@@ -22,8 +22,8 @@
 			</view>
 		</view>
 		<view class="tc c-grey h88">暂无乐捐数据~</view>
-		<view class="fotter-bar">
-			<button type="primary" @tap="visible=true">我要乐捐</button>
+		<view class="fotter-bar flex">
+			<cl-button class="flex1" type="primary" @tap="visible=true">我要乐捐</cl-button>
 		</view>
 		<cl-popup :visible.sync="visible" direction="bottom">
 			<cl-form>
@@ -71,7 +71,7 @@
 		
 		methods: {
 			async loadData() {
-				//获取轮播图
+				//获取
 				let par = {
 					clanId: this.clanInfo.id,
 				};

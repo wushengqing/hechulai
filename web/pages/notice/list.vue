@@ -8,7 +8,7 @@
 					<view class="user">{{ item.mienResource}}<text>{{item.updateTime}}</text></view>
 				</view>
 			</navigator>
-			<view v-if="noticeList.length>=totalNum" class="tc line88 c-grey">
+			<view v-if="!loading && noticeList.length>=totalNum" class="tc line88 c-grey">
 				我是有底线的~
 			</view>
 			<view v-if="noticeList.length===0 && totalNum===0" class="tc line88 c-grey">
@@ -43,12 +43,12 @@
 		
 		},
 		onShow() {
-			this.currentPage == 1;
+			this.currentPage = 1;
 			this.loadData();
 		},
 		//下拉刷新
 		onPullDownRefresh() {
-			this.currentPage == 1;
+			this.currentPage = 1;
 			this.loadData();
 		},
 		//加载更多
@@ -73,6 +73,7 @@
 				}
 				this.currentPage++;
 				this.noticeList.push(...noticeList.data);
+				uni.stopPullDownRefresh();
 				this.loading = false;
 			},
 			//详情

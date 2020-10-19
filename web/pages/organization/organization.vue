@@ -40,8 +40,8 @@
 		<view class="item-view" v-if="list3.length==0">
 			暂未设置
 		</view>
-		<view class="fotter-bar">
-			<button type="primary" @tap="visible=true">我要反馈</button>
+		<view class="fotter-bar flex">
+			<cl-button class="flex1" type="primary" @tap="visible=true">我要反馈</cl-button>
 		</view>
 		<cl-popup :visible.sync="visible" direction="bottom">
 			<view class="line88">

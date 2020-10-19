@@ -108,8 +108,6 @@
 		onShow(){
 			if(this.userInfo.userId){
 				this.$api.request.getUserInfo({id:this.userInfo.userId}).then(res=>{
-					res.data.userId = res.data.id;
-					res.data.isRelZq = true;
 					this.login(res.data);
 				})
 			}

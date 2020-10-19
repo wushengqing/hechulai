@@ -226,7 +226,7 @@ async function userMsgList(data) {
 		data
 	});
 	if (res) {
-		return res.data.data;
+		return res.data;
 	} else {
 		return {
 			code: '1',
@@ -273,7 +273,7 @@ async function getAuditMsgList(data) {
 		data
 	});
 	if (res) {
-		return res.data.data;
+		return res.data;
 	} else {
 		return {
 			code: '1',
@@ -289,7 +289,7 @@ function auditUserUpdateClanMainRel(data) {
 		data,
 	});
 }
-//审核
+//审核添加家庭成员
 function auditUserUpdateClanMain(data) {
 	return globalRequest({
 		url: `${baseUrl}auditUserUpdateClanMain.json`,
@@ -412,7 +412,7 @@ async function projectList(data) {
 		data
 	});
 	if (res) {
-		return res.data.data;
+		return res.data;
 	} else {
 		return {
 			code: '1',

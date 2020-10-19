@@ -11,7 +11,7 @@
 					<image mode="aspectFill" class="image" :src="item.mienImageUrl?item.mienImageUrl:'../../static/errorImage.jpg'"></image>
 				</view>
 			</navigator>
-			<view v-if="newsList.length>=totalNum" class="tc line88 c-grey">
+			<view v-if="!loading && newsList.length>=totalNum" class="tc line88 c-grey">
 				我是有底线的~
 			</view>
 			<view v-if="newsList.length===0 && totalNum===0" class="tc line88 c-grey">
@@ -50,12 +50,12 @@
 
 		},
 		onShow() {
-			this.currentPage == 1;
+			this.currentPage = 1;
 			this.loadData();
 		},
 		//下拉刷新
 		onPullDownRefresh() {
-			this.currentPage == 1;
+			this.currentPage = 1;
 			this.loadData();
 		},
 		//加载更多
@@ -80,6 +80,7 @@
 				}
 				this.currentPage++;
 				this.newsList.push(...newsListData.data);
+				uni.stopPullDownRefresh();
 				this.loading = false;
 			},
 			//详情

@@ -57,7 +57,14 @@
 		{
 			"path": "pages/user/approve",
 			"style": {
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "我的审核"
+			}
+		},
+		{
+			"path": "pages/user/approveDetail",
+			"style": {
+				"navigationBarTitleText": "审核明细"
 			}
 		},
 		{
@@ -129,6 +136,7 @@
 		}, {
 			"path": "pages/notice/list",
 			"style": {
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "通知"
 			}
 		}, {
@@ -157,6 +165,7 @@
 		{
 			"path": "pages/contribution/list",
 			"style": {
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "乐捐榜"
 			}
 		}, {
@@ -233,6 +242,7 @@
 		}, {
 			"path": "pages/ancestralHall/list",
 			"style": {
+				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "宗祠/祖坟"
 			}
 		},

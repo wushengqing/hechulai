@@ -1,23 +1,38 @@
 <template>
 	<view class="container" style="padding: 0;">
+		<view class="flex line88 tc">
+			<view class="flex1 auditState-item" :class="{active:auditState===item.value}" v-for="item in auditStateList" @click="changeAuditState(item)">{{ item.label }}</view>
+		</view>
 		<view class="approve-body">
-			<view class="notice-item" v-for="approveItem in approveList"  @click="approve(approveItem)">
+			<view class="notice-item" v-for="approveItem in approveList"  @click="navToDetailPage(approveItem)">
 				<text class="time">{{ approveItem.createTime }}</text>
 				<view class="content ">
 					<view class="title flex">
 						<view class="flex1" v-if="approveItem.messageType===1">添加家庭成员</view>
 						<view class="flex1" v-if="approveItem.messageType===5">申请绑定宗亲</view>
-						<view v-if="approveItem.messageDec !='审查通过'" class="c-yellow ">{{ approveItem.messageDec }}</view>
-						<view v-if="approveItem.messageDec =='审查通过'" class="c-grey ">{{ approveItem.messageDec }}</view>
 					</view>
 					<text class="introduce">
 						{{ approveItem.messageContent }}
 					</text>
+					<text class="introduce">
+						审核内容：{{ approveItem.messageDec }}
+					</text>
 					<view class="bot b-t">
-						<text class="c-base">{{ approveItem.messageDec !='审查通过'?'立即审核':'已通过审核' }}</text>
+						<text class="c-base" v-if="approveItem.auditState===0">去审核</text>
+						<text class="c-yellow" v-if="approveItem.auditState===1">查看审核详情</text>
+						<text class="c-red" v-if="approveItem.auditState===2">重新审核</text>
 						<text class="more-icon yticon icon-you"></text>
 					</view>
 				</view>
+			</view>
+			<view v-if="!loading && approveList.length>=totalNum" class="tc line88 c-grey">
+				我是有底线的~
+			</view>
+			<view v-if="approveList.length===0 && totalNum===0" class="tc line88 c-grey">
+				暂无数据~
+			</view>
+			<view v-if="loading" class="tc line88 c-grey">
+				加载中...
 			</view>
 		</view>
 		<cl-popup :visible.sync="visible" direction="bottom">
@@ -47,154 +62,96 @@
 	export default {
 		data() {
 			return {
+				auditStateList:[
+					{label:'待审核',value:0},
+					{label:'审核通过',value:1},
+					{label:'已驳回',value:2},
+				],
 				visible:false,
 				currentApprove:{},
-				//申请绑定宗亲列表
+				//审核列表
 				approveList: [],
-				//添丁列表
-				approveList2:[],
 				auditDec:'',
-				labels: [{
-					label: '用户绑定宗亲'
-				}, {
-					label: '添加家庭成员'
-				}],
+				auditState:0,
+				loading: true,
+				pageSize: 10,
+				totalNum: 200,
+				currentPage: 1
 			}
 		},
 		computed: {
 			...mapState(['clanInfo', 'userInfo']),
 		},
-		methods: {
-			async getUserApproveList() {
-				this.approveList = await this.$api.request.getAuditMsgList({
-					clanId: this.clanInfo.id,
-					auditUserClanManId: this.userInfo.clanManId
-				});
-			},
-			//立即审核
-			approve(item){
-				this.currentApprove = item;
-				uni.showActionSheet({
-				    itemList: ['通过申请', '拒绝申请'],
-				    success:(res) => {
-						if(res.tapIndex===0){
-							this.auditDec = '通过申请';
-							this.setApprove('success')
-						}else if(res.tapIndex===1){
-							this.auditDec = '';
-							this.visible = true;
-						}
-				    },
-				    fail: function (res) {
-				        console.log(res.errMsg);
-				    }
-				});
-			},
-			async setApprove(actionName){
-				if(this.tabIndex===1){
-					// 如果审核家庭成员，则跳转到对应的接口
-					this.setApprove2(actionName);
-				}
-				let messageDec = actionName==='success'?'审查通过':this.auditDec;
-				if(actionName==='fail' && !this.auditDec){
-					this.$refs["message"].open({
-						type:'cancel',
-						message: "请填写拒绝理由",
-					});
-					return false;
-				}
-				this.$api.request.auditUserUpdateClanMainRel({
-					auditUserId:this.userInfo.clanManId,
-					messageDec,
-					id:this.currentApprove.id,
-				}).then(res=>{
-					if(res.code===0){
-						this.$refs["message"].open({
-							type: 'success',
-							message: "已提交，请等待审核",
-						});
-						this.visible = false;
-					}else{
-						this.$refs["message"].open({
-							type: 'error',
-							message: res.msg,
-						});
-					}
-					this.getUserApproveList();
-					this.visible = false;
-				});
-				
-				
-				
-			},
-			//立即审核添加家庭成员
-			approve2(item){
-				this.currentApprove = item;
-				uni.showActionSheet({
-				    itemList: ['通过申请', '拒绝申请'],
-				    success:(res) => {
-						if(res.tapIndex===0){
-							this.auditDec = '通过申请';
-							this.setApprove2('success')
-						}else if(res.tapIndex===1){
-							this.auditDec = '';
-							this.visible = true;
-						}
-				    },
-				    fail: function (res) {
-				        console.log(res.errMsg);
-				    }
-				});
-			},
-			async setApprove2(actionName){
-				let auditDec = actionName==='success'?'通过审核':this.auditDec;
-				if(actionName==='fail' && !this.auditDec){
-					this.$refs["message"].open({
-						type:'cancel',
-						message: "请填写拒绝理由",
-					});
-					return false;
-				}
-				debugger
-				this.$api.request.auditUserUpdateClanMain({
-					clanId:this.currentApprove.clanMainRel.id,
-					auditState:actionName==='success'?1:2,
-					auditDec,
-					id:this.currentApprove.id,
-				}).then(res=>{
-					if(res.code===0){
-						this.$refs["message"].open({
-							type: 'success',
-							message: "已提交，请等待审核",
-						});
-						this.visible = false;
-					}else{
-						this.$refs["message"].open({
-							type: 'error',
-							message: res.msg,
-						});
-					}
-					this.getUserApproveList();
-					this.visible = false;
-				});
-				
-				
-				
-			}
-
+		onLoad(options) {
+		
 		},
 		onShow() {
-			if (!this.checkRouter()) {
+			this.currentPage = 1;
+			this.loadData();
+		},
+		//下拉刷新
+		onPullDownRefresh() {
+			this.currentPage = 1;
+			this.loadData();
+		},
+		//加载更多
+		onReachBottom() {
+			if (this.approveList.length >= this.totalNum) {
 				return;
 			}
-			this.getUserApproveList();
-		}
+			this.loadData();
+		},
+		methods: {
+			async loadData() {
+				if (!this.checkRouter()) {
+					return;
+				}
+				this.loading = true;
+				const approveList = await this.$api.request.getAuditMsgList({
+					clanId: this.clanInfo.id,
+					auditUserClanManId: this.userInfo.clanManId,
+					auditState:this.auditState,
+					pageSize: this.pageSize,
+					currentPage: this.currentPage
+				});
+				this.totalNum = approveList.totalNum
+				if (this.currentPage === 1) {
+					this.approveList = [];
+				}
+				this.currentPage++;
+				this.approveList.push(...approveList.data);
+				uni.stopPullDownRefresh();
+				this.loading = false;
+			},
+			//切换列表类型
+			changeAuditState(item){
+				this.auditState = item.value;
+				this.currentPage=1;
+				this.loadData();
+			},
+			//详情
+			navToDetailPage(item) {
+				//测试数据没有写id，用title代替
+				let id = item.id;
+				uni.navigateTo({
+					url: `/pages/user/approveDetail?id=${id}&clanId=${this.clanInfo.id}`
+				})
+			},
+
+		},
 	}
 </script>
 
 <style lang='scss'>
 	.approve-body{
 		background-color: #f7f7f7;
+	}
+	.auditState-item{
+		border-bottom:#ddd solid 4upx;
+		&.active{
+			color:$base-color;
+			border-bottom:$base-color solid 4upx
+		}
 	}
 	.notice-item {
 		margin-bottom: 20upx;
