@@ -1,11 +1,11 @@
 const baseUrl = 'https://www.hclzz.com/hcl-web/web/'
-import globalRequest from './globalRequest.js'
+import {defaultRequest,asyncRequest} from './globalRequest.js'
 //获取宗族列表
 async function getClanList(data = {
 	currentPage: 0,
 	pageSize: 100
 }) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getClanList.json`,
 		method: 'POST',
 		data
@@ -22,7 +22,7 @@ async function getClanList(data = {
 }
 //获取宗族和子域名关联列表
 async function getDnsList() {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getDnsList.json`,
 		method: 'POST',
 		data: {}
@@ -39,7 +39,7 @@ async function getDnsList() {
 }
 //注册
 async function userRegistered(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}userRegistered.json`,
 		method: 'POST',
 		data
@@ -56,7 +56,7 @@ async function userRegistered(data) {
 }
 //登录
 async function userLogin(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}userLogin.json`,
 		method: 'POST',
 		data
@@ -72,7 +72,7 @@ async function userLogin(data) {
 }
 //获取用户信息
 async function getUserInfo(data) {
-	return globalRequest({
+	return defaultRequest({
 		url: `${baseUrl}getUserInfo.json`,
 		method: 'POST',
 		data,
@@ -80,7 +80,7 @@ async function getUserInfo(data) {
 }
 //获取openid;
 async function getOAuth(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getOAuth.json`,
 		method: 'POST',
 		data
@@ -96,7 +96,7 @@ async function getOAuth(data) {
 }
 //获取轮播图
 async function bannerList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getBearLenList.json`,
 		method: 'POST',
 		data
@@ -113,7 +113,7 @@ async function bannerList(data) {
 }
 //获取新闻列表
 async function newsList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getNewList.json`,
 		method: 'POST',
 		data
@@ -134,7 +134,7 @@ async function noticeList(data) {
 		...data,
 		mienType: 3
 	}
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getMienBaseList.json`,
 		method: 'POST',
 		data
@@ -150,7 +150,7 @@ async function noticeList(data) {
 }
 //获取新闻详情
 async function newsDetail(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getMienBaseInfo.json`,
 		method: 'POST',
 		data
@@ -169,7 +169,7 @@ async function newsDetail(data) {
 
 //获取世称列表
 async function generationList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getScList.json`,
 		method: 'POST',
 		data
@@ -187,7 +187,7 @@ async function generationList(data) {
 
 //获取房系列表
 async function directoryList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getDirectoryList.json`,
 		method: 'POST',
 		data
@@ -204,7 +204,7 @@ async function directoryList(data) {
 }
 //获取宗亲列表
 async function clanUserRelList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getClanUserRelList.json`,
 		method: 'POST',
 		data
@@ -220,7 +220,7 @@ async function clanUserRelList(data) {
 }
 //获取宗亲消息列表
 async function userMsgList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getUserMsgList.json`,
 		method: 'POST',
 		data
@@ -235,7 +235,7 @@ async function userMsgList(data) {
 	}
 }
 async function getMsgInfo(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getMsgInfo.json`,
 		method: 'POST',
 		data
@@ -251,7 +251,7 @@ async function getMsgInfo(data) {
 }
 //获取宗亲审核员获取用户关联宗亲审查消息列表
 async function userApproveList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getAuditMsgListByUser.json`,
 		method: 'POST',
 		data
@@ -267,7 +267,7 @@ async function userApproveList(data) {
 }
 //获取宗亲审核员获取用户关联宗亲审查消息列表
 async function getAuditMsgList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getAuditMsgList.json`,
 		method: 'POST',
 		data
@@ -283,7 +283,7 @@ async function getAuditMsgList(data) {
 }
 //审核员审查用户绑定宗亲的消息
 function auditUserUpdateClanMainRel(data) {
-	return globalRequest({
+	return defaultRequest({
 		url: `${baseUrl}auditUserUpdateClanMainRel.json`,
 		method: 'POST',
 		data,
@@ -291,7 +291,7 @@ function auditUserUpdateClanMainRel(data) {
 }
 //审核添加家庭成员
 function auditUserUpdateClanMain(data) {
-	return globalRequest({
+	return defaultRequest({
 		url: `${baseUrl}auditUserUpdateClanMain.json`,
 		method: 'POST',
 		data,
@@ -300,7 +300,7 @@ function auditUserUpdateClanMain(data) {
 
 //获取宗祠祖坟列表
 function getAncestralHallList(data) {
-	return globalRequest({
+	return defaultRequest({
 		url: `${baseUrl}getAncestralHallList.json`,
 		method: 'POST',
 		data,
@@ -308,7 +308,7 @@ function getAncestralHallList(data) {
 }
 //获取宗祠祖坟详情
 async function getAncestralHallInfo(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getAncestralHallInfo.json`,
 		method: 'POST',
 		data
@@ -324,7 +324,7 @@ async function getAncestralHallInfo(data) {
 }
 //获取世系表
 async function sxList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getSxList.json`,
 		method: 'POST',
 		data
@@ -340,7 +340,7 @@ async function sxList(data) {
 }
 //获取族委会
 async function organizationList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getClanOrganizationList.json`,
 		method: 'POST',
 		data
@@ -357,7 +357,7 @@ async function organizationList(data) {
 
 //获取宗亲详情
 async function clanUserInfo(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getClanUserInfo.json`,
 		method: 'POST',
 		data
@@ -373,7 +373,7 @@ async function clanUserInfo(data) {
 }
 //获取族谱宗亲详情
 async function getZpList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getZpList.json`,
 		method: 'POST',
 		data
@@ -389,7 +389,7 @@ async function getZpList(data) {
 }
 //​绑定宗亲
 function userRelClanMain(data) {
-	return globalRequest({
+	return defaultRequest({
 		url: `${baseUrl}userRelClanMain.json`,
 		method: 'POST',
 		data,
@@ -397,7 +397,7 @@ function userRelClanMain(data) {
 }
 //​宗亲添加家庭成员
 function addOrUpdateClanUserRelByApp(data) {
-	return globalRequest({
+	return defaultRequest({
 		url: `${baseUrl}addOrUpdateClanUserRelByApp.json`,
 		method: 'POST',
 		data,
@@ -406,7 +406,7 @@ function addOrUpdateClanUserRelByApp(data) {
 
 //获取乐捐列表
 async function projectList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getGivingBaseList.json`,
 		method: 'POST',
 		data
@@ -424,8 +424,8 @@ async function projectList(data) {
 
 //获取乐捐详情
 async function projectDetail(data) {
-	var [error, res] = await uni.request({
-		url: `${baseUrl}getGivingBaseList.json`,
+	var [error, res] = await asyncRequest({
+		url: `${baseUrl}getGivingBaseInfo.json`,
 		method: 'POST',
 		data
 	});
@@ -441,13 +441,13 @@ async function projectDetail(data) {
 }
 //获取我的乐捐列表或者乐捐榜列表，根据传入的参数来区别（givingId，userId）
 async function projectUserList(data) {
-	var [error, res] = await uni.request({
+	var [error, res] = await asyncRequest({
 		url: `${baseUrl}getGivingUserRelList.json`,
 		method: 'POST',
 		data
 	});
 	if (res) {
-		return res.data.data;
+		return res.data;
 	} else {
 		return {
 			code: '1',
@@ -458,7 +458,7 @@ async function projectUserList(data) {
 }
 //发起乐捐
 async function addOrUpdateGivingUserRel(data) {
-	return globalRequest({
+	return defaultRequest({
 		url: `${baseUrl}addOrUpdateGivingUserRel.json`,
 		method: 'POST',
 		data,
@@ -466,7 +466,7 @@ async function addOrUpdateGivingUserRel(data) {
 }
 //反馈 saveClanMsg.json
 async function saveClanMsg(data) {
-	return globalRequest({
+	return defaultRequest({
 		url: `${baseUrl}saveClanMsg.json`,
 		method: 'POST',
 		data,
@@ -476,7 +476,7 @@ async function saveClanMsg(data) {
 
 //族谱获取单个宗亲的信息
 
-export default {
+export default  {
 	//获取域名和宗族的关系
 	getDnsList,
 	//获取宗族列表
@@ -541,4 +541,4 @@ export default {
 	getAncestralHallInfo,
 	//反馈
 	saveClanMsg
-}
+};

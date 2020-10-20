@@ -25,7 +25,7 @@
 					</view>
 				</view>
 			</view>
-			<view v-if="!loading && approveList.length>=totalNum" class="tc line88 c-grey">
+			<view v-if="totalNum!==0 && !loading && approveList.length>=totalNum" class="tc line88 c-grey">
 				我是有底线的~
 			</view>
 			<view v-if="approveList.length===0 && totalNum===0" class="tc line88 c-grey">

@@ -21,7 +21,15 @@
 				<view class="tip">捐款金额</view>
 			</view>
 		</view>
-		<view class="tc c-grey h88">暂无乐捐数据~</view>
+		<view v-if="totalNum!==0 && !loading && userList.length>=totalNum" class="tc line88 c-grey">
+			我是有底线的~
+		</view>
+		<view v-if="userList.length===0 && totalNum===0" class="tc line88 c-grey">
+			暂无乐捐数据~
+		</view>
+		<view v-if="loading" class="tc line88 c-grey">
+			加载中...
+		</view>
 		<view class="fotter-bar flex">
 			<cl-button class="flex1" type="primary" @tap="visible=true">我要乐捐</cl-button>
 		</view>
@@ -60,6 +68,10 @@
 
 				},
 				userList: [],
+				loading: true,
+				pageSize: 10,
+				totalNum: 200,
+				currentPage: 1,
 				visible: false,
 				form: {
 					giveMoney: '',
@@ -68,21 +80,52 @@
 				},
 			}
 		},
-		
+		async onLoad(options) {
+			this.id = parseInt(options.id);
+			if (this.id) {
+				this.loadPageData();
+			}
+		},
+		//下拉刷新
+		onPullDownRefresh() {
+			this.currentPage = 1;
+			this.loadPageData();
+		},
+		//加载更多
+		onReachBottom() {
+			if (this.userList.length >= this.totalNum) {
+				return;
+			}
+			this.loadData();
+		},
 		methods: {
-			async loadData() {
+			async loadPageData() {
 				//获取
 				let par = {
-					clanId: this.clanInfo.id,
+					id: this.id,
 				};
-				const detailVo = await this.$api.request.projectList(par);
-				const userList = await this.$api.request.projectUserList({
-					givingId: this.id
-				})
-				this.detailVo = detailVo.filter(item => item.id === parseInt(this.id))[0];
-				this.userList = userList;
+				const detailVo = await this.$api.request.projectDetail(par);
+				this.detailVo = detailVo;
+				this.loadData();
 			},
-			getClassNams(index){
+			async loadData() {
+				//获取新闻列表
+				this.loading = true;
+				const userList = await this.$api.request.projectUserList({
+					givingId: this.id,
+					pageSize: this.pageSize,
+					currentPage: this.currentPage,
+				});
+				this.totalNum = userList.totalNum
+				if (this.currentPage === 1) {
+					this.userList = [];
+				}
+				this.currentPage++;
+				this.userList.push(...userList.data);
+				uni.stopPullDownRefresh();
+				this.loading = false;
+			},
+			getClassNames(index){
 				if(index===0){
 					return 'index large c-red'
 				}
@@ -137,13 +180,7 @@
 				return '0.00';
 			}
 		},
-		async onLoad(options) {
-			this.id = parseInt(options.id);
-			if (this.id) {
-				this.loadData();
-			}
-
-		},
+		
 	}
 </script>
 

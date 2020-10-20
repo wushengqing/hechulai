@@ -101,8 +101,33 @@
 		computed: {
 			...mapState(['clanInfo','userInfo']),
 		},
-		onLoad() {
-
+		async onLoad(opctions) {
+			console.log(opctions);
+			if(this.clanInfo.id){
+				this.loadData();
+				return
+			}
+			//获取clanInfo
+			const unionList = await this.$api.request.getClanList();
+			const dnsList = await this.$api.request.getDnsList();
+			let dnsName = window.location.origin + '/web';
+			let clan = dnsList.filter(item => item.dnsName === dnsName);
+			let clanId = '';
+			if (clan && clan.length === 1) {
+				clanId = clan[0].clanId
+			};
+			if (clanId) {
+				this.setClanInfo(unionList.filter(item => item.id === clanId)[0]);
+				if(opctions.redirect_uri){
+					uni.navigateTo({
+						url: opctions.redirect_uri
+					});
+				}
+			} else{
+				uni.navigateTo({
+					url: `/pages/union/union`
+				});
+			}
 			this.loadData();
 		},
 		onShow(){
@@ -113,7 +138,7 @@
 			}
 		},
 		methods: {
-			...mapMutations(['login']),
+			...mapMutations(['setClanInfo', 'login']),
 			async loadData() {
 				if(!this.clanInfo.id){
 					return

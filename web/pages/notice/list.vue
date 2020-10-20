@@ -8,7 +8,7 @@
 					<view class="user">{{ item.mienResource}}<text>{{item.updateTime}}</text></view>
 				</view>
 			</navigator>
-			<view v-if="!loading && noticeList.length>=totalNum" class="tc line88 c-grey">
+			<view v-if="totalNum!==0 && !loading && noticeList.length>=totalNum" class="tc line88 c-grey">
 				我是有底线的~
 			</view>
 			<view v-if="noticeList.length===0 && totalNum===0" class="tc line88 c-grey">

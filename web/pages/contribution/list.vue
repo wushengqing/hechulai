@@ -19,7 +19,7 @@
 				<text class="value yellow">{{ item.givingEtime }}</text>
 			</view>
 		</navigator>
-		<view v-if="!loading && projectList.length>=totalNum" class="tc line88 c-grey">
+		<view v-if="!loading && projectList.length>=totalNum && totalNum!==0" class="tc line88 c-grey">
 			我是有底线的~
 		</view>
 		<view v-if="projectList.length===0 && totalNum===0" class="tc line88 c-grey">

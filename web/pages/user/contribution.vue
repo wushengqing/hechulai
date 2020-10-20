@@ -1,8 +1,12 @@
 <template>
 	<view class="container">
 		<view v-if="!loading">
-			<navigator v-for="item in projectList " :url="`/pages/contribution/detail?id=${item.id}`" class="item-link">
+			<navigator v-for="item in projectList" :url="`/pages/contribution/detail?id=${item.givingId}`" class="item-link">
 				<view class="title">{{ item.givingName }}</view>
+				<view class="field">
+					<text class="label">乐捐详情：</text>
+					<text class="value ">{{ item.giveDec }}</text>
+				</view>
 				<view class="field field-user">
 					<text class="label">乐捐目标金额：</text>
 					<text class="value ">{{ item.givingSumMoney }}</text>
@@ -45,7 +49,7 @@
 					userId:this.userInfo.clanManId,
 				};
 				const projectList = await this.$api.request.projectUserList(par);
-				this.projectList = projectList;
+				this.projectList = projectList.data;
 				this.loading=false
 			},
 		},

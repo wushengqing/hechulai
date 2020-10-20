@@ -20,7 +20,7 @@
 					<text class="value yellow">{{ item.createTime }}</text>
 				</view>
 			</navigator>
-			<view v-if="!loading && list.length>=totalNum" class="tc line88 c-grey">
+			<view v-if="totalNum!==0 && !loading && list.length>=totalNum" class="tc line88 c-grey">
 				我是有底线的~
 			</view>
 			<view v-if="list.length===0 && totalNum===0" class="tc line88 c-grey">

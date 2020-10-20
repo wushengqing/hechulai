@@ -39,12 +39,14 @@
 			<text class="value">{{ detailVo.clanMainRel.clansmanDec}}</text>
 		</view>
 		<view class="fotter-bar flex" v-if="detailVo.auditState!==1">
-			<cl-button v-if="!detailVo.auditState|| detailVo.auditState===0" class="flex1" @tap="visible = true">
+			<cl-button v-if="detailVo.auditState===0" class="flex1" @tap="visible = true">
 				<text>驳回审核</text>
 			</cl-button>
-			<cl-button class="flex1" type="primary" @tap="approvePass">
-				<text v-if="!detailVo.auditState|| detailVo.auditState===0" >通过审核</text>
-				<text v-if="detailVo.auditState===2" >重新通过审核</text>
+			<cl-button v-if="detailVo.auditState===0" class="flex1" type="primary" @tap="approvePass">
+				通过审核
+			</cl-button>
+			<cl-button v-if="detailVo.auditState===2" class="flex1" type="primary" @tap="approvePass">
+				重新通过审核
 			</cl-button>
 		</view>
 		<cl-popup :visible.sync="visible" direction="bottom">

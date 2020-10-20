@@ -7,7 +7,7 @@
 				<view class="img-desc">{{ item.ancestralHallDec }}</view>
 			</view>
 		</navigator>
-		<view v-if="ancestralHallList.length>=totalNum && !loading" class="tc line88 c-grey">
+		<view v-if="totalNum!==0 && ancestralHallList.length>=totalNum && !loading" class="tc line88 c-grey">
 			我是有底线的~
 		</view>
 		<view v-if="ancestralHallList.length===0 && totalNum===0" class="tc line88 c-grey">

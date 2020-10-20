@@ -11,7 +11,7 @@
 					<image mode="aspectFill" class="image" :src="item.mienImageUrl?item.mienImageUrl:'../../static/errorImage.jpg'"></image>
 				</view>
 			</navigator>
-			<view v-if="!loading && newsList.length>=totalNum" class="tc line88 c-grey">
+			<view v-if="totalNum!==0 && !loading && newsList.length>=totalNum" class="tc line88 c-grey">
 				我是有底线的~
 			</view>
 			<view v-if="newsList.length===0 && totalNum===0" class="tc line88 c-grey">

@@ -11,7 +11,6 @@
 			...mapState(['clanInfo']),
 		},
 		onLaunch: function() {
-
 			let userInfo = uni.getStorageSync('userInfo') || '';
 			if (userInfo.userId) {
 				//更新登陆状态
@@ -24,33 +23,30 @@
 			}
 
 		},
-		onShow: function() {
-			//获取宗族id
-			console.log(uni)
-			setTimeout(()=>{
-				if (!this.clanInfo.id && this.pageName!=='union') {
-					let redirect_uri = ''
-					//#ifdef  H5
-					redirect_uri = location.href;
-					//#endif
-					uni.navigateTo({
-						url: `/pages/union/union?redirect_uri=${redirect_uri}`
-					});
-				}
-			},1000)
+		onShow: async function() {
 		},
 		onHide: function() {
 			console.log('App Hide')
 		},
 		methods: {
-			...mapMutations(['login']),
-			
+			...mapMutations(['setClanInfo', 'login']),
 		},
+		/* watch: {
+			'clanInfo.id': {
+				handler(newVal, oldVal) {
+					// ...
+					console.log(newVal);
+					uni.reLaunch();
+				},
+				immediate: true
+			}
+		} */
 	}
 </script>
 
 <style lang='scss'>
 	@import "~@/components/cool/ui/static/css/index.scss";
+
 	/*
 		全局公共样式和字体图标
 	*/
@@ -79,6 +75,7 @@
 	.c-red {
 		color: red;
 	}
+
 	.font24 {
 		font-size: 24upx;
 	}
@@ -86,7 +83,7 @@
 	.font30 {
 		font-size: 30upx;
 	}
-	
+
 	.font40 {
 		font-size: 40upx;
 	}
@@ -129,9 +126,11 @@
 	.icon-shenhe:before {
 		content: "\e615";
 	}
+
 	.icon-iconfontweixin:before {
 		content: "\e611";
 	}
+
 	.icon-alipay:before {
 		content: "\e636";
 	}
