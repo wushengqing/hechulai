@@ -66,7 +66,7 @@
 		<view class="title1 ml-20 mt30">字辈</view>
 		<view class="box-1">
 			<view class="box-inside">
-				<view>{{ clanInfo.dec}}</view>
+				<view>{{ clanInfo.dec||'加载中...'}}</view>
 			</view>
 		</view>
 		<!--新闻资讯-->
@@ -378,7 +378,7 @@
 		width: 95%;
 		margin: 20upx auto;
 		overflow: hidden;
-		
+		min-height: 90upx;
 		background: #fff;
 		padding:20upx ;
 		border: #BE4431 solid 2upx;
