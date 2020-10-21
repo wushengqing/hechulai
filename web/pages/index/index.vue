@@ -57,15 +57,20 @@
 			<view class="iconfont icon-arrow-right font40"></view>
 		</view>
 		<!--祖训-->
-		<view class="title1 ml-20">祖训</view>
+		<view class="teachings " v-if="clanInfo.clanFileUrl">
+			<view class="title1 ml-20 line88">祖训</view>
+			<view class="ml-20 mr-20">
+				<image class="teachings-img" :src="clanInfo.clanFileUrl"></image>
+			</view>
+		</view>
+		<view class="title1 ml-20 mt30">字辈</view>
 		<view class="box-1">
 			<view class="box-inside">
-				<view class="bold">{{clanInfo.name}}祖训</view>
 				<view>{{ clanInfo.dec}}</view>
 			</view>
 		</view>
 		<!--新闻资讯-->
-		<view class="title1 ml-20 mr-20">新闻资讯<navigator url="../news/list"  class="more">查看更多</navigator></view>
+		<view class="title1 ml-20 mr-20 mt30">新闻资讯<navigator url="../news/list"  class="more">查看更多</navigator></view>
 		<view class="news-list">
 			<navigator class="news-item" v-for="item in newsList" :url="`../news/detail?id=${item.id}`">
 				<view class="news-text">
@@ -361,22 +366,25 @@
 	}
 
 	/*祖训*/
+	.teachings{
+		
+		.teachings-img{
+			width: 100%;
+			height: 300upx;
+		}
+	}
+	
 	.box-1 {
 		width: 95%;
 		margin: 20upx auto;
 		overflow: hidden;
-		height: 390upx;
+		
 		background: #fff;
-		padding: 50upx 20upx 20upx;
-		border: #ccc solid 2upx;
-		background-size: 100% 100%;
-		background-image: url( '~@/static/teachings.png');
+		padding:20upx ;
+		border: #BE4431 solid 2upx;
+		border-radius: 6upx;
 		.box-inside {
 			line-height: 45upx;
-			letter-spacing: 2upx;
-			text-align: center;
-			writing-mode: vertical-rl;
-			writing-mode: tb-lr;
 			overflow: hidden;
 			font-size: 30upx;
 			width: 100%;
@@ -398,10 +406,10 @@
 				height: 100upx;
 				float: left;
 				.title {
-					font-weight: bold;
+					
 					height: 50upx;
 					overflow: hidden;
-					font-size: 30upx;
+					font-size: 28upx;
 					color: #000;
 					overflow: hidden;
 					text-overflow: ellipsis;

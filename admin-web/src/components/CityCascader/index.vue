@@ -61,8 +61,8 @@ export default {
     value: {
       immediate: true,
       handler(val) {
-        console.log(val);
         //调用父组件的input 事件
+        this.init();
         this.cascaderValue = [...val];
         //
       },
@@ -71,6 +71,53 @@ export default {
   computed: {
   },
   methods: {
+    init(){
+      let val = this.value;
+      if(val && val.length==3){
+        //如果省还没加载完，先等待省
+        if(this.options.length===0){
+          return;
+        }
+        let province = this.options.filter(item=>item.id===val[0])[0];
+        //市、区如果没有加载，则一起加载
+        if(province.children.length===0){
+          let p1 = this.$api.common.getCity(val[0]);
+          let p2 = this.$api.common.getDistrict(val[1]);
+          Promise.all([p1,p2]).then(res=>{
+            province.children = res[0].data.map(item=>{
+              return {
+                name:item.cityName,
+                id:item.cityId,
+                children:[]
+              }
+            });
+            let city = province.children.filter(item=>item.id===val[1])[0];
+            city.children = res[1].data.map(item=>{
+              return {
+                name:item.districtName,
+                id:item.districtId,
+                leaf:true
+              }
+            });
+          })
+        }else{
+          //
+          let city = province.children.filter(item=>item.id===val[1])[0];
+          console.log(city);
+          if(city.children.length===0){
+            this.$api.common.getDistrict(val[1]).then(res=>{
+              city.children = res.data.map(item=>{
+                return {
+                  name:item.districtName,
+                  id:item.districtId,
+                  leaf:true
+                }
+              });
+            })
+          }
+        }
+      }
+    },
     //change 事件
     cascaderChange(valueArray){
       let checkedNodes = this.$refs.cityCascader.getCheckedNodes();
@@ -80,6 +127,7 @@ export default {
       this.displayName = checkedNodes.join('/');
       this.$emit('input', valueArray);
     },
+
   },
   mounted () {
     //获取省列表
@@ -90,7 +138,8 @@ export default {
           id:item.provinceId,
           children:[]
         }
-      });
+      })
+      this.init();
     });
     //
   }

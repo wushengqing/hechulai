@@ -72,6 +72,19 @@
 					<el-input style="width: 100%" placeholder='请输入详细地址' v-model="dialogVO.address"></el-input>
 				</el-form-item>
 				<el-form-item label="祖训：">
+					<el-upload
+						class="banner-uploader"
+						:action="$api.common.uploadAction"
+						:data="fileData"
+						:show-file-list="false"
+						:on-success="handleAvatarSuccess"
+						:before-upload="beforeAvatarUpload">
+						<img v-if="dialogVO.clanFileUrl" :src="dialogVO.clanFileUrl" class="banner-image">
+						<i v-else class="el-icon-plus banner-uploader-icon"></i>
+					</el-upload>
+					<span class="color-grey" style="vertical-align: bottom"> 请上传 小于2M的jpg 图片，尺寸：750*300</span>
+				</el-form-item>
+				<el-form-item label="字辈：">
 					<el-input type="textarea" :rows="5" style="width: 100%" placeholder="请输入祖训" v-model="dialogVO.dec"></el-input>
 				</el-form-item>
 				<el-form-item label="宗族简介：">
@@ -103,6 +116,9 @@
 				tableMainSearchModelBase: {
 					keyword: '',
 				},
+        fileData:{
+          defaultSuffix:'',
+        },
 				dialogShow: false,
 				//新增或者编辑的vo
 				dialogVO: {
@@ -115,52 +131,31 @@
 					"address": "",
 					"summary": "",
 					"dec": "",
-					"state": 0
+					"state": 0,
+          clanFileId:'',
+          clanFileUrl:'',
 				},
 				rules: {
-					itemName: [{
-						required: true,
-						message: '请输入垃圾名称'
-					}, ],
-					cityCode: [{
-						required: true,
-						message: '请选择区域'
-					}, ],
+					itemName: [
+					  {required: true, message: '请输入垃圾名称'},
+					],
+					cityCode: [
+					  {required: true, message: '请选择区域'},
+					],
+          clanFileUrl: [
+            { required: true, message: '请上传祖训', trigger: 'blur' },
+          ],
 				},
-				//省市区级联
-        cityProps:{
-          lazy: true,
-          lazyLoad (node, resolve) {
-            const { level } = node;
-            console.log(node);
-            // setTimeout(() => {
-            //   const nodes = Array.from({ length: level + 1 })
-            //     .map(item => ({
-            //       value: ++id,
-            //       label: `选项${id}`,
-            //       leaf: level >= 2
-            //     }));
-            //   // 通过调用resolve将子节点数据返回，通知组件数据加载完成
-            //   resolve(nodes);
-            // }, 1000);
-          }
-        },
 			};
 		},
 		computed: {
           getActionWhere() {
             return {
-              //clanId:parseInt(this.clanId)
+
             }
           }
 		},
 		methods: {
-          // tableMounted(){
-          //   this.clanId = this.$util.cookies.get('clanId');
-          //   this.$nextTick(()=>{
-          //     this.$refs.tableMain.fetchData()
-          //   })
-          // },
 			openDialog(item) {
 				if(!item){
 					this.dialogVO = {
@@ -173,7 +168,10 @@
 						"address": "",
 						"summary": "",
 						"dec": "",
-						"state": 0
+						"state": 0,
+            clanFileId:'',
+            clanFileUrl:'',
+
 					}
 				}else{
 					this.dialogVO  = {
@@ -188,7 +186,23 @@
 				}
 				this.dialogShow = true;
 			},
+      handleAvatarSuccess(res, file) {
+        this.dialogVO.clanFileUrl =  res.uploadedImgUrl;
+        this.dialogVO.clanFileId = res.id;
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt10M = file.size / 1024 / 1024 < 10;
 
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt10M) {
+          this.$message.error('上传头像图片大小不能超过 10MB!');
+        }
+        this.fileData.defaultSuffix = '.'+file.name.split('.').pop();
+        return isJPG && isLt10M;
+      },
 			save() {
 				this.$refs['dialogVO'].validate((valid) => {
 					if (valid) {
@@ -197,7 +211,7 @@
 							pId:this.dialogVO.cityCode[0],
 							cId:this.dialogVO.cityCode[1],
 							dId:this.dialogVO.cityCode[2],
-							state:this.dialogVO.state ?1:0
+							state:this.dialogVO.state ?1:0,
 
 						};
 						delete vo.cityCode;
@@ -218,38 +232,6 @@
 					} else {
 						return false;
 					}
-				});
-			},
-			getPcdList(){
-				this.$api.common.getPcdList().then(res=>{
-					res.data.forEach(province=>{
-						province.label = province.provinceName;
-						province.value = province.provinceId;
-						province.children = province.cityInfoDtoList;
-						delete province.provinceName;
-						delete province.provinceId;
-						delete province.cityInfoDtoList;
-						province.children.forEach(city=>{
-							city.label = city.cityName;
-							city.value = city.cityId;
-							city.children = city.districtionInfoDtoList;
-							delete city.cityName;
-							delete city.cityId;
-							delete city.districtionInfoDtoList;
-							if(city.children){
-								city.children.forEach(region=>{
-									region.label = region.districtName;
-									region.value = region.districtId;
-									region.children = null;
-									delete region.districtName;
-									delete region.districtId;
-								})
-							}
-
-
-						})
-					})
-					 this.pcdList = res.data
 				});
 			},
 			afterFetchData() {
