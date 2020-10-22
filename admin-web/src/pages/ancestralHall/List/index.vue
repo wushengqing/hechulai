@@ -62,7 +62,7 @@
   import Edit from '../Edit'
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
-    name: "NewsList",
+    name: "ancestralHallList",
     components: {
       Edit,
 	},
@@ -81,6 +81,7 @@
       getActionWhere() {
         return {
           clanId:this.clanId,
+          ancestralHallState:0
         }
       }
     },

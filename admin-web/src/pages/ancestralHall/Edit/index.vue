@@ -23,14 +23,13 @@
             </el-input>
           </el-form-item>
           <el-form-item label="所在地区：" prop="cityCode">
-            <el-cascader
+            <city-cascader
+              class="w100off"
               ref="cityCascader"
-              v-model="form.cityCode"
-              placeholder='省/市/区'
-              class="w400"
-              clearable
-              :options="pcdList">
-            </el-cascader>
+              @ready="updateMap"
+              placeholder="省/市/区"
+              v-model="form.cityCode" >
+            </city-cascader>
           </el-form-item>
           <el-form-item label="详细地址：" prop="ancestralHallAddess">
             <el-input class="w400" placeholder='请输入详细地址' v-model="form.ancestralHallAddess"></el-input>
@@ -153,6 +152,7 @@
 </template>
 
 <script>
+  import CityCascader from "@/components/CityCascader";
   //百度地图
   import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
   import BmScale from 'vue-baidu-map/components/controls/Scale'
@@ -169,6 +169,9 @@
     name: '',
     ancestralHallDec:'',
     ancestralHallAddess:'',
+    pId: 0,
+    cId: 0,
+    dId: 0,
     cityCode:[],
     longitude:'',
     latitude:'',
@@ -180,8 +183,9 @@
 
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
-    name: "BannerEdit",
+    name: "ancestralHallEdit",
     components: {
+      CityCascader,
       BaiduMap,
       BmScale,
       BmNavigation,
@@ -206,7 +210,7 @@
       },
     },
     data() {
-      var validateMap = (rule, value, callback) => {
+      let validateMap = (rule, value, callback) => {
         if (this.form.longitude === '') {
           callback(new Error('请设置定位'));
         } else {
@@ -249,8 +253,6 @@
             { required: true, message: '请输入详细地址', },
           ],
         },
-        //省市区级联
-        pcdList:[],
         //百度地图相关
         map:{
           zoom:1,
@@ -284,61 +286,19 @@
         this.getDirectoryList();
         this.showPage= true;
         if(item && item.id){
+          item.cityCode =item.pId ? [item.pId,item.cId,item.dId]:[];
           this.form = cloneDeep(item);
-          this.map.zoom=10;
+          this.map.zoom = 10;
           this.map.center.lat = item.latitude;
           this.map.center.lng = item.longitude;
         }else{
-          this.form = {
-            id:'',
-            name: '',
-            mienFileId:'',
-            mienImageUrl: '',
-            isTop: false,
-            isSkip: false,
-            mienBgColor: '#8F4008',
-            linkUrl: '',
-            mienResource: '',
-            mienContent: ''
-          };
+          this.form = cloneDeep(defaultForm);
 
         }
       },
       back(){
         this.showPage= false;
         this.$emit('back')
-      },
-      getPcdList(){
-        this.$api.common.getPcdList().then(res=>{
-          res.data.forEach(province=>{
-            province.label = province.provinceName;
-            province.value = province.provinceId;
-            province.children = province.cityInfoDtoList;
-            delete province.provinceName;
-            delete province.provinceId;
-            delete province.cityInfoDtoList;
-            province.children.forEach(city=>{
-              city.label = city.cityName;
-              city.value = city.cityId;
-              city.children = city.districtionInfoDtoList;
-              delete city.cityName;
-              delete city.cityId;
-              delete city.districtionInfoDtoList;
-              if(city.children){
-                city.children.forEach(region=>{
-                  region.label = region.districtName;
-                  region.value = region.districtId;
-                  region.children = null;
-                  delete region.districtName;
-                  delete region.districtId;
-                })
-              }
-
-
-            })
-          })
-          this.pcdList = res.data
-        });
       },
       openDialog(){
         this.dialogShow =true;
@@ -434,11 +394,7 @@
       save(){
         this.$refs['form'].validate((valid) => {
           if (!valid) {return;}
-
-          let addr = this.getCityName();
-          let address = addr.city + addr.region + this.form.ancestralHallAddess;
           let vo = cloneDeep(this.form);
-          vo.ancestralHallAddess = address;
           vo.clanId = this.clanId;
           vo.fileList = this.form.fileList.map(item=>{
             return {
@@ -453,7 +409,6 @@
           delete vo.cityCode;
           delete vo.updateTime;
           delete vo.createTime;
-          console.log(vo);
           this.$api.ancestralHall.save(vo).then(res=>{
             if (res.code == 0) {
               this.back();
@@ -469,11 +424,13 @@
         //获取浏览器定位
         let geolocation = new BMap.Geolocation();
         geolocation.getCurrentPosition(res=>{
-          if(true || !this.map.center.lat){
+          if(!this.map.center.lat){
             this.map.center.lat = res.latitude;
             this.map.center.lng = res.longitude;
           }
+
         },{enableHighAccuracy: true});
+
       },
       //根据省市区code 获取省市区名称
       getCityName(){
@@ -483,13 +440,10 @@
             region:''
           };
         }
-        let [provinceCode,cityCode,regionCode] =  this.form.cityCode;
-        let province = this.pcdList.find(item=>item.value===provinceCode);
-        let city = province.children.find(item=>item.value===cityCode);
-        let region = city.children.find(item=>item.value===regionCode);
+        let [province,city,region] =  this.$refs.cityCascader.displayName;
         return {
-          city:city.label,
-          region:region.label,
+          city,
+          region,
         };
 
       },
@@ -516,7 +470,6 @@
       updateMap(){
         let addr = this.getCityName();
         let address = addr.city + addr.region + this.form.ancestralHallAddess;
-        console.log(address)
         let myGeo = new BMap.Geocoder();
         myGeo.getPoint(address, point=>{
           if (point) {
@@ -535,7 +488,6 @@
       },
     },
     mounted() {
-      this.getPcdList();
 
     }
   };

@@ -23,7 +23,7 @@ export default {
     return {
       cascaderValue:[],
       options:[],
-      displayName:'',
+      displayName:[],
       props: {
         label: 'name',
         value: 'id',
@@ -92,27 +92,37 @@ export default {
               }
             });
             let city = province.children.filter(item=>item.id===val[1])[0];
+            let districtName = '';
             city.children = res[1].data.map(item=>{
+              if(item.districtId === val[2]){
+                districtName = item.districtName
+              }
               return {
                 name:item.districtName,
                 id:item.districtId,
                 leaf:true
               }
             });
+            this.displayName = [province.name,city.name,districtName];
+            this.$emit('ready');
           })
         }else{
           //
           let city = province.children.filter(item=>item.id===val[1])[0];
-          console.log(city);
           if(city.children.length===0){
             this.$api.common.getDistrict(val[1]).then(res=>{
               city.children = res.data.map(item=>{
+                if(item.districtId === val[2]){
+                  districtName = item.districtName
+                }
                 return {
                   name:item.districtName,
                   id:item.districtId,
                   leaf:true
                 }
               });
+              this.displayName = [province.name,city.name,districtName];
+              this.$emit('ready');
             })
           }
         }
@@ -120,11 +130,6 @@ export default {
     },
     //change 事件
     cascaderChange(valueArray){
-      let checkedNodes = this.$refs.cityCascader.getCheckedNodes();
-      if(checkedNodes.length>0){
-        checkedNodes = checkedNodes[0].pathLabels;
-      }
-      this.displayName = checkedNodes.join('/');
       this.$emit('input', valueArray);
     },
 
