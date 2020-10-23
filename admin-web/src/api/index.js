@@ -11,6 +11,7 @@ import banner from './banner'
 import project from './project'
 import approve from './approve'
 import ancestralHall from './ancestralHall'
+import circle from './circle'
 export default {
   common,
   user,
@@ -25,4 +26,5 @@ export default {
   project,
   approve,
   ancestralHall,
+  circle,
 }

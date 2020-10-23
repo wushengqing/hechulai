@@ -35,8 +35,10 @@ import ProjectList from '@/pages/project/List/index.vue';
 import ApproveList from '@/pages/approve/List/index.vue';
 //审核管理
 import AncestralHall from '@/pages/ancestralHall/List/index.vue';
-//审核管理
-import AncestralGrave from '@/pages/ancestralGrave/List/index.vue';
+
+//宗族圈
+import CircleIndex from '@/pages/circle/index.vue'
+import CircleDetail from '@/pages/circle/detail.vue'
 
 
 const routerConfig = [
@@ -205,12 +207,21 @@ export const pageRouter = [
     }
   },
   {
-    path: '/ancestralGrave/list',
-    name: 'AncestralGrave',
+    path: '/circle/home',
+    name: 'CircleIndex',
     layout,
-    component: AncestralGrave,
+    component: CircleIndex,
     meta: {
       title: '宗族圈',
+    }
+  },
+  {
+    path: '/circle/detail/:id',
+    name: 'CircleDetail',
+    layout,
+    component: CircleDetail,
+    meta: {
+      title: '宗族圈详情',
     }
   },
 ]

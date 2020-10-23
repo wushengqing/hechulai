@@ -1,4 +1,7 @@
 @import url("//at.alicdn.com/t/font_1765072_00j390yoptys.css");
+*{
+  font-size: 14px;
+}
 a[href] {
   color: #409eff;
 }
@@ -39,6 +42,7 @@ div[class^=d2-container-full] {
 .mr10{ margin-right: 10px;}
 .mr20{ margin-right: 20px;}
 .ml10{ margin-left: 10px!important;}
+.ml50{ margin-left: 50px!important;}
 .mb10{margin-bottom: 10px}
 .mb20{margin-bottom: 20px}
 .header-btn{
@@ -47,6 +51,7 @@ div[class^=d2-container-full] {
 }
 .tc{text-align: center}
 .tr{text-align: right}
+.font14{font-size: 14px}
 .font20{ font-size:20px;}
 .color-error{
   color:#F56C6C;
@@ -196,4 +201,37 @@ text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+
+.list{
+  display: inline-block;
+  margin:0 0 16px 0;
+  padding-bottom: 16px;
+  border-bottom: #ddd solid 1px;
+  display: flex;
+  .list-icon{
+    width: 150px;
+    height: 100px;
+    overflow: hidden;
+    margin-right: 10px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .list-content{
+    flex: 1;
+    line-height: 30px;
+    .name{
+
+    }
+    .dec{
+      color: #ec9205;
+    }
+    .content{
+      color:#999;
+
+    }
+  }
 }

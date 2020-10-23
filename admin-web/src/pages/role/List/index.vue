@@ -104,7 +104,7 @@
         'd2adminSetMenuAside'
       ]),
       oepnDialog(item){
-        if(this.userInfo.userId!=='1' && item.id===1){
+        if(this.userInfo.userId!==1 && item.id===1){
           this.$message.error('权限不足');
           return;
         }
