@@ -473,7 +473,31 @@ async function saveClanMsg(data) {
 	});
 }
 
+//宗族圈列表
+async function getCircleList(data) {
+	return defaultRequest({
+		url: `${baseUrl}getCircleList.json`,
+		method: 'POST',
+		data,
+	});
+}
 
+//获取宗族圈文章
+async function getCircleContentList(data) {
+	var [error, res] = await asyncRequest({
+		url: `${baseUrl}getCircleContentList.json`,
+		method: 'POST',
+		data
+	});
+	if (res) {
+		return res.data;
+	} else {
+		return {
+			code: '1',
+			error
+		}
+	}
+}
 //族谱获取单个宗亲的信息
 
 export default  {
@@ -540,5 +564,9 @@ export default  {
 	//获取宗祠祖坟详情
 	getAncestralHallInfo,
 	//反馈
-	saveClanMsg
+	saveClanMsg,
+	//宗族圈列表
+	getCircleList,
+	//查询宗族圈文章列表
+	getCircleContentList,
 };

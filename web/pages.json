@@ -79,7 +79,7 @@
 				"navigationBarTitleText": "消息详情"
 			}
 		},
-		
+
 		{
 			"path": "pages/user/family",
 			"style": {
@@ -144,7 +144,7 @@
 			"style": {
 				"navigationBarTitleText": "通知详情"
 			}
-		}, 
+		},
 		{
 			"path": "pages/news/list",
 			"style": {
@@ -161,7 +161,7 @@
 			"style": {
 				"navigationBarTitleText": "族委会"
 			}
-		}, 
+		},
 		{
 			"path": "pages/contribution/list",
 			"style": {
@@ -251,9 +251,16 @@
 			"style": {
 				"navigationBarTitleText": "宗祠/祖坟"
 			}
+		},
+		{
+			"path": "pages/circle/list",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "宗族圈"
+			}
 		}
 
-    ],
+	],
 	"tabBar": {
 		"color": "#C0C4CC",
 		"selectedColor": "#c65c4c",
@@ -272,7 +279,7 @@
 				"text": "族谱"
 			},
 			{
-				"pagePath": "pages/quan/index",
+				"pagePath": "pages/circle/list",
 				"iconPath": "static/tab-quan.png",
 				"selectedIconPath": "static/tab-quan-current.png",
 				"text": "宗亲圈"
