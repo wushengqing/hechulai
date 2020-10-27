@@ -321,26 +321,49 @@ $uni-color-error: #dd524d;
 		}
 	}
 }
-
-.tabs{
-	font-size: 30upx;
-	border-bottom: #f8f8f8 solid 4upx;
-	.tab{
-		transform: translateY(4upx);
-		display: inline-block;
-		line-height: 60upx;
-		margin-right: 20upx;
-		padding:0 20upx;
-		border-bottom: transparent solid 4upx;
-		max-width: 180upx;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		transition: all .4s;
-		&.active{
-			color: $base-color;
-			border-bottom:$base-color solid 4upx;
+.tab-view{
+	position: relative;
+	.tabs{
+		font-size: 30upx;
+		border-bottom: #f8f8f8 solid 4upx;
+		.tab{
+			transform: translateY(4upx);
+			display: inline-block;
+			line-height: 60upx;
+			margin-right: 20upx;
+			padding:0 20upx;
+			border-bottom: transparent solid 4upx;
+			max-width: 180upx;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			transition: all .4s;
+			&.active{
+				color: $base-color;
+				border-bottom:$base-color solid 4upx;
+			}	
 		}
-		
+	}
+	.tab-more{
+		font-size: 30upx;
+		position: absolute;
+		right:0;
+		top:0;
+		line-height: 70upx;
+		padding: 0 10upx;
+		width: 80upx;
+		background: #fff;
+		color: $base-color;
+	}
+}
+.avatar-list{
+	.avatar-item{
+		width: 66upx;
+		height: 66upx;
+		border-radius: 50%;
+		border:#ccc solid 2upx;
+		+.avatar-item{
+			margin-left: -20upx;
+		}
 	}
 }

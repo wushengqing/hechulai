@@ -6,11 +6,35 @@
 		</view>
 		<wyb-noticeBar style="margin-bottom: 10upx;" type="vert" :time="5000" :text="noticeList" url="/pages/notice/list" />
 		<view class="container">
-			<scroll-view scroll-x>
-				<view class="tabs" :style="{width:circleList.length*180+'upx' }">
-					<view class="tab" :class="{active:item.id===activeTab}" @tap="changeTab(item.id)" v-for="item in circleList">{{ item.circleName }}</view>
+			<view class="tab-view">
+				<scroll-view scroll-x style="position: relative;">
+					<view class="tabs" :style="{width:circleList.length*180+'upx' }">
+						<view class="tab" :class="{active:item.id===activeTab}" @tap="changeTab(item.id)" v-for="item in circleList">
+							{{ item.circleName }}
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+			<view class="circle-detail" v-if="activeTab !==0">
+				<view class="list" >
+					<view class="list-icon">
+						<image :src="currcircle.circleFileUrl"></image>
+					</view>
+					<view class="list-content">
+						<view class="name">
+							<text class="ml50 ">话题：<text class="mr-20 c-base">150</text>个</text>
+							<text @click="openPublishPage(currcircle.id)" class="add ml-20" >发布</text>
+						</view>
+						<view class="name">
+							<text class="ml50 ">关注：<text class="mr-20 c-base">14</text>人</text>
+							<text class="follow ml-20">+关注</text>
+						</view>
+						<view class="dec">{{currcircle.circleDec}}</view>
+						<view class="content">{{currcircle.circleContent}}</view>
+					</view>
 				</view>
-			</scroll-view>
+				
+			</view>
 			<view class="moments__post" v-for="(post,index) in articleList" :key="index" :id="'post-'+index">
 				<view class="post-left">
 					<image class="post_header" :src="post.clanManHeadUrl||'../../static/missing-face.png'"></image>
@@ -26,7 +50,8 @@
 					<view id="paragraph" class="paragraph">{{post.circleContent}}</view>
 					<!-- 相册 -->
 					<view class="thumbnails">
-						<view :class="post.fileList.length === 1?'my-gallery':'thumbnail'" v-for="(image, index_images) in post.fileList" :key="index_images">
+						<view :class="post.fileList.length === 1?'my-gallery':'thumbnail'" v-for="(image, index_images) in post.fileList"
+						 :key="index_images">
 							<image class="gallery_img" lazy-load mode="widthFix" :src="image.fileUrl" :data-src="image.fileUrl" @tap="previewImage(post.fileList,index_images)"></image>
 						</view>
 					</view>
@@ -47,7 +72,8 @@
 							<text class="nickname" v-for="(user,index_like) in post.goodList" :key="index_like">{{user.clanManName}}</text>
 						</view>
 						<view class="footer_content" v-for="(comment,comment_index) in post.commentList" :key="comment_index" @tap="reply(index,comment_index)">
-							<text class="comment-nickname">{{comment.clanManName}}: <text class="comment-content">{{comment.commentContent}}</text></text>
+							<text v-if="!comment.commentParentClanManName" class="comment-nickname">{{comment.clanManName}} <text class="comment-content">:{{comment.commentContent}}</text></text>
+							<text v-if="comment.commentParentClanManName" class="comment-nickname">{{comment.clanManName}}<text class="comment-content">回复</text>{{comment.commentParentClanManName}} <text class="comment-content">:{{comment.commentContent}}</text></text>
 						</view>
 					</view>
 				</view>
@@ -74,7 +100,7 @@
 		data() {
 			return {
 				noticeList: [],
-				circleName:[],
+				circleName: [],
 				activeTab: 0,
 				circleList: [],
 				loading: true,
@@ -89,6 +115,15 @@
 		},
 		computed: {
 			...mapState(['clanInfo']),
+			currcircle() {
+				if (this.activeTab === 0) {
+					return {};
+				} else {
+					return this.circleList.filter(item => {
+						return item.id === this.activeTab;
+					})[0];
+				}
+			},
 		},
 		onLoad() {
 			this.getData()
@@ -110,7 +145,7 @@
 			changeTab(id) {
 				this.activeTab = id;
 				this.articleList = [];
-				this.totalNum= 200;
+				this.totalNum = 200;
 				this.currentPage = 1;
 				this.loadData();
 			},
@@ -133,7 +168,7 @@
 						circleName: '全部'
 					});
 					this.circleName = {};
-					res.data.forEach(item=>{
+					res.data.forEach(item => {
 						this.circleName[item.id] = item.circleName;
 					})
 					this.circleList = res.data;
@@ -144,7 +179,7 @@
 				var current = imageList[image_index].fileUrl;
 				uni.previewImage({
 					current: current,
-					urls: imageList.map(item=>{
+					urls: imageList.map(item => {
 						return item.fileUrl
 					})
 				});
@@ -173,7 +208,11 @@
 				this.loading = false;
 			},
 			openDialog() {},
-			openDetailPage() {},
+			openPublishPage(id) {
+				uni.navigateTo({
+					url:`./publish?id=${id}`
+				})
+			},
 		}
 	}
 </script>
@@ -189,6 +228,61 @@
 		background-size: cover;
 		margin-bottom: 10upx
 	}
+	.add{
+		background: $base-color;
+		padding: 0 10upx;
+		border-radius: 4upx;
+		font-size: 26upx;
+		color: #fff;
+	}
+	.follow {
+		background: #ec9205;
+		padding: 0 10upx;
+		border-radius: 4upx;
+		font-size: 26upx;
+		color: #fff;
+	}
+.circle-detail{
+	border-bottom: #ddd solid 1upx;
+	.list {
+		display: inline-block;
+		margin: 20upx 0;
+		display: flex;
+		.list-icon {
+			width: 330upx;
+			height: 210upx;
+			overflow: hidden;
+			margin-right: 20upx;
+	
+			image {
+				width: 100%;
+				height: 100%;
+			}
+		}
+	
+		.list-content {
+			flex: 1;
+			line-height: 42upx;
+			font-size: 26upx;
+			.name {
+				font-size: 32upx;
+				line-height: 50upx;
+			}
+	
+			.dec {
+				color: #ec9205;
+			}
+	
+			.content {
+				color: #999;
+				height: 84upx;
+				overflow: hidden;
+			}
+		}
+	}
+}
+	
+
 	.moments__post {
 		background: #fff;
 		display: block;
@@ -198,10 +292,12 @@
 		display: -webkit-box;
 		display: -webkit-flex;
 		display: flex;
+
 		&:before {
 			content: none;
 		}
-		.post-left{
+
+		.post-left {
 			.post_header {
 				width: 90upx !important;
 				height: 90upx !important;
@@ -209,38 +305,37 @@
 				margin-top: 8upx;
 			}
 		}
-		
+
 		.post_right {
 			font-size: 32upx;
 			display: table-cell;
 			padding-left: 20upx;
 			width: 100%;
+
 			.post-username {
 				line-height: 60upx;
 				font-size: 32upx;
 				font-weight: 600;
 				color: $base-color;
 			}
-			.circleName{
-				color:#ec9205;
+
+			.circleName {
+				color: #ec9205;
 				line-height: 50upx;
 				font-size: 26upx;
-				.follow{
-					background: #ec9205;
-					padding:0 10upx;
-					border-radius: 4upx;
-					color: #fff;
-				}
 			}
-			.paragraph{
+
+			.paragraph {
 				line-height: 40upx;
 				font-size: 26upx;
 			}
 		}
+
 		.thumbnails {
 			width: 100%;
 			display: flex;
 			flex-wrap: wrap;
+
 			.thumbnail {
 				width: 30%;
 				height: 180upx;
@@ -248,6 +343,7 @@
 				background: #757575;
 				overflow: hidden;
 			}
+
 			.my-gallery {
 				width: 300upx;
 				margin: 4upx;
@@ -255,6 +351,7 @@
 				overflow: hidden;
 			}
 		}
+
 		.toolbar {
 			position: relative;
 			top: 10upx;
@@ -266,16 +363,19 @@
 			-webkit-align-items: center;
 			-ms-flex-align: center;
 			align-items: center;
+
 			.timestamp {
 				color: #757575;
 				font-size: 22upx;
 			}
+
 			image {
 				margin-left: 20upx;
 				width: 30upx;
 				height: 30upx;
 			}
 		}
+
 		.like {
 			width: auto;
 			height: auto;
@@ -284,6 +384,7 @@
 			display: flex;
 			align-items: center;
 		}
+
 		.comment {
 			width: auto;
 			height: auto;
@@ -292,12 +393,14 @@
 			display: flex;
 			align-items: center;
 		}
+
 		.post-footer {
-			padding:20upx;
+			padding: 20upx;
 			margin-top: 30upx;
 			background-color: #f3f3f5;
 			width: 100%;
 		}
+
 		.footer_content {
 			padding-left: 10upx;
 			position: relative;
@@ -313,6 +416,7 @@
 			-ms-flex-wrap: wrap;
 			flex-wrap: wrap;
 			line-height: 36upx;
+
 			.liked {
 				/* display: inline-block; */
 				position: relative;
@@ -320,15 +424,17 @@
 				width: 34upx;
 				height: 34upx;
 			}
-			
+
 			.nickname {
 				color: $base-color;
 				font-size: 24upx
 			}
+
 			.comment-nickname {
 				color: $base-color;
 				font-size: 24upx
 			}
+
 			.comment-content {
 				color: #000000;
 				font-size: 24upx

@@ -253,12 +253,20 @@
 			}
 		},
 		{
-			"path": "pages/circle/list",
+			"path": "pages/circle/index",
 			"style": {
 				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "宗族圈"
 			}
+		},
+		{
+			"path": "pages/circle/publish",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "发布宗族圈"
+			}
 		}
+		
 
 	],
 	"tabBar": {
@@ -279,7 +287,7 @@
 				"text": "族谱"
 			},
 			{
-				"pagePath": "pages/circle/list",
+				"pagePath": "pages/circle/index",
 				"iconPath": "static/tab-quan.png",
 				"selectedIconPath": "static/tab-quan-current.png",
 				"text": "宗亲圈"
