@@ -1,16 +1,20 @@
 <template>
-	<view class="container" @touchstart="touchStart" @touchend="touchEnd">
+	<view class="container">
 		<form>
 			<view class="uni-textarea">
-				<textarea placeholder="请输入内容(50字以内)" v-model="input_content" />
+				<textarea placeholder="请输入内容(50字p以内)" v-model="input_content" />
 				</view>
 			<view class="img-list flex-wrap">
-				<view class="img-view2" v-for="(item,index) in imageList" :style="{display:item.hide?'none':''}">
+				<view 
+					class="img-view2" 
+					v-for="(item,index) in fileList">
 					<image lazy-load 
 					mode="aspectFill"
-					class="img-cover" :src="item.minFileUrl||item.fileUrl" @tap="previewImage(index)"></image>
-					<view class="set-cover" @click.stop="setAsCover(item)"><text class="iconfont font28">&#xe619</text></view>
-					<view class="delete" @click.stop="deletePhoto(item)"><text class="iconfont f22">&#xe618</text></view>
+					class="img-cover" 
+					:src="item.minImgUrl" 
+					@tap="previewImage(index)">
+					</image>
+					<view class="delete" @click.stop="deletePhoto(item)"><text class="iconfont f22">&#xe62b</text></view>
 				</view>
 				<view class="img-view2-add" @tap="chooseImage()">
 					<text class="iconfont">&#xe617</text>
@@ -22,23 +26,41 @@
 				<cl-button class="w100off" type="primary" @click="publish">提交</cl-button>
 			</view>
 		</form>
+		<cl-message ref="message"></cl-message>
+		<cl-loading-mask :loading="upload.loading" :text="`正在上传${upload.progress}/${upload.total}`" fullscreen></cl-loading-mask>
 	</view>
 </template>
 
 <script>
-	
+	import {
+		mapState
+	} from 'vuex';
 	export default {
 		data() {
 			return {
 				// title: 'choose/previewImage',
 				input_content:'',
-				imageList: [],
+				fileList: [],
 				id:'',
+				upload: {
+					loading: false,
+					total: 0,
+					progress: 0,
+				},
+				pageInfo: {
+					currentPage: 1,
+					pageSize: 21,
+					total: 0,
+				}
 			
 			}
 		},
-		onUnload(opctions) {
-			
+		computed: {
+			...mapState(['clanInfo','userInfo']),
+		},
+		onLoad(options) {
+			this.id = parseInt(options.id);
+			console.log(this.id,options);
 		},
 		
 		methods: {
@@ -48,42 +70,100 @@
 					return;
 				}
 				
-				uni.showLoading({title:'发布中'});
-				
-				var location = await this.getLocation();//位置信息,可删除,主要想记录一下异步转同步处理
-				var images = [];
-				for(var i = 0,len = this.imageList.length; i < len; i++){
-					var image_obj = {name:'image-'+i,uri:this.imageList[i]};
-					images.push(image_obj);
-				}
-				
-				
-			},
-			
-			
-			
-			close(e){
-			    this.imageList.splice(e,1);
-			},
-		
-			
-			previewImage: function(e) {
-				var current = e.target.dataset.src
-				uni.previewImage({
-					current: current,
-					urls: this.imageList
+				this.$api.request.addOrUpdateCircleContentInfo({
+					clanId:this.clanInfo.id,
+					clanManId:this.userInfo.clanManId,
+					circleContent:this.input_content,
+					circleId:this.id,
+					fileList:this.fileList.map(item=>{
+						return {
+							id:item.id
+						}
+					})
+				}).then(res=>{
+					console.log(res);
+					if (res.code === 0) {
+						this.$refs["message"].open({
+							type: 'success',
+							message: "发布成功，请等待审核！",
+						});
+						setTimeout(()=>{
+							uni.navigateBack()
+						},1000)
+					} else {
+						this.$refs["message"].open({
+							type: 'error',
+							message: "发布失败！",
+						});
+					}
 				})
 			},
-			touchStart: function(e) {
-				this.startX = e.mp.changedTouches[0].pageX;
-			},
 			
-			touchEnd: function(e) {
-				this.endX = e.mp.changedTouches[0].pageX;
-				if (this.endX - this.startX > 200) {
-					uni.navigateBack();
-				}
+			
+			
+			//选择图片
+			chooseImage() {
+				uni.chooseImage({
+					sizeType: ['original', 'compressed'],
+					success: (chooseImageRes) => {
+						console.log(chooseImageRes);
+						const tempFilePaths = chooseImageRes.tempFilePaths;
+						this.upload.total = tempFilePaths.length;
+						this.upload.progress = 0;
+						this.uploadFile(tempFilePaths);
+						this.upload.loading = true;
+					}
+				});
+			},
+			//依次上传图片
+			uploadFile(files) {
+				uni.uploadFile({
+					url: this.$api.request.uploadAction,
+					filePath: files[0],
+					name: 'file',
+					formData: {
+						typeId: this.id,
+					},
+					success: (res) => {
+						
+						let data = JSON.parse(res.data);
+						console.log(data);
+						files.shift();
+						this.upload.progress = this.upload.total - files.length;
+						this.fileList.push({
+							id:data.id,
+							minImgUrl:data.minImgUrl
+						})
+						if (files.length > 0) {
+							this.uploadFile(files);
+						} else {
+							this.upload.loading = false;
+							this.$refs["message"].open({
+								type: 'success',
+								message: "已全部上传",
+							});
+							this.pageInfo.currentPage = 1;
+						}
+					}
+				});
+			},
+			//预览大图
+			previewImage(index) {
+				let imgArray = [];
+				this.fileList.forEach(item => {
+					imgArray.push(item.minImgUrl)
+				})
+				uni.previewImage({
+					urls: imgArray,
+					current: index,
+					loop: true
+				});
+			},
+			deletePhoto(item) {
+				let index = this.fileList.findIndex(file =>item.id===file.id);
+				this.fileList.splice(index,1);
 			}
+			
 		}
 	}
 </script>
@@ -102,18 +182,27 @@
 		border-bottom:#ddd solid 1upx;
 		margin-bottom: 20upx;
 	}
-.img-view {
-		display: block;
-		flex: 0 0 48%;
-		
-		overflow: hidden;
+.img-view2 {
+		width: 33.3333333%;
+		box-sizing: border-box;
+		padding: 8upx;
+		height: 240upx;
 		position: relative;
-		.img-bg{
-			border-radius: 10upx;
+		.img-cover {
 			width: 100%;
-			height:330upx;
-			box-sizing: border-box;
-			border:$border-color-dark solid 1upx;
+			height: 100%;
+			object-fit: cover;
+			background: #ccc;
+		}
+		.delete{
+			position: absolute;
+			right: 10upx;
+			top: 4upx;
+			display: block;
+			color: #999;
+			font-size: 30upx;
+			text-align: center;
+		
 		}
 	}
 	.img-view2-add{

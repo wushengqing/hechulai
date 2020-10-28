@@ -1,5 +1,11 @@
 const baseUrl = 'https://www.hclzz.com/hcl-web/web/'
 import {defaultRequest,asyncRequest} from './globalRequest.js'
+
+/**
+ * 图片上传地址
+ */
+const uploadAction=`${baseUrl}addFile.file`;
+
 //获取宗族列表
 async function getClanList(data = {
 	currentPage: 0,
@@ -498,9 +504,18 @@ async function getCircleContentList(data) {
 		}
 	}
 }
-//族谱获取单个宗亲的信息
+//发布宗族圈文章
+function addOrUpdateCircleContentInfo(data) {
+	return defaultRequest({
+		url: `${baseUrl}addOrUpdateCircleContentInfo.json`,
+		method: 'POST',
+		data,
+	});
+}
 
 export default  {
+	//图片上传地址
+	uploadAction,
 	//获取域名和宗族的关系
 	getDnsList,
 	//获取宗族列表
@@ -567,6 +582,8 @@ export default  {
 	saveClanMsg,
 	//宗族圈列表
 	getCircleList,
+	//发布宗族圈文章
+	addOrUpdateCircleContentInfo,
 	//查询宗族圈文章列表
 	getCircleContentList,
 };
