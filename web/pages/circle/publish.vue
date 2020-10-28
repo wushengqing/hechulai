@@ -92,7 +92,7 @@
 						},1000)
 					} else {
 						this.$refs["message"].open({
-							type: 'error',
+							type: 'cancel',
 							message: "发布失败！",
 						});
 					}
