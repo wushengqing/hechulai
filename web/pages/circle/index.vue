@@ -2,6 +2,7 @@
 	<view>
 		<view class="home-pic">
 			<view class="home-pic-base">
+				<cl-button v-if="currcircle.id"  type="primary"  @click="openPublishPage(currcircle.id)" class="add ml-20" >发布</cl-button>
 			</view>
 		</view>
 		<wyb-noticeBar style="margin-bottom: 10upx;" type="vert" :time="5000" :text="noticeList" url="/pages/notice/list" />
@@ -22,11 +23,8 @@
 					</view>
 					<view class="list-content">
 						<view class="name">
-							<text class="ml50 ">话题：<text class="mr-20 c-base">150</text>个</text>
-							<text @click="openPublishPage(currcircle.id)" class="add ml-20" >发布</text>
-						</view>
-						<view class="name">
-							<text class="ml50 ">关注：<text class="mr-20 c-base">14</text>人</text>
+							<text class="">话题：<text class="c-base mr-20">150</text>|</text>
+							<text class="ml-20 ">关注：<text class="c-base">14</text></text>
 							<text class="follow ml-20">+关注</text>
 						</view>
 						<view class="dec">{{currcircle.circleDec}}</view>
@@ -229,11 +227,14 @@
 		margin-bottom: 10upx
 	}
 	.add{
-		background: $base-color;
-		padding: 0 10upx;
-		border-radius: 4upx;
-		font-size: 26upx;
-		color: #fff;
+		position: absolute;
+		right: 20upx;
+		bottom: 20upx;
+		width: 150upx;
+		line-height: 60upx;
+		height: 60upx;
+		border:none;
+		background: rgb(245, 163, 0);
 	}
 	.follow {
 		background: #ec9205;
@@ -249,8 +250,8 @@
 		margin: 20upx 0;
 		display: flex;
 		.list-icon {
-			width: 330upx;
-			height: 210upx;
+			width: 180upx;
+			height: 160upx;
 			overflow: hidden;
 			margin-right: 20upx;
 	
@@ -262,13 +263,8 @@
 	
 		.list-content {
 			flex: 1;
-			line-height: 42upx;
+			line-height: 40upx;
 			font-size: 26upx;
-			.name {
-				font-size: 32upx;
-				line-height: 50upx;
-			}
-	
 			.dec {
 				color: #ec9205;
 			}

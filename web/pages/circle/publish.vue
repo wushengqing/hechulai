@@ -2,7 +2,7 @@
 	<view class="container">
 		<form>
 			<view class="uni-textarea">
-				<textarea placeholder="请输入内容(50字p以内)" v-model="input_content" />
+				<textarea class="uni-textarea-input" placeholder="请输入内容(50字以内)" v-model="input_content" />
 				</view>
 			<view class="img-list flex-wrap">
 				<view 
@@ -173,12 +173,12 @@
 	.footer {
 		margin-top: 80upx;
 	}
+	.uni-textarea-input{
+		width: 100%;
+		height: 200upx;
+	}
 
 	.uni-textarea {
-		width: auto;
-		padding: 20upx 25upx;
-		line-height: 1.6;
-		height: 150upx;
 		border-bottom:#ddd solid 1upx;
 		margin-bottom: 20upx;
 	}
