@@ -98,7 +98,7 @@
 						<view 
 							class="footer_content" 
 							v-for="(comment,comment_index) in post.commentList" 
-							:key="comment_index" @tap="reply(index,comment_index)">
+							:key="comment_index" @tap="reply(post.id,comment)">
 							<text 
 								v-if="!comment.commentParentClanManName" 
 								class="comment-nickname">{{comment.clanManName}} 
@@ -169,7 +169,8 @@
 				currComment:{
 					contentId:'',
 					commentContent:'',
-					commentParentId:''
+					commentParentId:'',
+					commentParentClanManName:'',
 				},
 			}
 		},
@@ -189,6 +190,9 @@
 			},
 		},
 		onLoad() {
+			if (!this.checkRouter()) {
+				return;
+			}
 			this.getData()
 		},
 		//下拉刷新
@@ -287,6 +291,18 @@
 					commentParentId:''
 				}
 			},
+			reply(contentId,comment){
+				if(comment.clanManId===this.userInfo.clanManId){
+					return;
+				}
+				this.visible = true;
+				this.currComment = {
+					contentId:contentId,
+					commentContent:'',
+					commentParentId:comment.commentParentId,
+					commentParentClanManName:comment.clanManName
+				}
+			},
 			//是否可删除
 			showDeleteBtn(comment){
 				return comment.clanManId === this.userInfo.clanManId;
@@ -300,10 +316,19 @@
 				this.$api.request.addOrUpdateCircleCommentInfo(par).then(res=>{
 					if(res.code===0){
 						//删除评论本身和评论下的所有回复内容
-						 currArticle.commentList = currArticle.commentList.filter(item=>{
-							 return item.id !==id && item.commentParentId!== id;
-						 })
-						 console.log(currArticle.commentList);
+						 // currArticle.commentList = currArticle.commentList.filter(item=>{
+							//  return item.id !==id && item.commentParentId!== id;
+						 // })
+						 // console.log(currArticle.commentList);
+					
+						 for(let i=0,len=currArticle.commentList.length; i<len;){
+							if(item.id !==id && item.commentParentId!== id){
+								currArticle.commentList.splice(i,1);
+								len--;
+							}else{
+								i++;
+							}
+						 }
 					}
 				})
 			},
@@ -315,16 +340,20 @@
 				};
 				if(!this.currComment.commentParentId){
 					delete par.commentParentId;
+					delete par.commentParentClanManName;
 				}
 				this.$api.request.addOrUpdateCircleCommentInfo(par).then(res=>{
 					if(res.code===0){
-							this.visible = false;
+						this.visible = false;
 						let currArticle = this.articleList.filter(item=>item.id===this.currComment.contentId)[0];
 						let newComment = {
 							id:res.data.id,
 							clanManName:this.userInfo.zqName,
 							clanManId:this.userInfo.clanManId,
-							commentContent:this.currComment.commentContent,
+							commentContent:this.currComment.commentContent
+						}
+						if(this.currComment.commentParentId){
+							newComment.commentParentClanManName = this.currComment.commentParentClanManName
 						}
 						if(this.currComment.commentParentId){
 							 newComment.commentParentId = par.commentParentId;
@@ -358,8 +387,8 @@
 				const articleList = await this.$api.request.getCircleContentList(par);
 				articleList.data.forEach(item=>{
 					item.fileList.forEach(img=>{
-						img.width='200';
-						img.height='200';
+						img.width='300';
+						img.height='300';
 					})
 				})
 				this.totalNum = articleList.totalNum
