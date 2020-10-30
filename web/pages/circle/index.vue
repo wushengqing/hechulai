@@ -23,8 +23,8 @@
 					</view>
 					<view class="list-content">
 						<view class="name">
-							<text class="">话题：<text class="c-base mr-20">150</text>|</text>
-							<text class="ml-20 ">关注：<text class="c-base">14</text></text>
+							<text class="">话题：<text class="c-base mr-20">{{currcircle.contentNum}}</text>|</text>
+							<text class="ml-20 ">关注：<text class="c-base">{{currcircle.memberNum}}</text></text>
 							<text class="follow ml-20">+关注</text>
 						</view>
 						<view class="dec">{{currcircle.circleDec}}</view>
@@ -55,7 +55,7 @@
 								class="gallery_img" 
 								lazy-load 
 								mode="aspectFill" 
-								@load="imageLoad(e,post.fileList[0])"
+								@load="imageLoad($event,post.fileList[0])"
 								:style="{width:`${post.fileList[0].width}upx`, height:`${post.fileList[0].height}upx`}"
 								:src="post.fileList[0].fileUrl" 
 								:data-src="post.fileList[0].fileUrl" 
@@ -82,10 +82,10 @@
 					<!-- 资料条 -->
 					<view class="toolbar">
 						<view class="timestamp">{{post.createTime}}</view>
-						<view class="like iconfont" :class="{'c-base':isLike(post)}" @tap="like(index)">
+						<view class="like iconfont" :class="{'c-base':isLike(post)}" @tap="like(post)">
 							&#xe62d
 						</view>
-						<view class="comment iconfont" @tap="comment(index)">
+						<view class="comment iconfont" @tap="comment(post)">
 							&#xe62c
 						</view>
 					</view>
@@ -95,9 +95,24 @@
 							<text class="iconfont c-base mr-10">&#xe62d</text>
 							<text class="nickname" v-for="(user,index_like) in post.goodList" :key="index_like">{{user.clanManName}}</text>
 						</view>
-						<view class="footer_content" v-for="(comment,comment_index) in post.commentList" :key="comment_index" @tap="reply(index,comment_index)">
-							<text v-if="!comment.commentParentClanManName" class="comment-nickname">{{comment.clanManName}} <text class="comment-content">:{{comment.commentContent}}</text></text>
-							<text v-if="comment.commentParentClanManName" class="comment-nickname">{{comment.clanManName}}<text class="comment-content">回复</text>{{comment.commentParentClanManName}} <text class="comment-content">:{{comment.commentContent}}</text></text>
+						<view 
+							class="footer_content" 
+							v-for="(comment,comment_index) in post.commentList" 
+							:key="comment_index" @tap="reply(index,comment_index)">
+							<text 
+								v-if="!comment.commentParentClanManName" 
+								class="comment-nickname">{{comment.clanManName}} 
+								<text class="comment-content">:{{comment.commentContent}}</text>
+								<text v-if="showDeleteBtn(comment)" class="ml-10 c-base" @tap="deleteComment(comment.id,post)">删除</text>
+							</text>
+							<text 
+								v-if="comment.commentParentClanManName" 
+								class="comment-nickname">{{comment.clanManName}}
+								<text class="comment-content">回复</text>
+								{{comment.commentParentClanManName}} 
+								<text class="comment-content">:{{comment.commentContent}}</text>
+								<text v-if="showDeleteBtn(comment)" class="ml-10 c-base" @tap="deleteComment(comment.id,post)">删除</text>
+							</text>
 						</view>
 					</view>
 				</view>
@@ -112,6 +127,24 @@
 				加载中...
 			</view>
 		</view>
+		<cl-popup :visible.sync="visible" direction="bottom">
+			<view class="line88">评论内容：</view>
+			<cl-input 
+				style="width: 100%;" 
+				maxlength="100" 
+				v-model="currComment.commentContent" 
+				placeholder="请输入(100字以内)" 
+				type="textarea">
+			</cl-input>
+			<view class="mb30">
+			</view>
+			<view class="footer flex" style="padding-bottom: 150upx;">
+				<cl-button class="flex1" type="primary" @tap="saveComment">
+					<text>提交评论</text>
+				</cl-button>
+			</view>
+		</cl-popup>
+		<cl-message ref="message"></cl-message>
 	</view>
 </template>
 
@@ -123,6 +156,7 @@
 	export default {
 		data() {
 			return {
+				visible:false,
 				noticeList: [],
 				circleName: [],
 				activeTab: 0,
@@ -132,6 +166,11 @@
 				totalNum: 200,
 				currentPage: 1,
 				articleList: [],
+				currComment:{
+					contentId:'',
+					commentContent:'',
+					commentParentId:''
+				},
 			}
 		},
 		components: {
@@ -174,6 +213,7 @@
 				this.loadData();
 			},
 			imageLoad(e,imageItem){
+				console.log(e);
 				let [$width,$height] = [e.detail.width,e.detail.height];
 				//最大宽度300upx,最大高度500upx
 				let newHeight = 300 * ($height/$width);
@@ -212,6 +252,86 @@
 			isLike(item){
 				let userClanManId= this.userInfo.clanManId;
 				return item.goodList.findIndex(user=>user.clanManId===userClanManId) !==-1;
+			},
+			//点赞和取消点赞
+			like(item){
+				let par = {
+					contentId:item.id,
+					clanManId:this.userInfo.clanManId,
+				};
+				this.$api.request.addOrUpdateCircleCommentInfo(par).then(res=>{
+					if(res.code===0){
+						if(!this.isLike(item)){
+							//点赞
+							item.goodList.push({
+								id:'',
+								clanManId:this.userInfo.clanManId,
+								clanManName:this.userInfo.zqName
+							})
+						}else{
+							let userClanManId= this.userInfo.clanManId;
+							let index = item.goodList.findIndex(user=>user.clanManId===userClanManId)
+							//取消点赞
+							item.goodList.splice(index,1)
+						}
+						
+					}
+				})
+			},
+			//评论
+			comment(item){
+				this.visible = true;
+				this.currComment = {
+					contentId:item.id,
+					commentContent:'',
+					commentParentId:''
+				}
+			},
+			//是否可删除
+			showDeleteBtn(comment){
+				return comment.clanManId === this.userInfo.clanManId;
+			},
+			//删除评论
+			deleteComment(id,currArticle){
+				let par = {
+					commentState:1,
+					id,
+				};
+				this.$api.request.addOrUpdateCircleCommentInfo(par).then(res=>{
+					if(res.code===0){
+						//删除评论本身和评论下的所有回复内容
+						 currArticle.commentList = currArticle.commentList.filter(item=>{
+							 return item.id !==id && item.commentParentId!== id;
+						 })
+						 console.log(currArticle.commentList);
+					}
+				})
+			},
+			//保存评论
+			saveComment(){
+				let par = {
+					...this.currComment,
+					clanManId:this.userInfo.clanManId,
+				};
+				if(!this.currComment.commentParentId){
+					delete par.commentParentId;
+				}
+				this.$api.request.addOrUpdateCircleCommentInfo(par).then(res=>{
+					if(res.code===0){
+							this.visible = false;
+						let currArticle = this.articleList.filter(item=>item.id===this.currComment.contentId)[0];
+						let newComment = {
+							id:res.data.id,
+							clanManName:this.userInfo.zqName,
+							clanManId:this.userInfo.clanManId,
+							commentContent:this.currComment.commentContent,
+						}
+						if(this.currComment.commentParentId){
+							 newComment.commentParentId = par.commentParentId;
+						}
+						currArticle.commentList.push(newComment)
+					}
+				})
 			},
 			previewImage(imageList, image_index) {
 				var current = imageList[image_index].fileUrl;

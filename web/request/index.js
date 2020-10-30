@@ -512,6 +512,14 @@ function addOrUpdateCircleContentInfo(data) {
 		data,
 	});
 }
+//宗族圈内容点赞、评论、撤回评论、点赞、回复
+function addOrUpdateCircleCommentInfo(data) {
+	return defaultRequest({
+		url: `${baseUrl}addOrUpdateCircleCommentInfo.json`,
+		method: 'POST',
+		data,
+	});
+}
 
 export default  {
 	//图片上传地址
@@ -586,4 +594,6 @@ export default  {
 	addOrUpdateCircleContentInfo,
 	//查询宗族圈文章列表
 	getCircleContentList,
+	//宗族圈内容点赞、评论、撤回评论、点赞、回复
+	addOrUpdateCircleCommentInfo,
 };
