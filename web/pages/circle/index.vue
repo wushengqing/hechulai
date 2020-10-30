@@ -43,30 +43,56 @@
 					</view>
 					<view class="circleName">
 						#{{ circleName[post.circleId] }}
-						<text class="follow ml-20">+关注</text>
 					</view>
 					<view id="paragraph" class="paragraph">{{post.circleContent}}</view>
 					<!-- 相册 -->
-					<view class="thumbnails">
-						<view :class="post.fileList.length === 1?'my-gallery':'thumbnail'" v-for="(image, index_images) in post.fileList"
-						 :key="index_images">
-							<image class="gallery_img" lazy-load mode="widthFix" :src="image.fileUrl" :data-src="image.fileUrl" @tap="previewImage(post.fileList,index_images)"></image>
+					<view class="thumbnails" v-if="post.fileList.length>0">
+						<view 
+							v-if="post.fileList.length === 1"
+							:style="{width:`${post.fileList[0].width}upx`, height:`${post.fileList[0].height}upx`}"
+							class="my-gallery" >
+							<image 
+								class="gallery_img" 
+								lazy-load 
+								mode="aspectFill" 
+								@load="imageLoad(e,post.fileList[0])"
+								:style="{width:`${post.fileList[0].width}upx`, height:`${post.fileList[0].height}upx`}"
+								:src="post.fileList[0].fileUrl" 
+								:data-src="post.fileList[0].fileUrl" 
+								@tap="previewImage(post.fileList,0)">
+							</image>
 						</view>
+						<template v-else>
+							<view
+								class="thumbnail" 
+								v-for="(image, index_images) in post.fileList"
+								:key="index_images">
+								<image 
+									class="gallery_img" 
+									lazy-load 
+									mode="aspectFill" 
+									:src="image.fileUrl" 
+									:data-src="image.fileUrl" 
+									@tap="previewImage(post.fileList,index_images)">
+								</image>
+							</view>
+						</template>
+						
 					</view>
 					<!-- 资料条 -->
 					<view class="toolbar">
 						<view class="timestamp">{{post.createTime}}</view>
-						<view class="like" @tap="like(index)">
-							<image :src="post.islike===0?'../../static/quan/islike.png':'../../static/quan/like.png'"></image>
+						<view class="like iconfont" :class="{'c-base':isLike(post)}" @tap="like(index)">
+							&#xe62d
 						</view>
-						<view class="comment" @tap="comment(index)">
-							<image src="../../static/quan/comment.png"></image>
+						<view class="comment iconfont" @tap="comment(index)">
+							&#xe62c
 						</view>
 					</view>
 					<!-- 赞／评论区 -->
 					<view class="post-footer">
 						<view class="footer_content">
-							<image class="liked" src="../../static/quan/liked.png"></image>
+							<text class="iconfont c-base mr-10">&#xe62d</text>
 							<text class="nickname" v-for="(user,index_like) in post.goodList" :key="index_like">{{user.clanManName}}</text>
 						</view>
 						<view class="footer_content" v-for="(comment,comment_index) in post.commentList" :key="comment_index" @tap="reply(index,comment_index)">
@@ -112,7 +138,7 @@
 			wybNoticeBar
 		},
 		computed: {
-			...mapState(['clanInfo']),
+			...mapState(['clanInfo','userInfo']),
 			currcircle() {
 				if (this.activeTab === 0) {
 					return {};
@@ -134,7 +160,7 @@
 		},
 		//加载更多
 		onReachBottom() {
-			if (this.newsList.length >= this.totalNum) {
+			if (this.articleList.length >= this.totalNum) {
 				return;
 			}
 			this.loadData();
@@ -146,6 +172,15 @@
 				this.totalNum = 200;
 				this.currentPage = 1;
 				this.loadData();
+			},
+			imageLoad(e,imageItem){
+				let [$width,$height] = [e.detail.width,e.detail.height];
+				//最大宽度300upx,最大高度500upx
+				let newHeight = 300 * ($height/$width);
+				if(newHeight>500){
+					newHeight=500;
+				}
+				imageItem.height = newHeight;
 			},
 			async getData() {
 				//获取公告列表
@@ -173,6 +208,11 @@
 					this.loadData();
 				})
 			},
+			//当前登录的用户是否点赞
+			isLike(item){
+				let userClanManId= this.userInfo.clanManId;
+				return item.goodList.findIndex(user=>user.clanManId===userClanManId) !==-1;
+			},
 			previewImage(imageList, image_index) {
 				var current = imageList[image_index].fileUrl;
 				uni.previewImage({
@@ -196,6 +236,12 @@
 				}
 
 				const articleList = await this.$api.request.getCircleContentList(par);
+				articleList.data.forEach(item=>{
+					item.fileList.forEach(img=>{
+						img.width='200';
+						img.height='200';
+					})
+				})
 				this.totalNum = articleList.totalNum
 				if (this.currentPage === 1) {
 					this.articleList = [];
@@ -304,10 +350,9 @@
 
 		.post_right {
 			font-size: 32upx;
-			display: table-cell;
 			padding-left: 20upx;
 			width: 100%;
-
+			flex: 1;
 			.post-username {
 				line-height: 60upx;
 				font-size: 32upx;
@@ -334,14 +379,19 @@
 
 			.thumbnail {
 				width: 30%;
-				height: 180upx;
+				height: 150upx;
 				margin: 4upx;
 				background: #757575;
 				overflow: hidden;
+				.gallery_img{
+					width: 100%;
+					height: 100%;
+				}
 			}
 
 			.my-gallery {
 				width: 300upx;
+				height: 300upx;
 				margin: 4upx;
 				background: #757575;
 				overflow: hidden;
@@ -411,7 +461,7 @@
 			-webkit-flex-wrap: wrap;
 			-ms-flex-wrap: wrap;
 			flex-wrap: wrap;
-			line-height: 36upx;
+			line-height: 40upx;
 
 			.liked {
 				/* display: inline-block; */
