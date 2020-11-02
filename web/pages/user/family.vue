@@ -197,16 +197,9 @@
 				})
 			},
 			openClanPage(item){
-				if(item.call==='自己' || item.call==='儿子'){
-					uni.navigateTo({
-					    url: `../familyTree/clan?id=${item.clansmanId }`
-					});
-				}else{
-					uni.navigateTo({
-					    url: `../familyTree/clan2?id=${item.clansmanId}`
-					});
-				}
-				
+				uni.navigateTo({
+				    url: `/pages/user/familyDetail?id=${item.clansmanId }`
+				});
 			},
 			opendDateSelect(){
 				 this.$refs.dateselect.show();

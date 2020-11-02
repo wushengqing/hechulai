@@ -116,7 +116,7 @@
 <style>
 	picker-view {
 		width: 100%;
-		height: 600rpx;
+		height: 540upx;
 		margin-top: 20rpx;
 	}
 

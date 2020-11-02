@@ -1,7 +1,12 @@
 <template>
 	<view class="container" :class="{pb100:detailVo.auditState!==1}">
 		<view class="title" v-if="detailVo.messageType===1">添加家庭成员</view>
-		<view class="title" v-if="detailVo.messageType===5">绑定宗亲</view>
+		<view class="title" v-if="detailVo.messageType===2">绑定宗亲</view>
+		<view class="title" v-if="detailVo.messageType===3">宗亲乐捐消息</view>
+		<view class="title" v-if="detailVo.messageType===4">宗亲反馈消息</view>
+		<view class="title" v-if="detailVo.messageType===5">加入宗圈信息</view>
+		<view class="title" v-if="detailVo.messageType===6">新丁消息</view>
+		<view class="title" v-if="detailVo.messageType===7">逝世消息</view>
 		<view class="sub-title">
 			<text class="label">发起时间：</text>
 			<text class="value">{{ detailVo.createTime}}</text>
@@ -19,25 +24,60 @@
 		<view class="title2">用户信息</view>
 		<view class="sub-title">
 			<text class="label">手机号码：</text>
-			<text class="value" @click="makePhoneCall(detailVo.clanMainRel.userNum)">{{ detailVo.clanMainRel.userNum }}</text>
+			<text class="value c-base" @click="makePhoneCall(detailVo.clanMainRel.userNum)">
+				{{ detailVo.clanMainRel.userNum }}
+				<text class="iconfont">&#xe62e</text>
+			</text>
 		</view>
-		<view class="title2">宗亲信息</view>
-		<view class="sub-title">
-			<text class="label">宗亲姓名：</text>
-			<text class="value">{{ detailVo.clanMainRel.clansmanName}}</text>
-		</view>
-		<view class="sub-title">
-			<text class="label">宗亲世称：</text>
-			<text class="value">{{ detailVo.clanMainRel.scName}}</text>
-		</view>
-		<view class="sub-title">
-			<text class="label">父亲姓名：</text>
-			<text class="value">{{ detailVo.clanMainRel.parentName}}</text>
-		</view>
-		<view class="sub-title">
-			<text class="label">宗亲简介：</text>
-			<text class="value">{{ detailVo.clanMainRel.clansmanDec}}</text>
-		</view>
+		<!--绑定宗亲，添加家庭成员-->
+		<template v-if="detailVo.messageType===1 || detailVo.messageType===2">
+			<view class="title2">宗亲信息</view>
+			<view class="sub-title">
+				<text class="label">宗亲姓名：</text>
+				<text class="value">{{ detailVo.clanMainRel.clansmanName}}</text>
+			</view>
+			<view class="sub-title">
+				<text class="label">宗亲世称：</text>
+				<text class="value">{{ detailVo.clanMainRel.scName}}</text>
+			</view>
+			<view class="sub-title">
+				<text class="label">父亲姓名：</text>
+				<text class="value">{{ detailVo.clanMainRel.parentName}}</text>
+			</view>
+			<view class="sub-title">
+				<text class="label">宗亲简介：</text>
+				<text class="value">{{ detailVo.clanMainRel.clansmanDec}}</text>
+			</view>
+		</template>
+		<!--宗亲乐捐-->
+		<template v-if="detailVo.messageType===3">
+			<view class="title2">乐捐信息</view>
+			<view class="sub-title">
+				<text class="label">项目名称：</text>
+				<text class="value">{{ detailVo.clanMainRel.clansmanName}}</text>
+			</view>
+			<view class="sub-title">
+				<text class="label">乐捐进度：</text>
+				<text class="value">{{ detailVo.clanMainRel.clansmanName}}</text>
+			</view>
+			<view class="sub-title">
+				<text class="label">乐捐金额：</text>
+				<text class="value">{{ detailVo.clanMainRel.scName}}</text>
+			</view>
+			<view class="sub-title">
+				<text class="label">乐捐备注：</text>
+				<text class="value">{{ detailVo.clanMainRel.parentName}}</text>
+			</view>
+		</template>
+		<!--宗亲反馈-->
+		<template v-if="detailVo.messageType===4">
+			<view class="title2">反馈信息</view>
+			<view class="sub-title">
+				<text class="label">反馈内容：</text>
+				<text class="value">{{ detailVo.clanMainRel.clansmanName}}</text>
+			</view>
+		</template>
+		
 		<view class="fotter-bar flex" v-if="detailVo.auditState!==1">
 			<cl-button v-if="detailVo.auditState===0" class="flex1" @tap="visible = true">
 				<text>驳回审核</text>

@@ -377,6 +377,16 @@ async function clanUserInfo(data) {
 		}
 	}
 }
+
+//​更新宗亲个人信息
+function addOrUpdateClanUserInfo(data) {
+	return defaultRequest({
+		url: `${baseUrl}addOrUpdateClanUserInfo.json`,
+		method: 'POST',
+		data,
+	});
+}
+
 //获取族谱宗亲详情
 async function getZpList(data) {
 	var [error, res] = await asyncRequest({
@@ -558,6 +568,8 @@ export default  {
 	getMsgInfo,
 	//宗亲详情
 	clanUserInfo,
+	//保存宗亲信息
+	addOrUpdateClanUserInfo,
 	//世系表
 	sxList,
 	//族委会

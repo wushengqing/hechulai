@@ -1,7 +1,11 @@
 <template>
 	<view class="container" style="padding: 0;">
 		<view class="flex line88 tc">
-			<view class="flex1 auditState-item" :class="{active:auditState===item.value}" v-for="item in auditStateList" @click="changeAuditState(item)">{{ item.label }}</view>
+			<view 
+				class="flex1 auditState-item" 
+				:class="{active:auditState===item.value}" 
+				v-for="item in auditStateList" 
+				@click="changeAuditState(item)">{{ item.label }}</view>
 		</view>
 		<view class="approve-body">
 			<view class="notice-item" v-for="approveItem in approveList"  @click="navToDetailPage(approveItem)">
@@ -9,7 +13,12 @@
 				<view class="content ">
 					<view class="title flex">
 						<view class="flex1" v-if="approveItem.messageType===1">添加家庭成员</view>
-						<view class="flex1" v-if="approveItem.messageType===5">申请绑定宗亲</view>
+						<view class="flex1" v-if="approveItem.messageType===2">绑定宗亲</view>
+						<view class="flex1" v-if="approveItem.messageType===3">宗亲乐捐消息</view>
+						<view class="flex1" v-if="approveItem.messageType===4">宗亲反馈消息</view>
+						<view class="flex1" v-if="approveItem.messageType===5">加入宗圈信息</view>
+						<view class="flex1" v-if="approveItem.messageType===6">新丁消息</view>
+						<view class="flex1" v-if="approveItem.messageType===7">逝世消息</view>
 					</view>
 					<text class="introduce">
 						{{ approveItem.messageContent }}

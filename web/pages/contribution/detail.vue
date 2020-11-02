@@ -40,7 +40,7 @@
 					</cl-input>
 				</cl-form-item>
 				<cl-form-item label="备注">
-					<cl-input v-model="form.giveDec" placeholder="请输入备注" maxlength="11" type="textarea">
+					<cl-input v-model="form.giveDec" placeholder="请输入备注" maxlength="100" type="textarea">
 					</cl-input>
 				</cl-form-item>
 			</cl-form>

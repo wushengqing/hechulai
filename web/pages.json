@@ -87,6 +87,12 @@
 			}
 		},
 		{
+			"path": "pages/user/familyDetail",
+			"style": {
+				"navigationBarTitleText": "家庭成员"
+			}
+		},
+		{
 			"path": "pages/detail/detail",
 			"style": {
 				"navigationBarTitleText": "",
@@ -222,17 +228,6 @@
 			"path": "pages/bindLineage/index",
 			"style": {
 				"navigationBarTitleText": "绑定宗亲"
-			}
-		}, {
-			"path": "pages/quan/index",
-			"style": {
-				"navigationBarTitleText": "宗亲圈"
-			}
-		},
-		{
-			"path": "pages/quan/publish",
-			"style": {
-				"navigationBarTitleText": "发布宗亲圈"
 			}
 		}, {
 			"path": "pages/public/wxLogin",

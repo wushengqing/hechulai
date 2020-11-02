@@ -35,7 +35,7 @@
 					/>
 				</view>
 			</view>
-			<button class="confirm-btn" @click="toLogin" :disabled="logining">登录/注册	</button>
+			<button class="confirm-btn" @click="toLogin" :disabled="logining">登录/注册</button>
 			<view class="forget-section">
 				快速登录
 			</view>
