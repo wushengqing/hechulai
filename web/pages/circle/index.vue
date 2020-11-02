@@ -217,7 +217,6 @@
 				this.loadData();
 			},
 			imageLoad(e,imageItem){
-				console.log(e);
 				let [$width,$height] = [e.detail.width,e.detail.height];
 				//最大宽度300upx,最大高度500upx
 				let newHeight = 300 * ($height/$width);
@@ -299,7 +298,7 @@
 				this.currComment = {
 					contentId:contentId,
 					commentContent:'',
-					commentParentId:comment.commentParentId,
+					commentParentId:comment.id,
 					commentParentClanManName:comment.clanManName
 				}
 			},
@@ -315,14 +314,9 @@
 				};
 				this.$api.request.addOrUpdateCircleCommentInfo(par).then(res=>{
 					if(res.code===0){
-						//删除评论本身和评论下的所有回复内容
-						 // currArticle.commentList = currArticle.commentList.filter(item=>{
-							//  return item.id !==id && item.commentParentId!== id;
-						 // })
-						 // console.log(currArticle.commentList);
-					
-						 for(let i=0,len=currArticle.commentList.length; i<len;){
-							if(item.id !==id && item.commentParentId!== id){
+						 for(let i=0,len=currArticle.commentList.length; i<len;){  
+							 let item = currArticle.commentList[i];
+							if(item.id ===id || item.commentParentId=== id){
 								currArticle.commentList.splice(i,1);
 								len--;
 							}else{
@@ -338,7 +332,7 @@
 					...this.currComment,
 					clanManId:this.userInfo.clanManId,
 				};
-				if(!this.currComment.commentParentId){
+				if(this.currComment.commentParentId===''){
 					delete par.commentParentId;
 					delete par.commentParentClanManName;
 				}
@@ -352,11 +346,9 @@
 							clanManId:this.userInfo.clanManId,
 							commentContent:this.currComment.commentContent
 						}
-						if(this.currComment.commentParentId){
-							newComment.commentParentClanManName = this.currComment.commentParentClanManName
-						}
-						if(this.currComment.commentParentId){
-							 newComment.commentParentId = par.commentParentId;
+						if(this.currComment.commentParentId!==''){
+							newComment.commentParentClanManName = this.currComment.commentParentClanManName;
+							newComment.commentParentId = par.commentParentId;
 						}
 						currArticle.commentList.push(newComment)
 					}
