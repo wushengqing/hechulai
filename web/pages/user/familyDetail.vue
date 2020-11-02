@@ -28,6 +28,27 @@
 			<cl-card label="姓名">
 				<cl-input v-model="form.name" placeholder="请输入姓名"></cl-input>
 			</cl-card>
+			<cl-card label="头像">
+				<view class="img-list flex-wrap">
+					<view 
+						v-if="form.headFileId"
+						class="img-view2" 
+						@tap="chooseImage()"
+						>
+						<image lazy-load 
+						mode="aspectFill"
+						class="img-cover" 
+						:src="minImgUrl" 
+						@tap="previewImage(0)">
+						</image>
+						<view class="delete" @click.stop="deletePhoto(item)"><text class="iconfont f22">&#xe62b</text></view>
+					</view>
+					<view v-else class="img-view2-add" @tap="chooseImage()">
+						<text class="iconfont">&#xe617</text>
+					</view>
+					
+				</view>
+			</cl-card>
 			<cl-card label="出生日期">
 				<cl-date-select v-model="form.birthDay" placeholder="年/月/日"></cl-date-select>
 				<!-- <view class="input-readonly" @click="opendDateSelect()" placeholder="年/月/日">{{ form.birthDay ||'年/月/日' }}</view> -->
@@ -45,6 +66,7 @@
 			</view>
 		</cl-popup>
 		<cl-message ref="message"></cl-message>
+		<cl-loading-mask :loading="upload.loading" text="正在上传头像" fullscreen></cl-loading-mask>
 	</view>
 </template>
 
@@ -60,11 +82,18 @@
 				id: '',
 				clanUserInfo: {},
 				visible:false,
+				minImgUrl:'',
 				form:{
 					name:'',
 					birthDay:'',
-					dec:''
-				}
+					dec:'',
+					headFileId:''
+				},
+				upload: {
+					loading: false,
+					total: 0,
+					progress: 0,
+				},
 			};
 		},
 		components: {
@@ -86,7 +115,8 @@
 				this.form = {
 					name:this.clanUserInfo.name,
 					birthday:this.clanUserInfo.birthday,
-					dec:this.clanUserInfo.dec
+					dec:this.clanUserInfo.dec,
+					headFileId:this.clanUserInfo.headFileId
 				}
 				this.visible = true;
 			},
@@ -112,6 +142,59 @@
 					}
 				})
 			},
+			
+			//选择图片
+			chooseImage() {
+				uni.chooseImage({
+					sizeType: ['original', 'compressed'],
+					count:1,
+					success: (chooseImageRes) => {
+						console.log(chooseImageRes);
+						const tempFilePaths = chooseImageRes.tempFilePaths;
+						this.upload.total = tempFilePaths.length;
+						this.upload.progress = 0;
+						this.uploadFile(tempFilePaths);
+						this.upload.loading = true;
+					}
+				});
+			},
+			//依次上传图片
+			uploadFile(files) {
+				uni.uploadFile({
+					url: this.$api.request.uploadAction,
+					filePath: files[0],
+					name: 'file',
+					formData: {
+						typeId: this.id,
+					},
+					success: (res) => {
+						let data = JSON.parse(res.data);
+						console.log(data);
+						files.shift();
+						this.upload.progress = this.upload.total - files.length;
+						this.minImgUrl = data.minImgUrl;
+						this.form.headFileId = data.id;
+						if (files.length > 0) {
+							this.uploadFile(files);
+						} else {
+							this.upload.loading = false;
+						}
+					}
+				});
+			},
+			//预览大图
+			previewImage(index) {
+				let imgArray = [this.minImgUrl];
+				uni.previewImage({
+					urls: imgArray,
+					current: index,
+					loop: true
+				});
+			},
+			deletePhoto(item) {
+				this.minImgUrl = '';
+				this.form.headFileId = '';
+			}
 
 
 		},

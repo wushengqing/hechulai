@@ -26,12 +26,8 @@
 		<!-- 快速导航 -->
 		<view class="cate-section">
 			<navigator url="../lineage/lineage" class="cate-item">
-				<image src="/static/index/p4.png"></image>
+				<image src="/static/index/p5.png"></image>
 				<text>世系表</text>
-			</navigator>
-			<navigator url="../ancestralHall/list" class="cate-item">
-				<image src="/static/index/p1.png"></image>
-				<text>宗祠/祖坟</text>
 			</navigator>
 			<navigator url="../organization/organization" class="cate-item">
 				<image src="/static/index/p2.png"></image>
@@ -41,6 +37,11 @@
 				<image src="/static/index/p3.png"></image>
 				<text>乐捐榜</text>
 			</navigator>
+			<navigator url="../ancestralHall/list" class="cate-item">
+				<image src="/static/index/p1.png"></image>
+				<text>宗祠/祖坟</text>
+			</navigator>
+		
 
 		</view>
 		<!-- 通知公告 -->

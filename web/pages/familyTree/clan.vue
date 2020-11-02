@@ -10,7 +10,8 @@
 				<view>世称：{{ clanUserInfo.scName }}</view>
 				<view>性别：{{ clanUserInfo.sex||'男' }}</view>
 				<view>出生日期：{{ clanUserInfo.clansmanBirthDay }}</view>
-				<view v-if=" clanUserInfo.clansmanendDay">去世日期：{{ clanUserInfo.clansmanendDay }}</view>
+				<view v-if="clanUserInfo.clansmanendDay">去世日期：{{ clanUserInfo.clansmanendDay }}</view>
+				<view v-if="clanUserInfo.parentId">父亲：<navigator class="c-base" style="display: inline-block;" :url="`./clan?id=${clanUserInfo.parentId}`">{{ clanUserInfo.parentName }}</navigator></view>
 			</view>
 			<view class="avatar">
 				<image class="avatar" :src="clanUserInfo.headFileUrl || '../../static/missing-face.png'"></image>

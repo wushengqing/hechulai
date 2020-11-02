@@ -182,43 +182,5 @@
 		border-bottom:#ddd solid 1upx;
 		margin-bottom: 20upx;
 	}
-.img-view2 {
-		width: 33.3333333%;
-		box-sizing: border-box;
-		padding: 8upx;
-		height: 240upx;
-		position: relative;
-		.img-cover {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			background: #ccc;
-		}
-		.delete{
-			position: absolute;
-			right: 10upx;
-			top: 4upx;
-			display: block;
-			color: #999;
-			font-size: 30upx;
-			text-align: center;
-		
-		}
-	}
-	.img-view2-add{
-		width: 33.3333333%;
-		box-sizing: border-box;
-		padding: 0upx;
-		height: 240upx;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-		background: #f1f1f1;
-		.iconfont{
-			flex: 1;
-			color: #999;
-			font-size: 60upx;
-		}
-	}
+
 </style>

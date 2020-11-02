@@ -9,7 +9,7 @@
 		</view>
 		<view>
 			<view style="padding: 30upx 0 0 0;"  class="title1">族谱目录</view>
-			<list-cell v-for="(item,index) in generationList" :title="item.name" :tips="item.phone"  @eventClick="openGenerationPage(item)"  ></list-cell>
+			<list-cell v-for="(item,index) in generationList" :title="item.name" :tips="`字辈：${item.seniority}`"  @eventClick="openGenerationPage(item)"  ></list-cell>
 		</view>
 	</view>
 </template>
@@ -39,7 +39,7 @@
 			},
 			openGenerationPage(item){
 				uni.navigateTo({
-				    url: `./generation?id=${item.id}&name=${item.name}`
+				    url: `./generation?id=${item.id}&name=${item.name}(字辈：${item.seniority})`
 				});
 			}
 					

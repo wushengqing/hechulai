@@ -7,7 +7,10 @@
 			<view class="c-list">
 				<view class="c-list-item" v-for="(item,index) in pItem"  @click="openClanPage(item)">{{ item.clansmanName }}</view>
 			</view>
-		</template>	
+		</template>
+		<view v-if="clanUserRelList.length===0 && !loading" class="tc line88 c-grey">
+			暂无宗亲~
+		</view>
 		<view class="control">
 			<view class="action-btn" @click="changeShowBottom()">切换目录</view>
 			<view class="current">
@@ -15,7 +18,7 @@
 			</view>
 		</view>
 		<view class="bottom-box" :class="showBottom?'show':''">
-			<view class="bottom-item"  v-for="(item,index) in generationList" @click="openGenerationPage(item)">{{ item.name }}</view>
+			<view class="bottom-item"  v-for="(item,index) in generationList" @click="openGenerationPage(item)">{{ item.name }}(字辈：{{item.seniority}})</view>
 		</view>
 	</view>
 </template>
@@ -26,6 +29,7 @@
 	export default{
 		data() {
 			return {
+				loading:true,
 				id:'',
 				name:'',
 				showBottom:false,
@@ -73,6 +77,7 @@
 					return newAyy;
 				}
 				this.clanUserRelList = clanUserRelList.groupBy('parentId');
+				this.loading = false;
 			},
 			openClanPage(item){
 				uni.redirectTo({
@@ -81,7 +86,7 @@
 			},
 			openGenerationPage(item){
 				uni.redirectTo({
-				    url: `./generation?id=${item.id}&name=${item.name}`
+				    url: `./generation?id=${item.id}&name=${item.name}(字辈：${item.seniority})`
 				});
 			},
 			changeShowBottom(){
@@ -141,7 +146,7 @@
 		position: fixed;
 		left: 0;
 		bottom:-50%;
-		width:200upx;
+		width:300upx;
 		border-right:$border-color-dark solid 1upx ;
 		z-index: 10;
 		&.show{
@@ -150,7 +155,8 @@
 		.bottom-item{
 			background: rgba(158,86,58,.8);
 			color: #fff;
-			text-align: center;
+			text-align: left;
+			padding-left: 20upx;
 			line-height: 59upx;
 			border-top:$border-color-dark solid 1upx
 		}

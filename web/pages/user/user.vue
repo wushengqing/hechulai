@@ -8,7 +8,10 @@
 					<image class="portrait" :src="userInfo.zqHead || '/static/missing-face.png'"></image>
 				</view>
 				<view class="info-box">
-					<text class="username">{{userInfo.name || '游客'}}</text>
+					<text class="username">
+					{{userInfo.name || '游客'}}
+					<text class="c-base" v-if="userInfo.isRelZq && userInfo.clanId === clanInfo.id">（{{ userInfo.zqName }})</text>
+					</text>
 				</view>
 			</view>
 			<view class="vip-card-box">
