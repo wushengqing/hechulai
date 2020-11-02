@@ -4,20 +4,16 @@
 			<navigator v-for="item in projectList" :url="`/pages/contribution/detail?id=${item.givingId}`" class="item-link">
 				<view class="title">{{ item.givingName }}</view>
 				<view class="field">
-					<text class="label">乐捐详情：</text>
-					<text class="value ">{{ item.giveDec }}</text>
-				</view>
-				<view class="field field-user">
-					<text class="label">乐捐目标金额：</text>
-					<text class="value ">{{ item.givingSumMoney }}</text>
+					<text class="label">乐捐金额：</text>
+					<text class="value ">{{ item.giveMoney }}</text>
 				</view>
 				<view class="field">
-					<text class="label">乐捐已收金额：</text>
-					<text class="value ">{{ item.givingMoneySum }}</text>
+					<text class="label">乐捐时间：</text>
+					<text class="value yellow">{{ item.createTime }}</text>
 				</view>
-				<view class="field field-clock">
-					<text class="label">发起时间：</text>
-					<text class="value yellow">{{ item.givingBtime }}</text>
+				<view class="field">
+					<text class="label">乐捐备注：</text>
+					<text class="value ">{{ item.giveDec }}</text>
 				</view>
 			</navigator>
 			<view v-if="projectList.length===0" class="tc line88 c-grey">

@@ -202,8 +202,8 @@
 			
 		},
 		async onLoad(options){
-			this.id = options.id;
-			this.clanId = options.clanId;
+			this.id = parseInt(options.id);
+			this.clanId = parseInt(options.clanId);
 			if(this.id){
 				this.loadData();
 			}
