@@ -93,6 +93,12 @@
 			}
 		},
 		{
+			"path": "pages/user/familyEdit",
+			"style": {
+				"navigationBarTitleText": "家庭成员"
+			}
+		},
+		{
 			"path": "pages/detail/detail",
 			"style": {
 				"navigationBarTitleText": "",
