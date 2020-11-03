@@ -263,7 +263,11 @@
 		}
 		
 
-	],
+	    ,{
+            "path" : "pages/clear/clear",
+            "style" : {}
+        }
+    ],
 	"tabBar": {
 		"color": "#C0C4CC",
 		"selectedColor": "#c65c4c",

@@ -26,8 +26,8 @@
 					<text v-else-if="userInfo.userId && userInfo.clanId !== clanInfo.id" >您已经是其他宗族的宗亲，无法登陆</text>
 					<text v-else-if="!userInfo.userId">登录之后可以绑定宗族</text>
 				</view>
-				<text class="e-m">如果你也是宗亲</text>
-				<text class="e-b">那就快来加入我们吧</text>
+			<!-- 	<text class="e-m">如果你也是宗亲</text>
+				<text class="e-b">那就快来加入我们吧</text> -->
 			</view>
 		</view>
 		
@@ -37,9 +37,6 @@
 				transform: coverTransform,
 				transition: coverTransition
 			}]"
-			@touchstart="coverTouchstart"
-			@touchmove="coverTouchmove"
-			@touchend="coverTouchend"
 		>
 			<image class="arc" src="/static/arc.png"></image>
 			
@@ -69,13 +66,29 @@
 					type="new" 
 					icon="icon-shenhe" iconColor="#ee883b"  
 					@eventClick="navTo('/pages/user/approve')" 
-					title="审核记录" 
-					:tips="userInfo.msgNum ? userInfo.msgNum条未读:''">
+					title="审核记录">
 				</list-cell>
-				<list-cell icon="icon-dizhi" iconColor="#5fcda2"  @eventClick="navTo('/pages/user/contribution')" title="我的乐捐" ></list-cell>
-				<list-cell icon="icon-pinglun-copy" iconColor="#ee883b" title="我的消息" @eventClick="navTo('/pages/user/message')" :tips="userInfo.msgNum ? userInfo.msgNum条未读消息:''"></list-cell>
+				<list-cell 
+					icon="icon-dizhi" 
+					iconColor="#5fcda2"  
+					@eventClick="navTo('/pages/user/contribution')" 
+					title="我的乐捐" >
+				</list-cell>
+				<list-cell 
+					icon="icon-pinglun-copy" 
+					iconColor="#ee883b" 
+					title="我的消息" 
+					@eventClick="navTo('/pages/user/message')" 
+					:tips="userInfo.msgNum ? `${userInfo.msgNum}条消息`:''">
+				</list-cell>
 				<!-- <list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" @eventClick="navTo('/pages/contacts/list')" title="通讯录"></list-cell> -->
-				<list-cell icon="icon-shezhi1" iconColor="#e07472" title="设置" border="" @eventClick="navTo('/pages/set/set')"></list-cell>
+				<list-cell 
+					icon="icon-shezhi1" 
+					iconColor="#e07472" 
+					title="设置" 
+					border="" 
+					@eventClick="navTo('/pages/set/set')">
+				</list-cell>
 			</view>
 		</view>
 			

@@ -1,12 +1,13 @@
 <template>
 	<view class="container" :class="{pb100:detailVo.auditState!==1}">
-		<view class="title" v-if="detailVo.messageType===1">添加家庭成员</view>
-		<view class="title" v-if="detailVo.messageType===2">绑定宗亲</view>
+		<view class="title" v-if="detailVo.messageType===1">绑定宗亲</view>
+		<view class="title" v-if="detailVo.messageType===2">添加家庭成员</view>
 		<view class="title" v-if="detailVo.messageType===3">宗亲乐捐消息</view>
 		<view class="title" v-if="detailVo.messageType===4">宗亲反馈消息</view>
-		<view class="title" v-if="detailVo.messageType===5">加入宗圈信息</view>
+		<view class="title" v-if="detailVo.messageType===5">发布宗圈文章</view>
 		<view class="title" v-if="detailVo.messageType===6">新丁消息</view>
 		<view class="title" v-if="detailVo.messageType===7">逝世消息</view>
+		<view class="title" v-if="detailVo.messageType===8">关注宗族圈</view>
 		<view class="sub-title">
 			<text class="label">发起时间：</text>
 			<text class="value">{{ detailVo.createTime}}</text>

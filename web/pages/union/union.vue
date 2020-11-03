@@ -35,6 +35,8 @@
 				this.dnsList =  await this.$api.request.getDnsList();
 			},
 			changeClanId(clanInfo){
+				let dnsName = this.dnsList.filter(item=>item.clanId===clanInfo.id)[0].dnsName;
+				uni.setStorageSync('clanInfoDnsName', dnsName);
 				this.setClanInfo(clanInfo);
 				console.log(this.redirect_uri.split('/pages/')[1]);
 				let reLaunchUrl = this.redirect_uri.split('/pages/')[1];

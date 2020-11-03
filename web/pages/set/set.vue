@@ -1,10 +1,14 @@
 <template>
 	<view class="container">
-		<view class="list-cell m-t">
+		<view class="list-cell m-t b-b">
 			<text class="cell-tit">消息推送</text>
 			<switch checked color="#984c06" @change="switchChange" />
 		</view>
-		<view class="list-cell b-b" @click="navTo('厦门何处来信息科技有限公司')" hover-class="cell-hover" :hover-stay-time="50">
+		<view class="list-cell b-b" @click="clear"  hover-class="cell-hover" :hover-stay-time="50">
+			<text class="cell-tit">清除缓存</text>
+			<text class="cell-more yticon icon-you"></text>
+			</view>
+			<view class="list-cell b-b" @click="navTo('厦门何处来信息科技有限公司')" hover-class="cell-hover" :hover-stay-time="50">
 			<text class="cell-tit">关于我们</text>
 			<text class="cell-more yticon icon-you"></text>
 		</view>
@@ -54,6 +58,9 @@
 				let statusTip = e.detail.value ? '打开': '关闭';
 				this.$api.msg(`${statusTip}消息推送`);
 			},
+			clear(){
+				location.href = 'https://www.hclzz.com/web/#/pages/clear/clear';
+			}
 
 		}
 	}

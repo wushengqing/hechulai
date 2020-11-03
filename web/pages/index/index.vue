@@ -26,11 +26,11 @@
 		<!-- 快速导航 -->
 		<view class="cate-section">
 			<navigator url="../lineage/lineage" class="cate-item">
-				<image src="/static/index/p5.png"></image>
+				<image src="/static/index/p2.png"></image>
 				<text>世系表</text>
 			</navigator>
 			<navigator url="../organization/organization" class="cate-item">
-				<image src="/static/index/p2.png"></image>
+				<image src="/static/index/p5.jpg"></image>
 				<text>族委会</text>
 			</navigator>
 			<navigator url="../contribution/list" class="cate-item">
@@ -108,7 +108,16 @@
 			...mapState(['clanInfo','userInfo']),
 		},
 		async onLoad(opctions) {
-			console.log(opctions);
+			let dnsName = location.origin + '/web';
+			try {
+			   const clanInfoDnsName = uni.getStorageSync('clanInfoDnsName');
+			   if(dnsName!==clanInfoDnsName){
+			   	let par = location.href.split('#')[1];
+			   	location.href = clanInfoDnsName+'#'+par;
+			   }
+			} catch (e) {
+			   
+			}
 			if(this.clanInfo.id){
 				this.loadData();
 				return
@@ -116,7 +125,7 @@
 			//获取clanInfo
 			const unionList = await this.$api.request.getClanList();
 			const dnsList = await this.$api.request.getDnsList();
-			let dnsName = window.location.origin + '/web';
+			
 			let clan = dnsList.filter(item => item.dnsName === dnsName);
 			let clanId = '';
 			if (clan && clan.length === 1) {

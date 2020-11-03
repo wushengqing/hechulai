@@ -12,13 +12,14 @@
 				<text class="time">{{ approveItem.createTime }}</text>
 				<view class="content ">
 					<view class="title flex">
-						<view class="flex1" v-if="approveItem.messageType===1">添加家庭成员</view>
-						<view class="flex1" v-if="approveItem.messageType===2">绑定宗亲</view>
-						<view class="flex1" v-if="approveItem.messageType===3">宗亲乐捐消息</view>
-						<view class="flex1" v-if="approveItem.messageType===4">宗亲反馈消息</view>
-						<view class="flex1" v-if="approveItem.messageType===5">加入宗圈信息</view>
-						<view class="flex1" v-if="approveItem.messageType===6">新丁消息</view>
-						<view class="flex1" v-if="approveItem.messageType===7">逝世消息</view>
+						<view class="title" v-if="approveItem.messageType===1">绑定宗亲</view>
+						<view class="title" v-if="approveItem.messageType===2">添加家庭成员</view>
+						<view class="title" v-if="approveItem.messageType===3">宗亲乐捐消息</view>
+						<view class="title" v-if="approveItem.messageType===4">宗亲反馈消息</view>
+						<view class="title" v-if="approveItem.messageType===5">发布宗圈文章</view>
+						<view class="title" v-if="approveItem.messageType===6">新丁消息</view>
+						<view class="title" v-if="approveItem.messageType===7">逝世消息</view>
+						<view class="title" v-if="approveItem.messageType===8">关注宗族圈</view>
 					</view>
 					<text class="introduce">
 						{{ approveItem.messageContent }}
