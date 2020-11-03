@@ -1,5 +1,6 @@
 <template>
-	<view
+	<scroll-view
+		scroll-y
 		class="cl-popup__wrapper"
 		:class="[
 			`cl-popup__wrapper--${direction}`,
@@ -17,7 +18,7 @@
 				<slot></slot>
 			</view>
 		</view>
-	</view>
+	</scroll-view>
 </template>
 
 <script>

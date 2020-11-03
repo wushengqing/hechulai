@@ -134,7 +134,7 @@
 							id:data.id,
 							minImgUrl:data.minImgUrl
 						})
-						if (files.length > 0) {
+						if (files.length > 0 && this.fileList.length<9) {
 							this.uploadFile(files);
 						} else {
 							this.upload.loading = false;
