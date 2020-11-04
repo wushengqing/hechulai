@@ -24,38 +24,40 @@
 		</view>
 		<!--添加成员-->
 		<cl-popup :visible.sync="visible" direction="bottom">
-			<view class="bold font30 mb30">修改信息</view>
-			<cl-card label="姓名">
-				<cl-input v-model="form.name" placeholder="请输入姓名"></cl-input>
-			</cl-card>
-			<cl-card label="头像">
-				<view class="img-list flex-wrap">
-					<view 
-						v-if="form.headFileId"
-						class="img-view2" 
-						@tap="chooseImage()"
-						>
-						<image lazy-load 
-						mode="aspectFill"
-						class="img-cover" 
-						:src="minImgUrl" 
-						@tap="previewImage(0)">
-						</image>
-						<view class="delete" @click.stop="deletePhoto(item)"><text class="iconfont f22">&#xe62b</text></view>
+			<view style="overflow: auto; max-height:90vh;">
+				<view class="bold font30 mb30">修改信息</view>
+				<cl-card label="姓名">
+					<cl-input v-model="form.name" placeholder="请输入姓名"></cl-input>
+				</cl-card>
+				<cl-card label="头像">
+					<view class="img-list flex-wrap">
+						<view 
+							v-if="form.headFileId"
+							class="img-view2" 
+							@tap="chooseImage()"
+							>
+							<image lazy-load 
+							mode="aspectFill"
+							class="img-cover" 
+							:src="minImgUrl" 
+							@tap="previewImage(0)">
+							</image>
+							<view class="delete" @click.stop="deletePhoto(item)"><text class="iconfont f22">&#xe62b</text></view>
+						</view>
+						<view v-else class="img-view2-add" @tap="chooseImage()">
+							<text class="iconfont">&#xe617</text>
+						</view>
+						
 					</view>
-					<view v-else class="img-view2-add" @tap="chooseImage()">
-						<text class="iconfont">&#xe617</text>
-					</view>
-					
-				</view>
-			</cl-card>
-			<cl-card label="出生日期">
-				<cl-date-select v-model="form.birthDay" placeholder="年/月/日"></cl-date-select>
-				<!-- <view class="input-readonly" @click="opendDateSelect()" placeholder="年/月/日">{{ form.birthDay ||'年/月/日' }}</view> -->
-			</cl-card>
-			<cl-card label="介绍">
-				<cl-input v-model="form.dec" placeholder="请输入介绍"></cl-input>
-			</cl-card>
+				</cl-card>
+				<cl-card label="出生日期">
+					<cl-date-select v-model="form.birthDay" placeholder="年/月/日"></cl-date-select>
+					<!-- <view class="input-readonly" @click="opendDateSelect()" placeholder="年/月/日">{{ form.birthDay ||'年/月/日' }}</view> -->
+				</cl-card>
+				<cl-card label="介绍">
+					<cl-input v-model="form.dec" placeholder="请输入介绍"></cl-input>
+				</cl-card>
+			</view>
 			<view class="footer flex">
 				<cl-button class="flex1" @tap="visible = false">
 					<text>取消</text>
