@@ -30,8 +30,8 @@
 				<text class="iconfont">&#xe62e</text>
 			</text>
 		</view>
-		<!--绑定宗亲，添加家庭成员-->
-		<template v-if="detailVo.messageType===1 || detailVo.messageType===2">
+		<!--宗亲信息-->
+		<template>
 			<view class="title2">宗亲信息</view>
 			<view class="sub-title">
 				<text class="label">宗亲姓名：</text>
@@ -55,19 +55,22 @@
 			<view class="title2">乐捐信息</view>
 			<view class="sub-title">
 				<text class="label">项目名称：</text>
-				<text class="value">{{ detailVo.clanMainRel.clansmanName}}</text>
+				<text class="value">{{ detailVo.type3.givingName}}</text>
 			</view>
 			<view class="sub-title">
 				<text class="label">乐捐进度：</text>
-				<text class="value">{{ detailVo.clanMainRel.clansmanName}}</text>
+				<text v-if="detailVo.type3.status===0" class="value">未知</text>
+				<text v-if="detailVo.type3.status===1" class="value">未开始</text>
+				<text v-if="detailVo.type3.status===2" class="value">进行中</text>
+				<text v-if="detailVo.type3.status===3" class="value">已结束</text>
 			</view>
 			<view class="sub-title">
 				<text class="label">乐捐金额：</text>
-				<text class="value">{{ detailVo.clanMainRel.scName}}</text>
+				<text class="value">{{ detailVo.type3.giveMoney}}</text>
 			</view>
 			<view class="sub-title">
 				<text class="label">乐捐备注：</text>
-				<text class="value">{{ detailVo.clanMainRel.parentName}}</text>
+				<text class="value">{{ detailVo.type3.giveDec||'-'}}</text>
 			</view>
 		</template>
 		<!--宗亲反馈-->
@@ -75,7 +78,7 @@
 			<view class="title2">反馈信息</view>
 			<view class="sub-title">
 				<text class="label">反馈内容：</text>
-				<text class="value">{{ detailVo.clanMainRel.clansmanName}}</text>
+				<text class="value">{{ detailVo.messageDec}}</text>
 			</view>
 		</template>
 		
@@ -113,6 +116,9 @@
 
 <script>
 	import uParse from '@/components/u-parse/parse.vue'
+	import {
+	    mapState 
+	} from 'vuex'; 
 	export default{
 		data() {
 			return {
@@ -123,11 +129,14 @@
 					clanMainRel:{}
 				},
 				auditDec: '',
-				approveApi:'',
+				approveApi:this.$api.request.auditUserUpdateMsg,
 			};
 		},
 		components: {
 			uParse	
+		},
+		computed: {
+			...mapState(['userInfo'])
 		},
 		methods: {
 			async loadData() {
@@ -135,12 +144,24 @@
 					clanId:this.clanId,
 					id:this.id,
 					});
+					if(detailVo.messageType===3){
+						detailVo.type3.status = 0;
+						if(detailVo.type3.givingBtime){
+							let now = new Date().getTime();
+							let startTime = new Date(detailVo.type3.givingBtime.replace(/-/g,'/')).getTime();
+							let endTime = new Date(detailVo.type3.givingEtime.replace(/-/g,'/')).getTime();
+							if(startTime > now){
+								detailVo.type3.status=1;
+							}else if(startTime<=now && now <= endTime){
+									detailVo.type3.status=2;
+							}else if(now > endTime){
+									detailVo.type3.status=3;
+							}
+						}
+					}
+				
+					
 				this.detailVo = detailVo;
-				if(detailVo.messageType===1){
-					this.approveApi = this.$api.request.auditUserUpdateClanMain;
-				}else if(detailVo.messageType===5){
-					this.approveApi = this.$api.request.auditUserUpdateClanMainRel;
-				}
 			},
 			makePhoneCall(phone){
 				uni.makePhoneCall({
@@ -149,9 +170,10 @@
 			},
 			approvePass(){
 				this.approveApi({
-					clanId:this.clanId,
+					messageType:this.detailVo.messageType,
 					auditState:1,
-					auditDec:'通过申请',
+					auditUserId:this.userInfo.userId,
+					messageDec:'通过申请',
 					id:this.detailVo.id,
 				}).then(res=>{
 					if(res.code===0){
@@ -177,9 +199,10 @@
 					return false;
 				}
 				this.approveApi({
-					clanId:this.clanId,
+					messageType:this.detailVo.messageType,
 					auditState:2,
-					auditDec:this.auditDec,
+					auditUserId:this.userInfo.userId,
+					messageDec:this.auditDec,
 					id:this.detailVo.id,
 				}).then(res=>{
 					if(res.code===0){
@@ -203,6 +226,9 @@
 			
 		},
 		async onLoad(options){
+			if (!this.checkRouter()) {
+				return;
+			}
 			this.id = parseInt(options.id);
 			this.clanId = parseInt(options.clanId);
 			if(this.id){

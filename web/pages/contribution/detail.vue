@@ -5,7 +5,7 @@
 		<view class="mt-30 field"><text class="iconfont mr-10">&#xe604</text>发起人：{{ detailVo.createUserName}}</view>
 		<view class="mt-30 field"><text class="iconfont mr-10">&#xe60d</text>发起时间：{{detailVo.givingBtime}}</view>
 		<view class="mt-30 field"><text class="iconfont mr-10">&#xe60d</text>截止时间：{{detailVo.givingEtime}}</view>
-		<view class="mt-30 field"><text class="iconfont mr-10">&#xe60f</text>当前进度：进行中</view>
+		<view class="mt-30 field"><text class="iconfont mr-10">&#xe60f</text>当前进度：{{ statusName[detailVo.status]}}</view>
 		<view class="mt-30 field"><text class="iconfont mr-10">&#xe610</text>乐捐人数：{{ detailVo.givingUserSum }}</view>
 		<view class="mt-30 field"><text class="iconfont mr-10">&#xe611</text>乐捐目标金额：{{ detailVo.givingSumMoney}}元</view>
 		<view class="mt-30 field"><text class="iconfont mr-10">&#xe611</text>乐捐已收金额：{{ detailVo.givingMoneySum}}元</view>
@@ -78,6 +78,7 @@
 					giveDec: '',
 
 				},
+				statusName:['未知','未开始','进行中','已结束'],
 			}
 		},
 		async onLoad(options) {
@@ -105,6 +106,19 @@
 					id: this.id,
 				};
 				const detailVo = await this.$api.request.projectDetail(par);
+				detailVo.status= 0;
+				if(detailVo.givingBtime){
+					let now = new Date().getTime();
+					let startTime = new Date(detailVo.givingBtime.replace(/-/g,'/')).getTime();
+					let endTime = new Date(detailVo.givingEtime.replace(/-/g,'/')).getTime();
+					if(startTime > now){
+						detailVo.status=1;
+					}else if(startTime<=now && now <= endTime){
+							detailVo.status=2;
+					}else if(now > endTime){
+							detailVo.status=3;
+					}
+				}
 				this.detailVo = detailVo;
 				this.loadData();
 			},

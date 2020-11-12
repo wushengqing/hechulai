@@ -287,7 +287,7 @@ async function getAuditMsgList(data) {
 		}
 	}
 }
-//审核员审查用户绑定宗亲的消息
+//审核员审查用户绑定宗亲的消息  已弃用
 function auditUserUpdateClanMainRel(data) {
 	return defaultRequest({
 		url: `${baseUrl}auditUserUpdateClanMainRel.json`,
@@ -295,10 +295,18 @@ function auditUserUpdateClanMainRel(data) {
 		data,
 	});
 }
-//审核添加家庭成员
+//审核添加家庭成员 已弃用
 function auditUserUpdateClanMain(data) {
 	return defaultRequest({
 		url: `${baseUrl}auditUserUpdateClanMain.json`,
+		method: 'POST',
+		data,
+	});
+}
+//审核消息
+function auditUserUpdateMsg(data) {
+	return defaultRequest({
+		url: `${baseUrl}auditUserUpdateMsg.json`,
 		method: 'POST',
 		data,
 	});
@@ -588,10 +596,6 @@ export default  {
 	userApproveList,
 	//审核员查询审核宗亲消息列表
 	getAuditMsgList,
-	//审核员审核
-	auditUserUpdateClanMain,
-	//绑定宗亲的审核
-	auditUserUpdateClanMainRel,
 	//宗亲添加家庭成员
 	addOrUpdateClanUserRelByApp,
 	//获取宗祠祖坟列表

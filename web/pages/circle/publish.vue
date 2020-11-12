@@ -59,6 +59,9 @@
 			...mapState(['clanInfo','userInfo']),
 		},
 		onLoad(options) {
+			if (!this.checkRouter()) {
+				return;
+			}
 			this.id = parseInt(options.id);
 			console.log(this.id,options);
 		},
