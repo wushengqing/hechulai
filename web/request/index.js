@@ -612,4 +612,6 @@ export default  {
 	getCircleContentList,
 	//宗族圈内容点赞、评论、撤回评论、点赞、回复
 	addOrUpdateCircleCommentInfo,
+	//审核
+	auditUserUpdateMsg,
 };

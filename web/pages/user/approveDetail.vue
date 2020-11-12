@@ -55,22 +55,22 @@
 			<view class="title2">乐捐信息</view>
 			<view class="sub-title">
 				<text class="label">项目名称：</text>
-				<text class="value">{{ detailVo.type3.givingName}}</text>
+				<text class="value">{{ detailVo.givingInfo.givingName}}</text>
 			</view>
 			<view class="sub-title">
 				<text class="label">乐捐进度：</text>
-				<text v-if="detailVo.type3.status===0" class="value">未知</text>
-				<text v-if="detailVo.type3.status===1" class="value">未开始</text>
-				<text v-if="detailVo.type3.status===2" class="value">进行中</text>
-				<text v-if="detailVo.type3.status===3" class="value">已结束</text>
+				<text v-if="detailVo.givingInfo.status===0" class="value">未知</text>
+				<text v-if="detailVo.givingInfo.status===1" class="value">未开始</text>
+				<text v-if="detailVo.givingInfo.status===2" class="value">进行中</text>
+				<text v-if="detailVo.givingInfo.status===3" class="value">已结束</text>
 			</view>
 			<view class="sub-title">
 				<text class="label">乐捐金额：</text>
-				<text class="value">{{ detailVo.type3.giveMoney}}</text>
+				<text class="value">{{ detailVo.givingInfo.giveMoney}}</text>
 			</view>
 			<view class="sub-title">
 				<text class="label">乐捐备注：</text>
-				<text class="value">{{ detailVo.type3.giveDec||'-'}}</text>
+				<text class="value">{{ detailVo.givingInfo.giveDec||'-'}}</text>
 			</view>
 		</template>
 		<!--宗亲反馈-->
@@ -129,7 +129,6 @@
 					clanMainRel:{}
 				},
 				auditDec: '',
-				approveApi:this.$api.request.auditUserUpdateMsg,
 			};
 		},
 		components: {
@@ -145,17 +144,17 @@
 					id:this.id,
 					});
 					if(detailVo.messageType===3){
-						detailVo.type3.status = 0;
-						if(detailVo.type3.givingBtime){
+						detailVo.givingInfo.status = 0;
+						if(detailVo.givingInfo.givingBtime){
 							let now = new Date().getTime();
-							let startTime = new Date(detailVo.type3.givingBtime.replace(/-/g,'/')).getTime();
-							let endTime = new Date(detailVo.type3.givingEtime.replace(/-/g,'/')).getTime();
+							let startTime = new Date(detailVo.givingInfo.givingBtime.replace(/-/g,'/')).getTime();
+							let endTime = new Date(detailVo.givingInfo.givingEtime.replace(/-/g,'/')).getTime();
 							if(startTime > now){
-								detailVo.type3.status=1;
+								detailVo.givingInfo.status=1;
 							}else if(startTime<=now && now <= endTime){
-									detailVo.type3.status=2;
+									detailVo.givingInfo.status=2;
 							}else if(now > endTime){
-									detailVo.type3.status=3;
+									detailVo.givingInfo.status=3;
 							}
 						}
 					}
@@ -169,7 +168,7 @@
 				})
 			},
 			approvePass(){
-				this.approveApi({
+				this.$api.request.auditUserUpdateMsg({
 					messageType:this.detailVo.messageType,
 					auditState:1,
 					auditUserId:this.userInfo.userId,
@@ -179,7 +178,7 @@
 					if(res.code===0){
 						this.$refs["message"].open({
 							type: 'success',
-							message: "已提交，请等待审核",
+							message: "已通过申请！",
 						});
 					}else{
 						this.$refs["message"].open({
@@ -198,7 +197,7 @@
 					});
 					return false;
 				}
-				this.approveApi({
+				this.$api.request.auditUserUpdateMsg({
 					messageType:this.detailVo.messageType,
 					auditState:2,
 					auditUserId:this.userInfo.userId,
@@ -220,10 +219,6 @@
 					this.visible = false;
 				});
 			},
-		},
-		computed: {
-		
-			
 		},
 		async onLoad(options){
 			if (!this.checkRouter()) {
