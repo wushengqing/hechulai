@@ -34,14 +34,14 @@
         </el-form-item>
         <el-form-item label="宗亲头像：" prop="headFileId">
           <el-upload
-                  class="banner-uploader"
+                  class="img-uploader"
                   :action="$api.common.uploadAction"
                   :data="fileData"
                   :show-file-list="false"
                   :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload">
-            <img v-if="dialogVO.headFileUrl" :src="dialogVO.headFileUrl" class="banner-image">
-            <i v-else class="el-icon-plus banner-uploader-icon"></i>
+            <img v-if="dialogVO.headFileUrl" :src="dialogVO.headFileUrl" class="img-item" style="margin-right: 0">
+            <i v-else class="el-icon-plus img-uploader-icon"></i>
           </el-upload>
           <span class="color-grey" style="vertical-align: bottom"> 请上传 小于2M的jpg 图片</span>
         </el-form-item>
@@ -205,7 +205,7 @@
 			}else{
 				this.$message.error(res.msg);
 			}
-        
+
         });
       },
       //数组转树结构
@@ -359,9 +359,9 @@
       .node{
         padding-top: 20px;
         display: inline-block;
-        width: 130px;
+        width: 140px;
+        text-align: center;
         line-height: 20px;
-        min-height: 50px;
         padding-bottom: 20px;
         font-size: 12px;
         border-radius: 5px;
@@ -382,10 +382,12 @@
           margin-bottom: 10px;
           background: #fff;
           .name{
-            text-align: left;
+            cursor: pointer;
             padding: 5px;
-            background: #592a01;
-            color: #fff;
+            background:#e8e8e8;
+            border-radius: 3px;
+            border:#592a01 solid 1px;
+            color: #592a01;
             height: 20px;
             overflow: hidden;
             .normal{

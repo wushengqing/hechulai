@@ -27,19 +27,15 @@
 							{{ props.row.sex !==null ? props.row.sex==='1'?'男':'女':'未填写' }}
 						</template>
 					</el-table-column>
-					<el-table-column label="是否启用">
-						<template slot-scope="props">
-							{{ props.row.status===1?'已启用':'未启用' }}
-						</template>
+					<el-table-column prop="openId" label="openId">
 					</el-table-column>
 
-					<el-table-column label="操作" width="240px">
+					<el-table-column label="操作" width="160">
 						<template slot-scope="props">
 							<el-button type="text" size="mini" @click="resetPassword(props.row)">重置密码</el-button>
 							<el-button type="text" size="mini" @click="openRolePage(props.row)">角色设置</el-button>
-							<el-button type="text" size="mini" @click="editRubbish(props.row)">族谱管理</el-button>
-							<el-button v-if="props.row.status===1" type="text" size="mini" @click="changeUserState(props.row)">停用</el-button>
-							<el-button v-if="props.row.status!==1" type="text" size="mini" @click="changeUserState(props.row)">启用</el-button>
+							<!--<el-button v-if="props.row.status===1" type="text" size="mini" @click="changeUserState(props.row)">停用</el-button>
+							<el-button v-if="props.row.status!==1" type="text" size="mini" @click="changeUserState(props.row)">启用</el-button>-->
 						</template>
 					</el-table-column>
 				</template>
