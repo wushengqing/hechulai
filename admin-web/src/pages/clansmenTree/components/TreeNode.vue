@@ -232,10 +232,10 @@
     methods: {
       //打开子嗣或者编辑
       openDialog(vo,edit){
+        this.dialogShow = true;
         if(edit){
           //编辑
 					this.loading = true;
-          this.dialogShow = true;
           //查询房系
 					this.$api.branch.list({
             clanManId:vo.parentId

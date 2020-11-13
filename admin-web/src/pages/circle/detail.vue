@@ -54,7 +54,7 @@
 					</el-table-column>-->
 				</template>
 				<template slot="tableColumns" v-if="listType==='user'">
-					<el-table-column prop="clanManName" label="宗亲头像" >
+					<el-table-column prop="clanManHeadUrl" label="宗亲头像" >
 						<template slot-scope="props">
 							<el-avatar :size="60" :src="props.row.clanManHeadUrl"></el-avatar>
 						</template>
