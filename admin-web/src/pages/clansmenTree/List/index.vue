@@ -34,12 +34,12 @@
         </el-form-item>
         <el-form-item label="宗亲头像：" prop="headFileId">
           <el-upload
-                  class="img-uploader"
-                  :action="$api.common.uploadAction"
-                  :data="fileData"
-                  :show-file-list="false"
-                  :on-success="handleAvatarSuccess"
-                  :before-upload="beforeAvatarUpload">
+            class="img-uploader"
+            :action="$api.common.uploadAction"
+            :data="fileData"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
             <img v-if="dialogVO.headFileUrl" :src="dialogVO.headFileUrl" class="img-item" style="margin-right: 0">
             <i v-else class="el-icon-plus img-uploader-icon"></i>
           </el-upload>
@@ -96,6 +96,49 @@
               </template>
             </el-table-column>
           </el-table>
+        </el-form-item>
+
+        <el-form-item label="女儿：" width="180">
+          <el-table :data="dialogVO.daughterDtoList" style="width: 100%" border size="mini">
+            <el-table-column prop="daughterName" label="姓名" width="120">
+              <template slot-scope="props">
+                <el-input v-model="props.row.daughterName" placeholder="请输入"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="daughterBirthDay" label="出生日期" width="135">
+              <template slot-scope="props">
+                <el-input v-model="props.row.daughterBirthDay" placeholder="请输入"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="daughterDay" label="死亡日期" width="135">
+              <template slot-scope="props">
+                <el-input v-model="props.row.daughterDay" placeholder="请输入"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" label="简介">
+              <template slot-scope="props">
+                <el-input v-model="props.row.daughterDec" placeholder="请输入"></el-input>
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" label="操作" width="100">
+              <template slot-scope="scope">
+                <el-button
+                  type="primary"
+                  circle
+                  size="mini"
+                  title="添加到本条记录后面"
+                  @click="addDaughter(scope.$index)"
+                  icon="el-icon-circle-plus-outline"></el-button>
+                <el-button
+                  type="danger"
+                  title="删除"
+                  circle
+                  size="mini"
+                  @click="deleteDaughter(scope.$index)"
+                  icon="el-icon-delete"></el-button>
+              </template>
+            </el-table-column>
+          </el-table>
 
         </el-form-item>
 
@@ -115,27 +158,35 @@
   import TreeNode from '../components/TreeNode'
   Vue.component("TreeNode",TreeNode);
   const defaultDialogVO = {
-    "id": '',
-    "clanId": '',
-    "scId": '',
-    "headFileId":'',
-    "headFileUrl":'',
-    "directoryId": '',
-    "parentId": '',
-    "clansmanName": '',
-    "clansmanBirthDay":'',
-    "clansmanendDay": '',
-    "clansmanDec": '',
-    "auditUserId": 0,
-    "spouseDtoList": [
+    id: '',
+    clanId: '',
+    scId: '',
+    headFileId:'',
+    headFileUrl:'',
+    directoryId: '1',
+    parentId: '0',
+    clansmanName: '',
+    clansmanBirthDay:'',
+    clansmanendDay: '',
+    clansmanDec: '',
+    auditUserId: 0,
+    spouseDtoList: [
       {
         spouseName:'',
         spouseBirthDay:'',
         spouseendDay:'',
         spouseDec:''
       },
+    ],
+    daughterDtoList: [
+      {
+        daughterName:'',
+        daughterBirthDay:'',
+        daughterendDay:'',
+        daughterDec:''
+      },
     ]
-  }
+  };
   export default {
     // 如果需要缓存页 name 字段需要设置为和本页路由 name 字段一致
     name: "ClansmenTree",
@@ -150,7 +201,7 @@
         loading:true,
         clansmenList:[],
         clansmenTree:[],
-        branchList:[],
+        generationList:[],
         dialogShow:false,
         fileData:{
           defaultSuffix:'',
@@ -169,15 +220,15 @@
     methods: {
       //打开新增或者编辑弹出
       openDialog(vo){
-        if(this.branchList.length===0){
+        if(this.generationList.length===0){
           this.$message.error('没有获取到房系列表')
           return false
         }
         this.dialogShow = true;
         if(!vo){
           this.dialogVO=cloneDeep(defaultDialogVO);
-          this.dialogVO.scId = this.branchList[0].scIds[0].id;
-          this.dialogVO.directoryId = this.branchList[0].id;
+          this.dialogVO.scId = this.generationList[0].id;
+          this.dialogVO.directoryId = '1';
         }
       },
       //添加夫人
@@ -192,6 +243,19 @@
       deleteWife(index){
         this.dialogVO.spouseDtoList.splice(index,1)
       },
+      //添加女儿
+      addDaughter(index){
+        this.dialogVO.daughterDtoList.splice(index,0,{
+          daughterName:'',
+          daughterBirthDay:'',
+          daughterendDay:'',
+          daughterDec:''
+        })
+      },
+      //删除女儿
+      deleteDaughter(index){
+        this.dialogVO.daughterDtoList.splice(index,1)
+      },
       getData(){
         //获取宗亲列表
         this.$api.clansmen.list({
@@ -199,12 +263,12 @@
           pageSize:10000,
           currentPage:1
         }).then(res=>{
-			if(res.code===0){
-				this.setClansmenTree(cloneDeep(res.data));
-				this.clansmenList = cloneDeep(res.data);
-			}else{
-				this.$message.error(res.msg);
-			}
+          if(res.code===0){
+            this.setClansmenTree(cloneDeep(res.data));
+            this.clansmenList = cloneDeep(res.data);
+          }else{
+            this.$message.error(res.msg);
+          }
 
         });
       },
@@ -212,6 +276,7 @@
       setClansmenTree(clansmenList){
         if(clansmenList.length===0){
           this.clansmenTree = [];
+          this.loading = false;
           return
         }
         let passIds = [];
@@ -265,7 +330,6 @@
         return isJPG && isLt10M;
       },
       save(){
-
         this.$refs['dialogVO'].validate((valid) => {
           if (valid) {
             let vo = cloneDeep(this.dialogVO);
@@ -275,14 +339,15 @@
             }
             vo.clanId = this.clanId;
             vo.auditUserId = this.userInfo.userId;
-            console.log(vo)
+            vo.spouseDtoList = vo.spouseDtoList.filter(item=>item.spouseName);
+            vo.spouseDtoList = vo.daughterDtoList.filter(item=>item.daughterName);
             this.$api.clansmen.add(vo).then(res => {
               if (res.code == 0) {
                 this.dialogShow = false;
                 this.getData();
                 this.$message.success('新增成功！');
               } else {
-                this.$message.error(res.errorMessage)
+                this.$message.error(res.msg)
               }
             })
           } else {
@@ -293,9 +358,9 @@
     },
     mounted() {
       this.getData();
-      //获取房系列表
-      this.$api.branch.list({clanId:this.clanId}).then(res=>{
-        this.branchList = res.data;
+      //获取世称列表
+      this.$api.generation.list({clanId:this.clanId}).then(res=>{
+        this.generationList = res.data;
       });
     }
   };

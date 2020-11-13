@@ -27,16 +27,9 @@
 				<el-form-item label="宗亲姓名：" prop="clansmanName">
 					<el-input class="w200" v-model="dialogVO.clansmanName" placeholder="请输入"></el-input>
 				</el-form-item>
-				<!--<el-form-item label="宗亲房系：" prop="clansmanName">
-					<el-select class="w200" v-model="dialogVO.directoryId" placeholder="请选择房系">
-						<el-option
-							v-for="item in branchList"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value">
-						</el-option>
-					</el-select>
-				</el-form-item>-->
+				<el-form-item label="宗亲房系：" prop="clansmanName">
+					---
+				</el-form-item>
 				<el-form-item label="宗亲头像：" prop="headFileId">
 					<el-upload
 						class="img-uploader"
@@ -344,6 +337,10 @@
             let vo = cloneDeep(this.dialogVO);
             vo.clanId = this.clanId;
             vo.auditUserId = this.userInfo.userId;
+
+            vo.spouseDtoList = vo.spouseDtoList.filter(item=>item.spouseName);
+            vo.spouseDtoList = vo.daughterDtoList.filter(item=>item.daughterName);
+
             this.$api.clansmen.add(vo).then(res => {
               if (res.code == 0) {
                 this.dialogShow = false;
