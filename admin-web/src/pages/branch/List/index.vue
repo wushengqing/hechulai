@@ -25,7 +25,7 @@
 				</template>
 				<!--表格-->
 				<template slot="tableColumns">
-					<el-table-column prop="clanManName" label="发起分房宗亲"></el-table-column>
+					<el-table-column prop="clanManName" label="分房宗亲"></el-table-column>
 					<el-table-column prop="name" label="房系名称"></el-table-column>
 					<el-table-column label="操作" width="240px">
 						<template slot-scope="props">
@@ -61,7 +61,7 @@
 						<div slot="tip" class="el-upload__tip">请上传概述文件</div>
 					</el-upload>
 				</el-form-item>
-				<el-form-item label="发起分房宗亲：" prop="scIds">
+				<el-form-item label="分房宗亲：" prop="scIds">
 					<el-autocomplete
 						prefix-icon="el-icon-search"
 						style="width: 100%"
