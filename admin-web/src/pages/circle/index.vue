@@ -17,8 +17,8 @@
 							<el-button type="text" title="编辑">
 								<i class="el-icon-edit-outline color-primary" @click="openDialog(item)"></i>
 							</el-button>
-							<span class="ml50 ">话题数：<span class="ml10 color-error">150</span></span>
-							<span class="ml50 ">成员数：<span class="ml10 color-green">12250</span></span>
+							<span class="ml50 ">话题数：<span class="ml10 color-error">{{ item.contentNum }}</span></span>
+							<span class="ml50 ">已关注：<span class="ml10 color-green">{{ item.memberNum }}</span></span>
 							<el-button
 								class="ml50"
 								style="padding: 4px 10px; font-size: 12px"

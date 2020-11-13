@@ -11,7 +11,7 @@ export default {
 		})
 	},
 	/**
-	 * 用户登陆
+	 * 新增或者编辑
 	 * @returns {*}
 	 */
   add(vo) {
@@ -20,23 +20,33 @@ export default {
 		})
 	},
 	/**
-	 * 查询用户列表
+	 * 圈子详情
 	 * @returns {*}
 	 */
 	detail(vo) {
 		return axios.post('/hcl-web/web/getCircleBaseInfo.json',vo)
 	},
 	/**
-	 * 编辑用户信息
+	 * 查询圈子文章
 	 * @returns {*}
 	 */
-  circle(vo) {
+  article(vo,pageInfo) {
 		return axios.post('/hcl-web/web/getCircleContentList.json', {
+			...vo,
+			...pageInfo
+		})
+	},
+	/**
+	 * 查询圈子关注成员
+	 * @returns {*}
+	 */
+  user(vo) {
+		return axios.post('/hcl-web/web/getCircleMemberList.json', {
 			...vo,
 		})
 	},
 	/**
-	 * 编辑用户信息
+	 * 关注审核
 	 * @returns {*}
 	 */
 	changeUserState(vo) {

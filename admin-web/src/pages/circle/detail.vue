@@ -11,28 +11,18 @@
 					</div>
 					<div class="list-content">
 						<div class="name">
-							<span class="">话题数：<span class="ml10 color-error">150</span></span>
-							<span class="ml50 ">成员数：<span class="ml10 color-green">12250</span></span>
-							<el-button
-								class="ml50"
-								v-show="listType==='article'"
-								style="padding: 4px 10px; font-size: 12px"
-								@click="changeListType()"
-								type="danger"
-								size="mini">成员管理</el-button>
-							<el-button
-								class="ml50"
-								v-show="listType==='user'"
-								style="padding: 4px 10px; font-size: 12px"
-								@click="changeListType(item)"
-								type="danger"
-								size="mini">文章管理</el-button>
+							<span class="">话题数：<span class="ml10 color-error">{{ detailVo.contentNum }}</span></span>
+							<span class="ml50 ">已关注：<span class="ml10 color-green">{{ detailVo.memberNum }}</span></span>
 						</div>
 						<div class="dec">{{detailVo.circleDec}}</div>
 						<div class="content ellipsis">{{detailVo.circleContent}}</div>
 					</div>
 				</div>
 			</div>
+			<el-tabs v-model="listType" @tab-click="changeListType">
+				<el-tab-pane label="文章列表" name="article"></el-tab-pane>
+				<el-tab-pane label="关注列表" name="user"></el-tab-pane>
+			</el-tabs>
 			<!---->
 			<table-comb
 				name="用户管理"
@@ -47,20 +37,33 @@
 					<!-- <el-button class="fr ml10" @click="addRubbish">新增</el-button> -->
 				</template>
 				<!--表格-->
-				<template slot="tableColumns">
+				<template slot="tableColumns" v-if="listType==='article'">
 					<el-table-column prop="circleContent" label="文章标题" width="500">
 					</el-table-column>
 					<el-table-column prop="clanManName" label="作者">
 					</el-table-column>
-					<el-table-column prop="clanManName" label="审核员">
+					<el-table-column prop="auditUserName" label="审核员">
 					</el-table-column>
-					<el-table-column prop="clanManName" label="点赞数">
+					<el-table-column prop="goodNum" label="点赞数">
 					</el-table-column>
-					<el-table-column prop="clanManName" label="评论数">
+					<el-table-column prop="commentNum" label="评论数">
 					</el-table-column>
 					<el-table-column prop="createTime" label="发布时间">
 					</el-table-column>
-					<el-table-column prop="clanManName" label="是否审核">
+					<!--<el-table-column prop="auditState" label="是否审核">
+					</el-table-column>-->
+				</template>
+				<template slot="tableColumns" v-if="listType==='user'">
+					<el-table-column prop="clanManName" label="宗亲头像" >
+						<template slot-scope="props">
+							<el-avatar :size="60" :src="props.row.clanManHeadUrl"></el-avatar>
+						</template>
+					</el-table-column>
+					<el-table-column prop="clanManName" label="宗亲名称">
+					</el-table-column>
+					<el-table-column prop="createTime" label="关注时间">
+					</el-table-column>
+					<el-table-column prop="auditUserName" label="审核员">
 					</el-table-column>
 				</template>
 			</table-comb>
@@ -90,7 +93,7 @@
           keyword: '',
           categoryId: ''
         },
-        listAction:this.$api.circle.circle,
+        listAction:this.$api.circle.article,
 				id:'',
         detailVo:{},
 				//列表类型
@@ -101,9 +104,17 @@
     },
     computed: {
       getActionWhere() {
-        return {
-          clanId:this.clanId
-        }
+        if(this.listType==='article'){
+          return {
+            circleId:this.id,
+            clanId:this.clanId
+          }
+				}else{
+          return {
+            id:this.id,
+          }
+				}
+
       }
     },
     methods: {
@@ -114,17 +125,16 @@
 				  this.detailVo = res.data;
 				})
 			},
-      changeListType(){
-        this.listType = this.listType==='article'?'user':'article';
+      changeListType(tab, event){
+        console.log(tab,event)
+        this.listType = tab.name;
         if(this.listType==='article'){
-          this.listType==='user';
-          this.listAction = this.$api.circle.circle;
+          this.listAction = this.$api.circle.article;
 				}else{
-          this.listType==='user';
-          this.listAction = this.$api.circle.circle;
+          this.listAction = this.$api.circle.user;
         }
         this.$nextTick(()=>{
-          this.fetchData(1);
+          this.$refs.tableMain.fetchData(1);
 				})
 			},
     },
@@ -134,7 +144,7 @@
       '$route.params.id': {
         immediate: true,
         handler(id) {
-          this.id = id;
+          this.id = parseInt(id);
           this.getData()
         },
       },
