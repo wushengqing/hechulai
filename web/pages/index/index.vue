@@ -181,7 +181,7 @@
 				this.bannerList = bannerList;
 				this.swiperLength = this.bannerList.length;
 				this.newsList = newsList.data;
-				this.noticeList = noticeList.data;
+				this.noticeList = noticeList.data||[];
 			},
 			//轮播图切换修改背景色
 			swiperChange(e) {
