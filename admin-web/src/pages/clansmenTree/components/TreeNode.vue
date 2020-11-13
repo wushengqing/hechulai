@@ -235,6 +235,7 @@
         this.dialogShow = true;
         if(edit){
           //编辑
+					this.dialogVO.id = vo.id;
 					this.loading = true;
           //查询房系
 					this.$api.branch.list({
