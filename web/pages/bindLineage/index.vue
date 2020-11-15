@@ -8,48 +8,31 @@
 				</view>
 			</view>
 			<view class="form-item">
-				<view class="label">您的房系</view>
-				<view class="field">
-					<picker @change="changeDirectory" :value="directoryIndex" :range="directoryList" range-key="name">
-						<view class="uni-input">{{directoryIndex===-1 ?'请选择':directoryList[directoryIndex].name}}</view>
-					</picker>
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">您的世称</view>
-				<view class="field">
-					<picker @change="changeGeneration" :value="generationIndex" :range="generationList" range-key="name">
-						<view class="uni-input">{{generationIndex===-1 ?'请选择': generationList[generationIndex].name}}</view>
-					</picker>
-				</view>
-			</view>
-			<view class="form-item">
-				<view class="label">您的名字</view>
-				<view class="field">
-					<cl-popup :visible.sync="visible" direction="bottom">
-						<view class="popup-box">
-							<view class="popup-search" :class="{hide:clanUserRelList.length===0}">
-								<cl-input v-model="keyword" placeholder="姓名快速查找"></cl-input>
-							</view>
-							<view class="popup-cent">
-								<view class="user-list" v-for="(item,index) in clanUserRelListShow" @click="changeClanUserRel(item)">
-									<image class="avatar" :src="item.headFileUrl || '../../static/missing-face.png'"></image>
-									<view class="cent">
-										<view class="bold cent-line">{{ item.clansmanName }}</view>
-										<view class="cent-line">{{ item.clansmanDecAdd }}{{ item.clansmanDec }}</view>
-									</view>
-								</view>
-								<view class="tc line88 c-grey" v-if="clanUserRelList.length===0">暂无数据，请确保已选择房系、世称</view>
-							</view>
+				<view class="label">宗亲姓名</view>
+				<cl-popup :visible.sync="visible" direction="bottom">
+					<view class="popup-box">
+						<view class="popup-search flex-wrap">
+							<cl-input class="flex1" v-model="keyword" placeholder="姓名快速查找"></cl-input>
+							<button style="width: 200upx; margin-left: 10upx;" type="primary" @click="getClanUserRelList">查找</button>
 						</view>
-						
-					</cl-popup>
-					<view @click="visible=true" class="uni-input">{{clanUserRelIndex===-1 ?'请选择':clanUserRelList[clanUserRelIndex].clansmanName}}</view>
-
-				</view>
+						<view class="popup-cent">
+							<view class="user-list" v-for="(item,index) in clanUserRelListShow" @click="changeClanUserRel(item)">
+								<image class="avatar" :src="item.headFileUrl || '../../static/missing-face.png'"></image>
+								<view class="cent">
+									<view class="bold cent-line">{{ item.scName }}{{ item.clansmanName }}({{ item.parentName }}之子)</view>
+									<view class="cent-line">{{ item.clansmanDecAdd }}{{ item.clansmanDec }}</view>
+								</view>
+							</view>
+							<view class="tc line88 c-grey" v-if="loaded && clanUserRelList.length===0">暂无数据，请确保已选择房系、世称</view>
+						</view>
+					</view>
+					
+				</cl-popup>
+				<view @click="visible=true" class="uni-input">{{clanUserRelIndex===-1 ?'请选择':clanUserRelList[clanUserRelIndex].clansmanName}}</view>
+				
 			</view>
 			<view class="form-item">
-				<view class="label">联系方式</view>
+				<view class="label" style="line-height: 66upx;">手机号码</view>
 				<view class="field" style="padding-bottom: 30upx;">
 					<cl-input v-model="formData.userNum" maxlength="11" placeholder="请输入您的手机号码"></cl-input>
 				</view>
@@ -90,6 +73,7 @@
 					userNum:''
 					
 				},
+				loaded:false,
 				keyword:'',
 				visible:false
 			}
@@ -144,16 +128,15 @@
 					clanId: this.clanInfo.id,
 					currentPage:0,
 					pageSize:10000,
-					scId:this.formData.generationId,
-					directoryId:this.formData.directoryId,
-					//已审核
-					auditState:1
+					clanManName:this.keyword,
+					//未审核
+					auditState:0
 				});
 				clanUserRelList.filter(item=>!item.userId)
 				let res = []
 				clanUserRelList.forEach(item=>{
 					res.push(item);
-					//妻子
+					/* //妻子
 					if(item.spouseDtoList.length>0){
 						res.push(...item.spouseDtoList.map(spouse=>{
 							return {
@@ -176,7 +159,7 @@
 								clansmanDec:daughter.spouseDec,
 							}
 						}));
-					}
+					} */
 				})
 				this.clanUserRelList = res;
 			},
@@ -191,17 +174,7 @@
 				}
 				
 			},
-			//选择世称
-			changeGeneration(e){
-				this.generationIndex = e ? e.target.value:-1;
-				this.formData.generationId = e? this.generationList[e.target.value].id :'';
-				if(e){
-					this.changeClanUserRel();
-					this.getClanUserRelList()
-				}
-				
-			},
-			
+	
 			changeClanUserRel(currItem){
 				if(!currItem){
 					this.clanUserRelIndex= -1
@@ -212,6 +185,15 @@
 				this.visible = false; 
 			}
 		},
+		// watch:{
+		// 	visible(val){
+		// 		if(val){
+		// 			this.keyword = '';
+		// 			this.clanUserRelIndex = -1;
+		// 			this.clanUserRelList = [];
+		// 		}
+		// 	}
+		// },
 		onLoad() {
 			this.getDirectoryList()
 		}

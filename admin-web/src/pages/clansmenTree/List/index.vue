@@ -340,7 +340,7 @@
             vo.clanId = this.clanId;
             vo.auditUserId = this.userInfo.userId;
             vo.spouseDtoList = vo.spouseDtoList.filter(item=>item.spouseName);
-            vo.spouseDtoList = vo.daughterDtoList.filter(item=>item.daughterName);
+            vo.daughterDtoList = vo.daughterDtoList.filter(item=>item.daughterName);
             this.$api.clansmen.add(vo).then(res => {
               if (res.code == 0) {
                 this.dialogShow = false;
@@ -424,7 +424,7 @@
       .node{
         padding-top: 20px;
         display: inline-block;
-        width: 140px;
+        width: 120px;
         text-align: center;
         line-height: 20px;
         padding-bottom: 20px;

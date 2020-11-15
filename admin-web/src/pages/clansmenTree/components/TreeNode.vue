@@ -4,7 +4,7 @@
       <div class="node">
         <div class="node-wrap" >
           <div class="name" @click="openDialog(clansman,true)">
-            <span class="mr5" style="color:#409EFF">{{clansman.scName}}</span>
+            <span class="mr5 " style="color:#409EFF">{{clansman.scName}}</span>
             <span class="">{{clansman.clansmanName}}</span>
 						<span @click.stop="showMore=!showMore" title="收起" style="margin-left: 5px;" >
 							<i v-if="showMore" class="el-icon-caret-bottom"></i>
@@ -246,7 +246,7 @@
               this.dialogVO={
                 id:res.data[0].id,
                 headFileUrl:res.data[0].headFileUrl,
-                headFileId:res.data[0].headFileUrl,
+                headFileId:res.data[0].headFileId,
                 clansmanId:res.data[0].clansmanId,
                 auditUserId: res.data[0].auditUserId,
                 clanId:this.clanId,
@@ -339,7 +339,7 @@
             vo.auditUserId = this.userInfo.userId;
 
             vo.spouseDtoList = vo.spouseDtoList.filter(item=>item.spouseName);
-            vo.spouseDtoList = vo.daughterDtoList.filter(item=>item.daughterName);
+            vo.daughterDtoList = vo.daughterDtoList.filter(item=>item.daughterName);
 
             this.$api.clansmen.add(vo).then(res => {
               if (res.code == 0) {
