@@ -19,7 +19,7 @@
 							<view class="user-list" v-for="(item,index) in clanUserRelListShow" @click="changeClanUserRel(item)">
 								<image class="avatar" :src="item.headFileUrl || '../../static/missing-face.png'"></image>
 								<view class="cent">
-									<view class="bold cent-line">{{ item.scName }}{{ item.clansmanName }}({{ item.parentName }}之子)</view>
+									<view class="bold cent-line">{{ item.clansmanName }}</view>
 									<view class="cent-line">{{ item.clansmanDecAdd }}{{ item.clansmanDec }}</view>
 								</view>
 							</view>
@@ -51,11 +51,7 @@
 		computed: {
 			...mapState(['userInfo','clanInfo']),
 			clanUserRelListShow(){
-				if(this.keyword){
-					return this.clanUserRelList.filter(item=>item.clansmanName.indexOf(this.keyword)!==-1)
-				}else{
-					return this.clanUserRelList;
-				}
+				return this.clanUserRelList;
 			},
 		},
 		data() {
@@ -123,6 +119,8 @@
 			},
 		
 			async getClanUserRelList() {
+				this.loaded = false;
+				this.clanUserRelList = [];
 				//获取宗亲列表
 				let clanUserRelList = await this.$api.request.clanUserRelList({
 					clanId: this.clanInfo.id,
@@ -132,36 +130,49 @@
 					//未审核
 					auditState:0
 				});
-				clanUserRelList.filter(item=>!item.userId)
-				let res = []
-				clanUserRelList.forEach(item=>{
-					res.push(item);
-					/* //妻子
-					if(item.spouseDtoList.length>0){
-						res.push(...item.spouseDtoList.map(spouse=>{
+				
+				clanUserRelList.forEach(async item=>{
+					this.clanUserRelList.push({
+						...item,
+						clansmanDecAdd:item.parentName+'之子，'
+					});
+					//查妻子女儿
+					let par = {
+						clansmanId: parseInt(item.clansmanId),
+						clanId: this.clanInfo.id
+					}
+					let clanUserInfo = await this.$api.request.getZpList(par);
+					clanUserInfo = clanUserInfo[0]
+					console.log(clanUserInfo)
+					//妻子
+					if(clanUserInfo.spouseDtoList.length>0){
+						console.log(this.clanUserRelList)
+						this.clanUserRelList.push(...clanUserInfo.spouseDtoList.map(spouse=>{
 							return {
 								clansmanName:spouse.spouseName,
 								clansmanId:spouse.spouseId,
 								headFileUrl:spouse.headFileUrl,
-								clansmanDecAdd:item.clansmanName+'之妻。',
+								clansmanDecAdd:item.parentName+'之子'+clanUserInfo.clansmanName+'的妻子。',
 								clansmanDec:spouse.spouseDec,
 							}
 						}));
 					}
 					// 女儿
-					if(item.daughterDtoList.length>0){
-						res.push(...item.daughterDtoList.map(daughter=>{
+					if(clanUserInfo.daughterDtoList.length>0){
+						this.clanUserRelList.push(...clanUserInfo.daughterDtoList.map(daughter=>{
 							return {
 								clansmanName:daughter.daughterName,
 								clansmanId:daughter.daughterId,
 								headFileUrl:daughter.headFileUrl,
-								clansmanDecAdd:item.clansmanName+'之女。',
+								clansmanDecAdd:item.parentName+'之子'+clanUserInfo.clansmanName+'的女儿。',
 								clansmanDec:daughter.spouseDec,
 							}
 						}));
-					} */
+						
+					}
+					
 				})
-				this.clanUserRelList = res;
+				this.loaded = true;
 			},
 			//切换房系
 			changeDirectory(e){
