@@ -24,7 +24,7 @@
 					</el-table-column>
 					<el-table-column prop="sex" label="性别">
 						<template slot-scope="props">
-							{{ props.row.sex !==null ? props.row.sex==='1'?'男':'女':'未填写' }}
+							{{ props.row.sex || '男' }}
 						</template>
 					</el-table-column>
 					<el-table-column prop="openId" label="openId">

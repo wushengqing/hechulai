@@ -22,35 +22,15 @@
 			</el-table>
 			<el-dialog title="新增审核员" :visible.sync="dialogShow" width="400px" append-to-body>
 				<el-form ref="dialogVO" :model="dialogVO" label-width="120px" :rules="rules">
-					<el-form-item label="审核员房系：" prop="directoryId">
-						<el-select v-model="dialogVO.directoryId" placeholder="请选择房系" @change="changeDirectory()">
-							<el-option
-									v-for="item in directoryList"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id">
-							</el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="审核员世称：" prop="generationId">
-						<el-select v-model="dialogVO.generationId" placeholder="请选择世称" :disabled="!dialogVO.directoryId"  @change="changeGeneration()">
-							<el-option
-									v-for="item in generationList"
-									:key="item.id"
-									:label="item.name"
-									:value="item.id">
-							</el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="审核员：" prop="auditUserClanManId">
-						<el-select v-model="dialogVO.auditUserClanManId" placeholder="请选择世称" :disabled="!dialogVO.generationId"  @change="changeAuditUserClanMan()">
-							<el-option
-									v-for="item in auditUserClanManList"
-									:key="item.clansmanId"
-									:label="item.clansmanName"
-									:value="item.clansmanId">
-							</el-option>
-						</el-select>
+					<el-form-item label="审核员：" prop="scIds">
+						<el-autocomplete
+							prefix-icon="el-icon-search"
+							style="width: 100%"
+							:fetch-suggestions="searchClanManByName"
+							@select="selectClanMan"
+							placeholder="请输入"
+							v-model="dialogVO.clanManName">
+						</el-autocomplete>
 					</el-form-item>
 				</el-form>
 				<div slot="footer" class="dialog-footer">
@@ -76,7 +56,7 @@
         tableData:[],
         showPage:false,
         dialogShow:false,
-		approveVo:{},
+        approveVo:{},
         dialogVO:{
           auditUserClanManId:'',
           directoryId:'',
@@ -84,7 +64,7 @@
           auditUserName:'',
           userAccessName:'',
           auditUserId:'',
-		},
+        },
         directoryList:[],
         generationList:[],
         auditUserClanManList:[],
@@ -93,7 +73,7 @@
           generationId: [{required: true, message: '请输入'}, ],
           auditUserClanManId: [{required: true, message: '请输入'}, ],
         },
-		btnLoading:false
+        btnLoading:false
       }
     },
     computed: {
@@ -107,10 +87,10 @@
       //判断已经添加过了该成员
       owned(id){
         return this.approveVo.userList.find(item=>item.auditUserClanManId===this.dialogVO.auditUserClanManId)
-	  },
+      },
       open(item){
         this.approveVo = item;
-		this.showPage = true;
+        this.showPage = true;
 
       },
       back(){
@@ -120,23 +100,23 @@
       openDialog(){
         this.dialogShow =true;
         //获取角色列表
-	  },
-	  //获取房系
+      },
+      //获取房系
       getDirectoryList() {
         //获取房系列表
         this.$api.branch.list({clanId: this.clanId}).then(res=>{
           this.directoryList = res.data;
-		})
+        })
       },
       changeDirectory(){
         this.dialogVO.generationId='';
-		this.dialogVO.auditUserClanManId='';
+        this.dialogVO.auditUserClanManId='';
         this.generationList = [];
-		this.auditUserClanManList = [];
+        this.auditUserClanManList = [];
         this.getGenerationList();
-	  },
-	  //获取世称
-	  getGenerationList() {
+      },
+      //获取世称
+      getGenerationList() {
         //获取世称列表
         this.generationList = this.directoryList.filter(item=>{
           return item.id === this.dialogVO.directoryId
@@ -146,8 +126,8 @@
         this.dialogVO.auditUserClanManId='';
         this.auditUserClanManList = [];
         this.getClanUserRelList()
-	  },
-	  //获取宗亲
+      },
+      //获取宗亲
       getClanUserRelList() {
         //获取宗亲列表
         this.$api.user.getClanUserRelList({
@@ -158,20 +138,20 @@
           directoryId:this.dialogVO.directoryId,
         }).then(res=>{
           this.auditUserClanManList = res.data
-		})
+        })
       },
-	  //切换宗亲
+      //切换宗亲
       changeAuditUserClanMan(){
         let user = this.auditUserClanManList.find(item=>item.clansmanId===this.dialogVO.auditUserClanManId);
         this.dialogVO = {
-		  ...this.dialogVO,
+          ...this.dialogVO,
           auditUserName:user.clansmanName,
           userAccessName:user.userAccessName,
           auditUserId:user.userId,
           scName:user.scName
-		}
-	  },
-	  //删除审核员
+        }
+      },
+      //删除审核员
       del(){
         this.$msgbox({
           title: '提示',
@@ -183,7 +163,7 @@
           if (action === 'confirm') {
             //未开发
             this.$message.error('接口未开发')
-			return;
+            return;
             this.$api.approve.del().then(res=>{
               if(res.code===0){
                 this.$message.success('删除成功！');
@@ -191,24 +171,48 @@
               }else{
                 this.$message.error(res.msg)
               }
-			})
+            })
           }
         }).catch(() => {
         })
-	  },
-	  //添加角色
+      },
+			//选择宗亲
+      searchClanManByName(queryString, cb){
+        console.log(queryString, cb)
+        if(queryString){
+          this.$api.user.getClanUserRelList({
+            clanManName:queryString,
+            clanId:this.clanId
+          }).then(res=>{
+            cb(res.data.map(item=>{
+              return {
+                ...item,
+                value:`${item.scName}:${item.clansmanName}(${item.parentName}之子)`
+              }
+            }))
+          })
+        }else{
+          cb([])
+        }
+
+      },
+      selectClanMan(item){
+        console.log(item);
+        this.dialogVO.auditUserClanManId = item.clansmanId;
+      },
+      //添加角色
       save(){
         this.$refs['dialogVO'].validate((valid) => {
           if (!valid) {return;}
           if(this.owned()){
             this.$message.error('已经存在该审核员');
-		  };
+          };
           this.btnLoading = true;
           this.$api.approve.save({
             clanId: this.clanId,
             auditId:this.approveVo.id,
             clanManId:this.dialogVO.auditUserClanManId
-		  }).then(res=>{
+          }).then(res=>{
             this.btnLoading = false;
             if(res.code===0){
               this.dialogShow= false;
@@ -229,14 +233,14 @@
               };
               this.$nextTick(()=>{
                 this.$refs['dialogVO'].clearValidate();
-			  })
+              })
 
             }else{
               this.$message.error(res.msg)
             }
-		  })
+          })
         });
-	  }
+      }
     },
     mounted() {
       this.getDirectoryList();

@@ -23,7 +23,7 @@
 				<view class="tit">
 					<text class="yticon icon-iLinkapp-"></text>
 					<text v-if="userInfo.userId && userInfo.clanId === clanInfo.id" >您好，欢迎回来！</text>
-					<text v-else-if="userInfo.userId && userInfo.clanId !== clanInfo.id" >您已经是其他宗族的宗亲，无法登陆</text>
+					<text class="font30" v-else-if="userInfo.userId && userInfo.clanId !== clanInfo.id" >您已经绑定其他宗族，无法登陆</text>
 					<text v-else-if="!userInfo.userId">登录之后可以绑定宗族</text>
 				</view>
 			<!-- 	<text class="e-m">如果你也是宗亲</text>

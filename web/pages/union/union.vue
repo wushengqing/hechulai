@@ -13,7 +13,7 @@
 
 <script>
 	import tools from '@/utils/tools';
-	import { mapMutations } from 'vuex';
+	import {mapState, mapMutations } from 'vuex';
 	import listCell from '@/components/mix-list-cell';
 	export default {
 		components: {listCell},
@@ -40,7 +40,6 @@
 				if(dnsName){
 					uni.setStorageSync('clanInfoDnsName', dnsName);
 				}
-			
 				this.setClanInfo(clanInfo);
 				console.log(this.redirect_uri.split('/pages/')[1]);
 				let reLaunchUrl = this.redirect_uri.split('/pages/')[1];

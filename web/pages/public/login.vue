@@ -13,24 +13,20 @@
 				<view class="input-item">
 					<text class="tit">用户名</text>
 					<input 
-						:value="userNum" 
 						placeholder="请输入用户名"
-						maxlength="11"
-						data-key="userNum"
-						@input="inputChange"
+						v-model="userNum"
+					
 					/>
 				</view>
 				<view class="input-item">
 					<text class="tit">密码</text>
 					<input 
 						type="mobile" 
-						value="" 
+						v-model="userPassword"
 						placeholder="请输入密码"
 						placeholder-class="input-empty"
 						maxlength="20"
 						password 
-						data-key="userPassword"
-						@input="inputChange"
 						@confirm="toLogin"
 					/>
 				</view>
@@ -48,6 +44,7 @@
 
 <script>
 	import {  
+		mapState,
         mapMutations  
     } from 'vuex';
 	
@@ -59,15 +56,21 @@
 				logining: false
 			}
 		},
-		onLoad(){
+		computed: {
+			...mapState(['clanInfo', 'userInfo']),
+		},
+		mounted(){
+			//红楼梦
+			console.log(this.clanInfo.id)
+			if(this.clanInfo.id===7){
+				this.userNum ='hechulai';
+				this.userPassword = '123456';
+			}
 			
 		},
 		methods: {
 			...mapMutations(['login']),
-			inputChange(e){
-				const key = e.currentTarget.dataset.key;
-				this[key] = e.detail.value;
-			},
+			
 			navBack(){
 				uni.navigateBack();
 			},
