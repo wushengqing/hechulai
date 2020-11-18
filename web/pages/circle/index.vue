@@ -93,7 +93,7 @@
 					<view class="post-footer">
 						<view class="footer_content">
 							<text class="iconfont c-base mr-10">&#xe62d</text>
-							<text class="nickname" v-for="(user,index_like) in post.goodList" :key="index_like">{{user.clanManName}}</text>
+							<text class="nickname" v-for="(user,index_like) in post.goodList" :key="index_like"><text v-if="index_like!==0">，</text>{{user.clanManName}}</text>
 						</view>
 						<view 
 							class="footer_content" 
