@@ -109,15 +109,15 @@
 		},
 		async onLoad(opctions) {
 			let dnsName = location.origin + '/web';
-			try {
-			   const clanInfoDnsName = uni.getStorageSync('clanInfoDnsName');
-			   if(dnsName!==clanInfoDnsName){
-			   	let par = location.href.split('#')[1];
-			   	location.href = clanInfoDnsName+'#'+par;
-			   }
-			} catch (e) {
+			// try {
+			//    const clanInfoDnsName = uni.getStorageSync('clanInfoDnsName');
+			//    if(dnsName!==clanInfoDnsName){
+			//    	let par = location.href.split('#')[1];
+			//    	location.href = clanInfoDnsName+'#'+par;
+			//    }
+			// } catch (e) {
 			   
-			}
+			// }
 			if(this.clanInfo.id){
 				this.loadData();
 				return
@@ -302,7 +302,7 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			font-size: $font-sm + 2upx;
+			font-size: $font-base;
 			color: $font-color-dark;
 		}
 
@@ -344,14 +344,14 @@
 				line-height: 100upx;
 			}
 			.notice-item {
-				height: 50upx;
-				line-height: 50upx;
+				height: 100upx;
+				line-height: 100upx;
 				overflow: hidden;
 				display: flex;
 				.title {
 					flex: 1;
 					display: inline-block;
-					height: 50upx;
+					height: 100upx;
 					vertical-align: middle;
 					overflow: hidden;
 					text-overflow: ellipsis;
@@ -361,7 +361,7 @@
 				.date {
 					color: #666;
 					margin-left: 20upx;
-					width:160upx;
+					width:200upx;
 					height: 50upx;
 					display: inline-block;
 					vertical-align: middle;
@@ -394,9 +394,8 @@
 		border: #BE4431 solid 2upx;
 		border-radius: 6upx;
 		.box-inside {
-			line-height: 45upx;
 			overflow: hidden;
-			font-size: 30upx;
+			font-size: $font-base;
 			width: 100%;
 		}
 	}
@@ -419,7 +418,7 @@
 					
 					height: 50upx;
 					overflow: hidden;
-					font-size: 28upx;
+					font-size:$font-base;
 					color: #000;
 					overflow: hidden;
 					text-overflow: ellipsis;

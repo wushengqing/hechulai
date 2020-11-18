@@ -57,7 +57,6 @@ Vue.prototype.$api = {
 Vue.prototype.checkRouter = function(isLogin = true, isRelZq = true, ask = true) {
 	//获取userInfo
 	let userInfo = uni.getStorageSync('userInfo')||{userId:''};
-	console.log('userInfo',userInfo);
 	if (isLogin && !userInfo.userId) {
 		uni.showToast({
 			title: '请先登录',

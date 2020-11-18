@@ -326,9 +326,7 @@
 	}
 
 	.headFileUrl-wrap {
-
 		width: 120upx;
-
 		.headFileUrl {
 			width: 120upx;
 			height: 120upx;
@@ -348,7 +346,6 @@
 		display: flex;
 		align-items: center;
 		height: 90upx;
-		font-size: 32upx;
 		font-weight: bold;
 		color: #303133;
 	}

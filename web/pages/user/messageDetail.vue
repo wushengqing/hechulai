@@ -1,12 +1,19 @@
 <template>
 	<view class="container">
-		<view class="title" v-if="detailVo.messageType===1">添加家庭成员</view>
-		<view class="title" v-if="detailVo.messageType===5">绑定宗亲</view>
+		<view class="title" v-if="detailVo.messageType===1">绑定宗亲</view>
+		<view class="title" v-if="detailVo.messageType===2">添加家庭成员</view>
+		<view class="title" v-if="detailVo.messageType===3">宗亲乐捐消息</view>
+		<view class="title" v-if="detailVo.messageType===4">宗亲反馈消息</view>
+		<view class="title" v-if="detailVo.messageType===5">发布宗圈文章</view>
+		<view class="title" v-if="detailVo.messageType===6">新丁消息</view>
+		<view class="title" v-if="detailVo.messageType===7">逝世消息</view>
+		<view class="title" v-if="detailVo.messageType===8">关注宗族圈</view>
 		<view class="sub-title">
 			<text class="label">发起时间：</text>
 			<text class="value">{{ detailVo.createTime}}</text>
 		</view>
-		<view class="content" v-html="detailVo.messageContent">
+		<view class="content">
+			<u-parse :content="detailVo.messageContent" :noData="noData"></u-parse>
 		</view>
 	</view>
 </template>
@@ -53,13 +60,12 @@
 
 <style lang='scss' scoped>
 	.title{
-		font-size: 36upx;
 		line-height: 65upx;
 		font-weight: bold;
 	}
 	.sub-title{
 		margin-top: 15upx;
-		font-size: 32upx;
+		font-size: $font-base;
 		.label{
 			color:$font-color-light;
 		}
@@ -69,7 +75,7 @@
 	}
 	.content{
 		margin-top: 20upx;
-		font-size: 30upx!important;
+		font-size: $font-base;
 		line-height: 200%;
 	}
 </style>

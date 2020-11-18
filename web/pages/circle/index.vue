@@ -427,7 +427,7 @@
 		background: #ec9205;
 		padding: 0 10upx;
 		border-radius: 4upx;
-		font-size: 26upx;
+		font-size: $font-base;
 		color: #fff;
 	}
 .circle-detail{
@@ -437,8 +437,8 @@
 		margin: 20upx 0;
 		display: flex;
 		.list-icon {
-			width: 180upx;
-			height: 160upx;
+			width: 280upx;
+			height: 240upx;
 			overflow: hidden;
 			margin-right: 20upx;
 	
@@ -450,15 +450,15 @@
 	
 		.list-content {
 			flex: 1;
-			line-height: 40upx;
-			font-size: 26upx;
+			line-height: 60upx;
+		
 			.dec {
 				color: #ec9205;
 			}
 	
 			.content {
 				color: #999;
-				height: 84upx;
+				height: 120upx;
 				overflow: hidden;
 			}
 		}
@@ -490,13 +490,13 @@
 		}
 
 		.post_right {
-			font-size: 32upx;
+			font-size: $font-base;
 			padding-left: 20upx;
 			width: 100%;
 			flex: 1;
 			.post-username {
 				line-height: 60upx;
-				font-size: 32upx;
+				font-size: $font-base;
 				font-weight: 600;
 				color: $base-color;
 			}
@@ -504,12 +504,12 @@
 			.circleName {
 				color: #ec9205;
 				line-height: 50upx;
-				font-size: 26upx;
+				font-size: $font-sm;
 			}
 
 			.paragraph {
-				line-height: 40upx;
-				font-size: 26upx;
+				line-height: 60upx;
+				font-size: $font-base;
 			}
 		}
 
@@ -553,7 +553,7 @@
 
 			.timestamp {
 				color: #757575;
-				font-size: 22upx;
+				font-size: $font-sm;
 			}
 
 			image {
@@ -602,7 +602,7 @@
 			-webkit-flex-wrap: wrap;
 			-ms-flex-wrap: wrap;
 			flex-wrap: wrap;
-			line-height: 40upx;
+			line-height: 60upx;
 
 			.liked {
 				/* display: inline-block; */
@@ -614,17 +614,14 @@
 
 			.nickname {
 				color: $base-color;
-				font-size: 24upx
 			}
 
 			.comment-nickname {
 				color: $base-color;
-				font-size: 24upx
 			}
 
 			.comment-content {
 				color: #000000;
-				font-size: 24upx
 			}
 		}
 	}

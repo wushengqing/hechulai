@@ -2,8 +2,14 @@
 	<view class="container">
 		<view>
 			<navigator v-for="item in list" :url="`/pages/user/messageDetail?id=${item.id}&clanId=${clanInfo.id}`" class="item-link">
-				<view class="title" v-if="item.messageType===1">添加家庭成员</view>
-				<view class="title" v-if="item.messageType===5">绑定宗亲</view>
+				<view class="title" v-if="item.messageType===1">绑定宗亲</view>
+				<view class="title" v-if="item.messageType===2">添加家庭成员</view>
+				<view class="title" v-if="item.messageType===3">宗亲乐捐消息</view>
+				<view class="title" v-if="item.messageType===4">宗亲反馈消息</view>
+				<view class="title" v-if="item.messageType===5">发布宗圈文章</view>
+				<view class="title" v-if="item.messageType===6">新丁消息</view>
+				<view class="title" v-if="item.messageType===7">逝世消息</view>
+				<view class="title" v-if="item.messageType===8">关注宗族圈</view>
 				<view class="field">
 					<text class="">{{ item.messageContent }}</text>
 				</view>
@@ -15,7 +21,7 @@
 					<text class="label">审核结果：</text>
 					<text class="value ">{{ item.messageDec }}</text>
 				</view>
-				<view class="field field-clock">
+				<view class="field">
 					<text class="label">发起审核时间：</text>
 					<text class="value yellow">{{ item.createTime }}</text>
 				</view>
@@ -102,5 +108,8 @@ page{
 }
 .title{
 	font-weight: bold;
+}
+.item-link{
+	line-height: 200%;
 }
 </style>

@@ -116,7 +116,7 @@
 					font-weight: bold;
 					height: 50rpx;
 					overflow: hidden;
-					font-size: 30rpx;
+					font-size: $font-base;
 					color: #000;
 					overflow: hidden;
 					text-overflow: ellipsis;

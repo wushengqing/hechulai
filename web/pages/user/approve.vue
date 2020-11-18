@@ -176,7 +176,7 @@
 		justify-content: center;
 		height: 80upx;
 		padding-top: 10upx;
-		font-size: 26upx;
+		font-size:$font-sm;
 		color: #7d7d7d;
 	}
 
@@ -193,7 +193,7 @@
 		height: 90upx;
 		.flex1{
 			color: #303133;
-			font-size: 32upx;
+			font-size: $font-base;
 			font-weight: bold;
 		}
 	}
@@ -228,9 +228,9 @@
 	.introduce {
 		display: inline-block;
 		padding: 16upx 0;
-		font-size: 28upx;
+		font-size: $font-base;
 		color: #606266;
-		line-height: 38upx;
+		line-height: 50upx;
 	}
 
 	.bot {
@@ -238,7 +238,7 @@
 		align-items: center;
 		justify-content: space-between;
 		height: 80upx;
-		font-size: 24upx;
+		font-size: $font-sm;
 		color: #707070;
 		position: relative;
 	}

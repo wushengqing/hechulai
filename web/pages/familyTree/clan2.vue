@@ -11,11 +11,11 @@
 				<view>出生日期：{{ clanUserInfo.birthDay }}</view>
 				<view v-if=" clanUserInfo.endDay">去世日期：{{ clanUserInfo.endDay }}</view>
 			</view>
-			<view class="avatar">
+			<view class="avatar" @tap="previewImage(clanUserInfo.headFileUrl)">
 				<image class="avatar" :src="clanUserInfo.headFileUrl || '../../static/missing-face.png'"></image>
 			</view>
 			<view class="title1 mt-30">简介</view>
-			<view class="mt-30">{{ clanUserInfo.dec }}</view>
+			<view class="mt-30 desc">{{ clanUserInfo.dec }}</view>
 			<view class="control">
 				<view class="action-btn" @click="changeShowBottom()">切换目录</view>
 			</view>
@@ -76,7 +76,16 @@
 			},
 			changeShowBottom(){
 				this.showBottom = !this.showBottom
-			}
+			},
+			previewImage(fileUrl) {
+				if(!fileUrl){
+					return
+				}
+				uni.previewImage({
+					current: 0,
+					urls:[fileUrl]
+				});
+			},
 		},
 		onLoad(options){
 			this.id = options.id;
@@ -119,13 +128,14 @@
 			right: 40upx;
 		}
 		.title{
-			font-size: 40upx;
+			font-size: $font-lg;
+			font-weight: bold;
 		}
 		.title1{
-			font-size: 30upx;
+			font-size: $font-base;
 		}
-		.desc{
-			line-height: 60upx;
+		.desc {
+			line-height: 250%;
 			margin-top: 20upx;
 		}
 	}
@@ -177,7 +187,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		.c-list-item{
-			line-height: 60upx;
+			line-height: 250%;
 			color: #693604;
 			flex: 0 0 20%;
 			text-align: center;

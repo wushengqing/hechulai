@@ -29,6 +29,7 @@
 						:url="`../familyTree/clan?id=${item.id}`">
 						{{ item.name }}
 					</navigator>
+					<text v-if="detailVo.clanManList.length===0">暂无</text>
 				</view>
 				<view class="label">地址：</view>
 				<view class="value mb30">
@@ -142,7 +143,7 @@
 		margin-top: 15upx;
 		.label{
 			line-height: 100upx;	
-			font-size: 32upx;
+			font-size: $font-base;
 			color: #222;
 			font-weight: bold;
 		}
@@ -155,7 +156,7 @@
 	}
 	.content{
 		margin-top: 20upx;
-		font-size: 28upx!important;
+		font-size: $font-base;
 		line-height: 200%;
 	}
 	.img-view{

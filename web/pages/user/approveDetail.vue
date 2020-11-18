@@ -237,7 +237,7 @@
 
 <style lang='scss' scoped>
 	.title{
-		font-size: 36upx;
+		
 		line-height: 65upx;
 		font-weight: bold;
 	}
@@ -246,14 +246,14 @@
 		padding-top: 20upx;
 		color:$base-color;
 		border-top:$border-color-base solid 2upx;
-		font-size: 28upx;
-		line-height: 65upx;
+		font-size: $font-base;
+		line-height: 80upx;
 	}
 	.sub-title{
 		margin-top: 15upx;
-		font-size: 32upx;
+		font-size: $font-base;
 		display: flex;
-		line-height: 50upx;
+		line-height: 200%;
 		.label{
 			color:$font-color-light;
 			width: 5.5em;
@@ -265,7 +265,7 @@
 	}
 	.content{
 		margin-top: 20upx;
-		font-size: 30upx!important;
-		line-height: 200%;
+		font-size:$font-base;
+		line-height: 250%;
 	}
 </style>

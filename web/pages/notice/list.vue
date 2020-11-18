@@ -102,7 +102,7 @@
 			.notice-text {
 				.title {
 					font-weight: bold;
-					font-size: 30rpx;
+					font-size: $font-base;
 					color: #000;
 				}
 	

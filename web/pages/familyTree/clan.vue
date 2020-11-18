@@ -13,12 +13,12 @@
 				<view v-if="clanUserInfo.clansmanendDay">去世日期：{{ clanUserInfo.clansmanendDay }}</view>
 				<view v-if="clanUserInfo.parentId">父亲：<navigator class="c-base" style="display: inline-block;" :url="`./clan?id=${clanUserInfo.parentId}`">{{ clanUserInfo.parentName }}</navigator></view>
 			</view>
-			<view class="avatar">
+			<view class="avatar" @tap="previewImage(clanUserInfo.headFileUrl)">
 				<image class="avatar" :src="clanUserInfo.headFileUrl || '../../static/missing-face.png'"></image>
 			</view>
 
 			<view class="title1 mt-30">简介</view>
-			<view class="mt-30">{{ clanUserInfo.clansmanDec }}</view>
+			<view class="mt-30 desc">{{ clanUserInfo.clansmanDec }}</view>
 
 			<view class="title1 mt-30">配偶</view>
 			<view class="c-list">
@@ -106,7 +106,16 @@
 			},
 			changeShowBottom() {
 				this.showBottom = !this.showBottom
-			}
+			},
+			previewImage(fileUrl) {
+				if(!fileUrl){
+					return
+				}
+				uni.previewImage({
+					current: 0,
+					urls:[fileUrl]
+				});
+			},
 		},
 		onLoad(options) {
 			this.id = options.id;
@@ -153,15 +162,16 @@
 		}
 
 		.title {
-			font-size: 40upx;
+			font-size: $font-lg;
+			font-weight: bold;
 		}
 
 		.title1 {
-			font-size: 30upx;
+			font-size: $font-base;
 		}
 
 		.desc {
-			line-height: 60upx;
+			line-height: 250%;
 			margin-top: 20upx;
 		}
 	}
@@ -221,7 +231,7 @@
 		flex-wrap: wrap;
 
 		.c-list-item {
-			line-height: 60upx;
+			line-height: 250%;
 			color: #693604;
 			flex: 0 0 20%;
 			text-align: center;

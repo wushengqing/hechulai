@@ -51,19 +51,18 @@
 		全局公共样式和字体图标
 	*/
 	page {
-		font-size: 26rpx;
+		font-size: $font-base;
 		background: #fff;
 	}
 
 	.title1 {
-		font-size: 30rpx;
-		line-height: 50rpx;
+		font-size: $font-lg;
+		line-height: 50upx;
 		font-weight: bold;
-
 		.more {
 			float: right;
 			font-weight: normal;
-			font-size: 26rpx;
+			font-size: $font-base;
 			color: #984c06;
 		}
 	}

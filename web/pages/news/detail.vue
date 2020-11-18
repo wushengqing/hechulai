@@ -7,7 +7,7 @@
 			<text class="label">发布时间：</text>
 			<text class="value">{{ detailVo.createTime}}</text>
 		</view>
-		<view class="content" v-html="detailVo.mienContent">
+		<view class="content" >
 			<u-parse :content="detailVo.mienContent" :noData="noData"></u-parse>
 		</view>
 	</view>
@@ -51,7 +51,7 @@
 
 <style lang='scss' scoped>
 	.title{
-		font-size: 36upx;
+		font-size: $font-lg;
 		line-height: 65upx;
 		font-weight: bold;
 	}
