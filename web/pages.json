@@ -236,9 +236,9 @@
 				"navigationBarTitleText": "绑定宗亲"
 			}
 		}, {
-			"path": "pages/public/wxLogin",
+			"path": "pages/public/agree",
 			"style": {
-				"navigationBarTitleText": "正在使用微信登录"
+				"navigationBarTitleText": "用户注册协议与隐私政策"
 			}
 		}, {
 			"path": "pages/ancestralHall/list",

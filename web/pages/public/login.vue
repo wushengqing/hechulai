@@ -9,7 +9,7 @@
 			<view class="welcome">
 				用户登录
 			</view>
-			<view class="input-content">
+			<view class="input-content" style="display: none;">
 				<view class="input-item">
 					<text class="tit">用户名</text>
 					<input 
@@ -30,13 +30,22 @@
 						@confirm="toLogin"
 					/>
 				</view>
+				<button class="confirm-btn" @click="toLogin" :disabled="logining">登录/注册</button>
 			</view>
-			<button class="confirm-btn" @click="toLogin" :disabled="logining">登录/注册</button>
-			<view class="forget-section">
-				快速登录
-			</view>
+
 			<view class="forget-section" @click="loginByWechat()">
 				<image class="wechat" src="../../static/wechat.png"></image>
+			</view>
+			<button class="confirm-btn" @click="loginByWechat" :disabled="logining">一 键 登 录</button>
+			<view class="footer-agree f22">
+				<cl-checkbox v-model="agree"></cl-checkbox>
+				登录既表示阅读并同意
+				<navigator 
+					url="/pages/public/agree"
+					style="display: inline;" 
+					class="c-base">
+					《用户注册协议和隐私政策》
+					</navigator>
 			</view>
 		</view>
 	</view>
@@ -53,7 +62,8 @@
 			return {
 				userNum: '',
 				userPassword: '',
-				logining: false
+				logining: false,
+				agree:true,
 			}
 		},
 		computed: {
@@ -72,10 +82,27 @@
 			...mapMutations(['login']),
 			
 			navBack(){
-				uni.navigateBack();
+				
+				let pages = getCurrentPages();
+				console.log(pages.length===1)
+				if(pages.length===1){
+					uni.switchTab({
+					    url: '/pages/index/index'
+					});
+				}else{
+					uni.navigateBack();	
+				}
+				
 			},
 			//获取微信授权
 			loginByWechat(){
+				if(!this.agree){
+					uni.showToast({
+					    title: '请选阅读协议',
+					    duration: 1000
+					});
+					return;
+				}
 				//#ifdef  H5
 				let APPID = 'wxff47f0bed871c55c';
 				let redirect_uri = encodeURIComponent('http://www.hclzz.com/hcl-web/index.jsp?r='+location.origin);
@@ -245,6 +272,7 @@
 		margin-top: 70upx;
 		background: $uni-color-primary;
 		color: #fff;
+		background: #61ba46;
 		font-size: $font-lg;
 		&:after{
 			border-radius: 100px;
@@ -272,5 +300,13 @@
 	.wechat{
 		width: 100upx;
 		height:100upx;
+	}
+	.footer-agree{
+		position: fixed;
+		padding:0 40upx;
+		width: 100%;
+		font-size: 26upx;
+		left: 0;
+		bottom:40upx
 	}
 </style>

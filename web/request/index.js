@@ -505,7 +505,14 @@ async function getCircleList(data) {
 		data,
 	});
 }
-
+//关注宗族圈
+async function addOrUpdateCircleUserRel(data) {
+	return defaultRequest({
+		url: `${baseUrl}addOrUpdateCircleUserRel.json`,
+		method: 'POST',
+		data,
+	});
+}
 //获取宗族圈文章
 async function getCircleContentList(data) {
 	var [error, res] = await asyncRequest({
@@ -606,6 +613,8 @@ export default  {
 	saveClanMsg,
 	//宗族圈列表
 	getCircleList,
+	//关注宗族圈
+	addOrUpdateCircleUserRel,
 	//发布宗族圈文章
 	addOrUpdateCircleContentInfo,
 	//查询宗族圈文章列表

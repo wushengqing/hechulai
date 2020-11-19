@@ -2,7 +2,7 @@
 	<view class="container" >
 		<view class="bold font30 mb30">修改信息</view>
 		<cl-card label="姓名">
-			<cl-input v-model="form.name" placeholder="请输入姓名"></cl-input>
+			{{ form.name }}
 		</cl-card>
 		<cl-card label="头像">
 			<view class="img-list flex-wrap">

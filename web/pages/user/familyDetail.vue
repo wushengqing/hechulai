@@ -13,7 +13,7 @@
 				<view v-if=" clanUserInfo.endDay">去世日期：{{ clanUserInfo.endDay }}</view>
 			</view>
 			<view class="avatar">
-				<image class="avatar" :src="clanUserInfo.headFileUrl || '../../static/missing-face.png'"></image>
+				<image @tap="previewImage(clanUserInfo.headFileUrl)" class="avatar" :src="clanUserInfo.headFileUrl || '../../static/missing-face.png'"></image>
 			</view>
 			<view class="title1 mt-30">简介</view>
 			<view class="mt-30">{{ clanUserInfo.dec }}</view>
@@ -27,7 +27,7 @@
 			<view style="overflow: auto; max-height:90vh;">
 				<view class="bold font30 mb30">修改信息</view>
 				<cl-card label="姓名">
-					<cl-input v-model="form.name" placeholder="请输入姓名"></cl-input>
+					{{ form.name }}
 				</cl-card>
 				<cl-card label="头像">
 					<view class="img-list flex-wrap">
@@ -39,8 +39,7 @@
 							<image lazy-load 
 							mode="aspectFill"
 							class="img-cover" 
-							:src="minImgUrl" 
-							@tap="previewImage(0)">
+							:src="minImgUrl" >
 							</image>
 							<view class="delete" @click.stop="deletePhoto(item)"><text class="iconfont f22">&#xe62b</text></view>
 						</view>
@@ -55,7 +54,7 @@
 					<!-- <view class="input-readonly" @click="opendDateSelect()" placeholder="年/月/日">{{ form.birthDay ||'年/月/日' }}</view> -->
 				</cl-card>
 				<cl-card label="介绍">
-					<cl-input v-model="form.dec" placeholder="请输入介绍"></cl-input>
+					<cl-input type="textarea" v-model="form.dec" placeholder="请输入介绍"></cl-input>
 				</cl-card>
 			</view>
 			<view class="footer flex">
@@ -112,6 +111,15 @@
 				const clanUserInfo = await this.$api.request.clanUserInfo(par);
 				this.clanUserInfo = clanUserInfo;
 				this.ready = true
+			},
+			previewImage(fileUrl) {
+				if(!fileUrl){
+					return
+				}
+				uni.previewImage({
+					current: 0,
+					urls:[fileUrl]
+				});
 			},
 			showPopup(){
 				this.form = {
@@ -184,15 +192,6 @@
 					}
 				});
 			},
-			//预览大图
-			previewImage(index) {
-				let imgArray = [this.minImgUrl];
-				uni.previewImage({
-					urls: imgArray,
-					current: index,
-					loop: true
-				});
-			},
 			deletePhoto(item) {
 				this.minImgUrl = '';
 				this.form.headFileId = '';
@@ -234,11 +233,15 @@
 		padding-bottom: 88upx;
 
 		.avatar {
-			width: 200upx;
-			height: 200upx;
+			width: 300upx;
+			height: 300upx;
 			position: absolute;
-			top: 20upx;
-			right: 40upx;
+			top: 10upx;
+			right: 20upx;
+			.avatar{
+				border:$border-color-dark solid 1upx;
+			}
+			border-radius: 150upx;
 		}
 
 		.title {

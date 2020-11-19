@@ -23,7 +23,8 @@
 				<view class="tit">
 					<text class="yticon icon-iLinkapp-"></text>
 					<text v-if="userInfo.userId && userInfo.clanId === clanInfo.id" >您好，欢迎回来！</text>
-					<text class="font30" v-else-if="userInfo.userId && userInfo.clanId !== clanInfo.id" >您已经绑定其他宗族，无法登陆</text>
+					<text class="font30" v-else-if="userInfo.userId && userInfo.clanId && userInfo.clanId !== clanInfo.id" >您已经绑定其他宗族，无法登陆</text>
+					<text v-else-if="!userInfo.clanId">未绑定宗亲</text>
 					<text v-else-if="!userInfo.userId">登录之后可以绑定宗族</text>
 				</view>
 			<!-- 	<text class="e-m">如果你也是宗亲</text>
@@ -79,7 +80,7 @@
 					iconColor="#ee883b" 
 					title="我的消息" 
 					@eventClick="navTo('/pages/user/message')" 
-					:tips="userInfo.msgNum ? `${userInfo.msgNum}条消息`:''">
+					>
 				</list-cell>
 				<!-- <list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" @eventClick="navTo('/pages/contacts/list')" title="通讯录"></list-cell> -->
 				<list-cell 

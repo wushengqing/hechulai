@@ -25,7 +25,7 @@
 						<view class="name">
 							<text class="">话题：<text class="c-base mr-20">{{currcircle.contentNum}}</text>|</text>
 							<text class="ml-20 ">关注：<text class="c-base">{{currcircle.memberNum}}</text></text>
-							<text class="follow ml-20">+关注</text>
+							<text class="follow ml-20" @click="follow()">+关注</text>
 						</view>
 						<view class="dec">{{currcircle.circleDec}}</view>
 						<view class="content">{{currcircle.circleContent}}</view>
@@ -391,6 +391,26 @@
 				this.articleList.push(...articleList.data);
 				uni.stopPullDownRefresh();
 				this.loading = false;
+			},
+			//加关注
+			follow(){
+				let par = {
+					circleId:this.currcircle.id,
+					clanManId:this.userInfo.clanManId,
+				}
+				this.$api.request.addOrUpdateCircleUserRel(par).then(res=>{
+					if(res.code===0){
+						uni.showToast({
+						    title: '关注成功！',
+						    duration: 1000
+						});
+					}else{
+						uni.showToast({
+						    title: res.msg,
+						    duration: 1000
+						});
+					}
+				})
 			},
 			openDialog() {},
 			openPublishPage(id) {
