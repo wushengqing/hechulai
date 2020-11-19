@@ -408,7 +408,7 @@ export default {
         _this.$env === 'development' && console.log('[DEBUG] tableData:')
         _this.$env === 'development' && console.log(res)
         _this.tableData = res.data
-        _this.pagingInfo.totalPage = res.data.totalPage || res.data.length
+        _this.pagingInfo.totalPage = res.totalNum || res.data.length
         // 设置已选择项目
         _this.$nextTick(() => {
           _this.initRecordChecked()

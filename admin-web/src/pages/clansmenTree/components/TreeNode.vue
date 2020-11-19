@@ -27,8 +27,8 @@
 				<el-form-item label="宗亲姓名：" prop="clansmanName">
 					<el-input class="w200" v-model="dialogVO.clansmanName" placeholder="请输入"></el-input>
 				</el-form-item>
-				<el-form-item label="宗亲房系：" prop="clansmanName">
-					---
+				<el-form-item label="宗亲房系：" prop="directoryName">
+					{{ dialogVO.directoryName }}
 				</el-form-item>
 				<el-form-item label="宗亲头像：" prop="headFileId">
 					<el-upload
@@ -112,9 +112,9 @@
 								<el-input v-model="props.row.daughterBirthDay" placeholder="请输入"></el-input>
 							</template>
 						</el-table-column>
-						<el-table-column prop="daughterDay" label="死亡日期" width="135">
+						<el-table-column prop="daughterendDay" label="死亡日期" width="135">
 							<template slot-scope="props">
-								<el-input v-model="props.row.daughterDay" placeholder="请输入"></el-input>
+								<el-input v-model="props.row.daughterendDay" placeholder="请输入"></el-input>
 							</template>
 						</el-table-column>
 						<el-table-column prop="name" label="简介">
@@ -146,6 +146,7 @@
 
 			</el-form>
 			<div slot="footer" class="dialog-footer">
+				<el-button type="danger" @click="deleteClansmen">删 除</el-button>
 				<el-button type="primary" @click="save">保 存</el-button>
 				<el-button @click="dialogShow = false">取 消</el-button>
 			</div>
@@ -159,19 +160,20 @@
   import listMixin from "@/mixins/list.mixin";
   import { cloneDeep } from 'lodash';
   const defaultDialogVO = {
-    "id": '',
-    "clanId": '',
-    "scId": '',
-    "headFileId":'',
-    "headFileUrl":'',
-    "directoryId": '',
-    "parentId": '',
-    "clansmanName": '',
-    "clansmanBirthDay":'',
-    "clansmanendDay": '',
-    "clansmanDec": '',
-    "auditUserId": 0,
-    "spouseDtoList": [
+    id: '',
+    clanId: '',
+    scId: '',
+    headFileId:'',
+    headFileUrl:'',
+    directoryId: '',
+    directoryName:'',
+    parentId: '',
+    clansmanName: '',
+    clansmanBirthDay:'',
+    clansmanendDay: '',
+    clansmanDec: '',
+    auditUserId: 0,
+    spouseDtoList: [
       {
         spouseName:'',
         spouseBirthDay:'',
@@ -179,7 +181,7 @@
         spouseDec:''
       },
     ],
-	"daughterDtoList": [
+		daughterDtoList: [
 	  {
 	    daughterName:'',
 	    daughterBirthDay:'',
@@ -253,6 +255,7 @@
                 clansmanBirthDay:res.data[0].clansmanBirthDay,
                 clansmanDec:res.data[0].clansmanDec,
                 clansmanName:res.data[0].clansmanName,
+                directoryName:res.data[0].directoryName,
                 clansmanendDay:res.data[0].clansmanendDay,
                 directoryId:res.data[0].directoryId,
                 parentId:res.data[0].parentId,
@@ -331,6 +334,33 @@
         this.fileData.defaultSuffix = '.'+file.name.split('.').pop();
         return isJPG && isLt10M;
       },
+			//删除
+      deleteClansmen(){
+        this.$msgbox({
+          title: '提示',
+          message: `删除本宗亲会导致该宗亲下所有子孙宗亲一并删除，请再次确认！`,
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(action => {
+          if (action === 'confirm') {
+            let vo = cloneDeep(this.dialogVO);
+            vo.state = 1;
+
+            this.$api.clansmen.add(vo).then(res => {
+              if (res.code == 0) {
+                this.dialogShow = false;
+                this.getData();
+                this.$message.success('删除成功!')
+              } else {
+                this.$message.error(res.msg)
+              }
+            })
+
+          }
+        }).catch(() => {
+        })
+			},
       save(){
         this.$refs['dialogVO'].validate((valid) => {
           if (valid) {

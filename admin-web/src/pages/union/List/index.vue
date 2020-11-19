@@ -59,10 +59,10 @@
 				<el-form-item label="宗族名称：" prop="name">
 					<el-input style="width: 100%" placeholder="请输入宗族名称" v-model="dialogVO.name"></el-input>
 				</el-form-item>
-				<el-form-item label="宗族管理员：" prop="name">
+				<el-form-item label="宗族管理员：" v-if="!dialogVO.id" prop="name">
 					<el-input style="width: 100%" placeholder="请输入宗族名称" v-model="dialogVO.userNum"></el-input>
 				</el-form-item>
-				<el-form-item label="宗族管理员密码：" prop="name">
+				<el-form-item label="宗族管理员密码："  v-if="!dialogVO.id" prop="name">
 					<el-input show-password style="width: 100%" placeholder="请输入宗族名称" v-model="dialogVO.userPassword"></el-input>
 				</el-form-item>
 				<el-form-item label="所在地区：" prop="cityCode">
@@ -212,13 +212,14 @@
 							cId:this.dialogVO.cityCode[1],
 							dId:this.dialogVO.cityCode[2],
 							state:this.dialogVO.state ?1:0,
-
 						};
 						delete vo.cityCode;
 						delete vo.isTrusted;
 						//新增
 						if (!vo.id) {
 							delete vo.id;
+						}else{
+						  delete vo.userPassword
 						}
 						this.$api.union.add(vo).then(res => {
 							if (res.code == 0) {
