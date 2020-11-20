@@ -1,0 +1,315 @@
+{
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "何处来",
+		"navigationBarBackgroundColor": "#9e563a",
+		"navigationStyle": "custom",
+		"h5": {
+			"titleNView": false
+		}
+	},
+	"pages": [{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "何处来"
+			}
+		},
+		{
+			"path": "pages/set/set",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+
+		{
+			"path": "pages/userinfo/userinfo",
+			"style": {
+				"navigationBarTitleText": "修改资料"
+			}
+		}, {
+			"path": "pages/cart/cart",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		}, {
+			"path": "pages/public/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				}
+			}
+		},
+		{
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/user/contribution",
+			"style": {
+				"navigationBarTitleText": "我的乐捐"
+			}
+		},
+		{
+			"path": "pages/user/approve",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "我的审核"
+			}
+		},
+		{
+			"path": "pages/user/approveDetail",
+			"style": {
+				"navigationBarTitleText": "审核明细"
+			}
+		},
+		{
+			"path": "pages/user/message",
+			"style": {
+				"navigationBarTitleText": "我的消息"
+			}
+		},
+		{
+			"path": "pages/user/messageDetail",
+			"style": {
+				"navigationBarTitleText": "消息详情"
+			}
+		},
+
+		{
+			"path": "pages/user/family",
+			"style": {
+				"navigationBarTitleText": "家庭成员"
+			}
+		},
+		{
+			"path": "pages/user/familyDetail",
+			"style": {
+				"navigationBarTitleText": "家庭成员"
+			}
+		},
+		{
+			"path": "pages/user/familyEdit",
+			"style": {
+				"navigationBarTitleText": "家庭成员"
+			}
+		},
+		{
+			"path": "pages/detail/detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+		}, {
+			"path": "pages/order/order",
+			"style": {
+				"navigationBarTitleText": "我的订单",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/money/money",
+			"style": {}
+		}, {
+			"path": "pages/order/createOrder",
+			"style": {
+				"navigationBarTitleText": "创建订单"
+			}
+		}, {
+			"path": "pages/address/address",
+			"style": {
+				"navigationBarTitleText": "收货地址"
+			}
+		}, {
+			"path": "pages/address/addressManage",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}, {
+			"path": "pages/money/pay",
+			"style": {
+				"navigationBarTitleText": "支付"
+			}
+		},
+		{
+			"path": "pages/money/paySuccess",
+			"style": {
+				"navigationBarTitleText": "支付成功"
+			}
+		}, {
+			"path": "pages/notice/list",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "通知"
+			}
+		}, {
+			"path": "pages/notice/detail",
+			"style": {
+				"navigationBarTitleText": "通知详情"
+			}
+		},
+		{
+			"path": "pages/news/list",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "新闻列表"
+			}
+		}, {
+			"path": "pages/news/detail",
+			"style": {
+				"navigationBarTitleText": "新闻详情"
+			}
+		}, {
+			"path": "pages/organization/organization",
+			"style": {
+				"navigationBarTitleText": "族委会"
+			}
+		},
+		{
+			"path": "pages/contribution/list",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "乐捐榜"
+			}
+		}, {
+			"path": "pages/contribution/detail",
+			"style": {
+				"navigationBarTitleText": "乐捐详情"
+			}
+		}, {
+			"path": "pages/lineage/lineage",
+			"style": {
+				"navigationBarTitleText": "世系表"
+			}
+		}, {
+			"path": "pages/union/union",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}, {
+			"path": "pages/contacts/list",
+			"style": {
+				"navigationBarTitleText": "通讯录"
+			}
+		},
+		{
+			"path": "pages/contacts/detail",
+			"style": {
+				"navigationBarTitleText": "好友详情"
+			}
+		}, {
+			"path": "pages/familyTree/index",
+			"style": {
+				"navigationBarTitleText": "族谱"
+			}
+		},
+		{
+			"path": "pages/familyTree/generation",
+			"style": {
+				"navigationBarTitleText": "目录详情"
+			}
+		},
+		{
+			"path": "pages/familyTree/clan",
+			"style": {
+				"navigationBarTitleText": "宗亲详情"
+			}
+		},
+		{
+			"path": "pages/familyTree/clan2",
+			"style": {
+				"navigationBarTitleText": "宗亲详情"
+			}
+		},
+		{
+			"path": "pages/bindLineage/index",
+			"style": {
+				"navigationBarTitleText": "绑定宗亲"
+			}
+		}, {
+			"path": "pages/public/agree",
+			"style": {
+				"navigationBarTitleText": "用户注册协议与隐私政策"
+			}
+		}, {
+			"path": "pages/ancestralHall/list",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "宗祠/祖坟"
+			}
+		},
+		{
+			"path": "pages/ancestralHall/detail",
+			"style": {
+				"navigationBarTitleText": "宗祠/祖坟"
+			}
+		},
+		{
+			"path": "pages/circle/index",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "宗族圈"
+			}
+		},
+		{
+			"path": "pages/circle/publish",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "发布宗族圈"
+			}
+		}
+		
+
+	    ,{
+            "path" : "pages/clear/clear",
+            "style" : {}
+        }
+    ],
+	"tabBar": {
+		"color": "#C0C4CC",
+		"selectedColor": "#c65c4c",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tab-home.png",
+				"selectedIconPath": "static/tab-home-current.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/familyTree/index",
+				"iconPath": "static/tab-book.png",
+				"selectedIconPath": "static/tab-book-current.png",
+				"text": "族谱"
+			},
+			{
+				"pagePath": "pages/circle/index",
+				"iconPath": "static/tab-quan.png",
+				"selectedIconPath": "static/tab-quan-current.png",
+				"text": "宗亲圈"
+			},
+
+			{
+				"pagePath": "pages/user/user",
+				"iconPath": "static/tab-my.png",
+				"selectedIconPath": "static/tab-my-current.png",
+				"text": "我的"
+			}
+		]
+	},
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"cl-(.*)": "@/components/cool/ui/components/$1/$1.vue"
+		}
+	}
+}

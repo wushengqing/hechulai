@@ -1,0 +1,48 @@
+<template>
+	<view>
+		<list-cell icon="icon-dizhi" iconColor="#5fcda2" title="好友申请" ></list-cell>
+		<list-cell v-for="(item,index) in contacts" :title="item.name" :tips="item.phone"  @eventClick="openContact(item)"  ></list-cell>
+	</view>
+</template>
+
+<script>
+	import listCell from '@/components/mix-list-cell';
+	export default {
+		data() {
+			return {
+				contacts:[
+					{name:'江长远',phone:'15210487540',id:'111'},
+					{name:'江长',phone:'15210487540',id:'111'},
+					{name:'江远',phone:'15210487540',id:'111'},
+					{name:'江长远2',phone:'15210487540',id:'111'},
+					{name:'江长远33',phone:'15210487540',id:'111'},
+					{name:'江长远1',phone:'15210487540',id:'111'},
+					{name:'巫卡卡',phone:'15210487540',id:'111'},
+					{name:'巫卡卡',phone:'15210487540',id:'111'},
+					{name:'巫卡卡',phone:'15210487540',id:'111'},
+					{name:'cheng',phone:'15210487540',id:'111'},
+					{name:'10086',phone:'15210487540',id:'111'},
+					{name:'11',phone:'15210487540',id:'111'},
+					{name:'江长远',phone:'15210487540',id:'111'},
+					{name:'江长远',phone:'15210487540',id:'111'},
+					{name:'江长远',phone:'15210487540',id:'111'},
+					{name:'江长远',phone:'15210487540',id:'111'},
+				],
+			}
+		},
+		components: {
+			listCell
+		},
+		methods: {
+			openContact(item){
+				uni.navigateTo({
+					url: `/pages/contacts/detail?id=${item.id}`
+				})
+			}
+		}
+	}
+</script>
+
+<style>
+
+</style>
