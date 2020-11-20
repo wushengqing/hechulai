@@ -50,10 +50,12 @@
 				<image src="/static/index/notice.png"></image>
 			</navigator>
 			<view class="notice-box" >
+				<view :style="{transform: `translateY(-${noticeListY*100}upx)`,transition:noticeListTransition}">
 				<navigator  :url="`/pages/notice/detail?id=${notice.id}`"  class="notice-item" v-for="notice in noticeList">
 					<text class="title">{{ notice.mienTitle }}</text>
 					<text class="date">{{ notice.updateTime }}</text>
 				</navigator>
+				</view>
 			</view>
 			<view class="iconfont icon-arrow-right font40"></view>
 		</view>
@@ -100,6 +102,8 @@
 				defaultNewsImg: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587491350036&di=2701ed07ded49eb9b0f3eca8ce97ec3a&imgtype=0&src=http%3A%2F%2Ffile02.sg560.com%2Fupimg02%2F2014%2F12%2F02%2F14100212868875.jpg',
 				newsList: [
 				],
+				noticeListTransition:'all .4s',
+				noticeListY:0,
 				noticeList: [
 				],
 			};
@@ -152,6 +156,14 @@
 				})
 			}
 		},
+		watch:{
+			noticeList(val){
+				if(val.length>0){
+					this.noticeListY = 0;
+					this.autoPlay();
+				}
+			},
+		},
 		methods: {
 			...mapMutations(['setClanInfo', 'login']),
 			async loadData() {
@@ -175,19 +187,39 @@
 				});
 				const noticeList = await this.$api.request.noticeList({
 					...par,
-					pageSize:2,
+					pageSize:5,
 					currentPage:1
 				});
 				this.bannerList = bannerList;
 				this.swiperLength = this.bannerList.length;
 				this.newsList = newsList.data;
+				if(noticeList.data.length>0){
+					noticeList.data.push(noticeList.data[0])
+				}
 				this.noticeList = noticeList.data||[];
+				
 			},
 			//轮播图切换修改背景色
 			swiperChange(e) {
 				const index = e.detail.current;
 				this.swiperCurrent = index;
 				//this.titleNViewBackground = this.bannerList[index].mienBgColor;
+			},
+			autoPlay(){
+					//判断是否到底了 noticeListTransition
+				setTimeout(()=>{
+					if(this.noticeListY===this.noticeList.length-1){
+						this.noticeListTransition = 'none';
+						this.noticeListY = 0;
+						setTimeout(()=>{
+							this.noticeListTransition = 'all .4s';
+							this.noticeListY++;
+						},0)
+					}else{
+						this.noticeListY++;
+					};
+					this.autoPlay();
+				},4000)
 			},
 			//详情页
 			navToDetailPage(item) {
