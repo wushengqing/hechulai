@@ -6,7 +6,7 @@ export default {
 	 * @returns {*}
 	 */
 	register(vo) {
-		return axios.post('/hcl-web/web/userRegistered.json', {
+		return axios.post('userRegistered.json', {
 			...vo,
 		})
 	},
@@ -15,7 +15,7 @@ export default {
 	 * @returns {*}
 	 */
 	login(vo) {
-		return axios.post('/hcl-web/web/userLogin.json', {
+		return axios.post('userLogin.json', {
 			...vo,
 		})
 	},
@@ -24,7 +24,7 @@ export default {
 	 * @returns {*}
 	 */
 	list(condition, pageInfo) {
-		return axios.post('/hcl-web/web/getUserList.json', {
+		return axios.post('getUserList.json', {
 			...condition,
 			...pageInfo
 		})
@@ -34,7 +34,7 @@ export default {
 	 * @returns {*}
 	 */
 	upDateUserInfo(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateUserInfo.json', {
+		return axios.post('addOrUpdateUserInfo.json', {
 			...vo,
 		})
 	},
@@ -43,7 +43,7 @@ export default {
 	 * @returns {*}
 	 */
 	changeUserState(vo) {
-		return axios.post('/hcl-web/web/changeUserState.json', {
+		return axios.post('changeUserState.json', {
 			...vo,
 		})
 	},
@@ -52,7 +52,7 @@ export default {
 	 * @returns {*}
 	 */
 	getUserAccessRelList(vo) {
-		return axios.post('/hcl-web/web/getUserAccessRelList.json', {
+		return axios.post('getUserAccessRelList.json', {
 			...vo,
 		})
 	},
@@ -61,7 +61,7 @@ export default {
 	 * @returns {*}
 	 */
   addOrUpdateUserAccessRel(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateUserAccessRel.json', {
+		return axios.post('addOrUpdateUserAccessRel.json', {
 			...vo,
 		})
 	},
@@ -70,11 +70,11 @@ export default {
 	 * @returns {*}
 	 */
   delUserAccessRel(vo) {
-		return axios.post('/hcl-web/web/delUserAccessRel.json', vo)
+		return axios.post('delUserAccessRel.json', vo)
 	},
 	//根据宗族，世称，房系查询用户列表
 	getClanUserRelList(vo) {
-    return axios.post('/hcl-web/web/getClanUserRelList.json', {
+    return axios.post('getClanUserRelList.json', {
       ...vo,
     })
   },

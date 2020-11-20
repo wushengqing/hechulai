@@ -6,7 +6,7 @@ export default {
 	 * @returns {*}
 	 */
 	list(condition, pageInfo) {
-		return axios.post('/hcl-web/web/getClanUserRelList.json', {
+		return axios.post('getClanUserRelList.json', {
 			...condition,
 			...pageInfo
 		})
@@ -16,7 +16,7 @@ export default {
    * @returns {*}
    */
   detail(vo) {
-    return axios.post('/hcl-web/web/getZpList.json', vo)
+    return axios.post('getZpList.json', vo)
   },
 
 	/**
@@ -24,7 +24,7 @@ export default {
 	 * @returns {*}
 	 */
 	add(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateClanUserRel.json', {
+		return axios.post('addOrUpdateClanUserRel.json', {
 			...vo,
 		})
 	},

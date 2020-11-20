@@ -6,7 +6,7 @@ export default {
    * @returns {*}
    */
   list(condition) {
-    return axios.post('/hcl-web/web/getAncestralHallList.json', {
+    return axios.post('getAncestralHallList.json', {
       ...condition,
     })
   },
@@ -15,7 +15,7 @@ export default {
    * @returns {*}
    */
   save(vo) {
-    return axios.post('/hcl-web/web/addOrUpdateAncestralHallInfo.json', {
+    return axios.post('addOrUpdateAncestralHallInfo.json', {
       ...vo,
     })
   },
@@ -24,7 +24,7 @@ export default {
    * @returns {*}
    */
   changeUserState(vo) {
-    return axios.post('/hcl-web/web/changeUserState.json', {
+    return axios.post('changeUserState.json', {
       ...vo,
     })
   },

@@ -6,7 +6,7 @@ export default {
 	 * @returns {*}
 	 */
   getCircleList(vo) {
-		return axios.post('/hcl-web/web/getCircleList.json', {
+		return axios.post('getCircleList.json', {
 			...vo,
 		})
 	},
@@ -15,7 +15,7 @@ export default {
 	 * @returns {*}
 	 */
   add(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateCircleBaseInfo.json', {
+		return axios.post('addOrUpdateCircleBaseInfo.json', {
 			...vo,
 		})
 	},
@@ -24,14 +24,14 @@ export default {
 	 * @returns {*}
 	 */
 	detail(vo) {
-		return axios.post('/hcl-web/web/getCircleBaseInfo.json',vo)
+		return axios.post('getCircleBaseInfo.json',vo)
 	},
 	/**
 	 * 查询圈子文章
 	 * @returns {*}
 	 */
   article(vo,pageInfo) {
-		return axios.post('/hcl-web/web/getCircleContentList.json', {
+		return axios.post('getCircleContentList.json', {
 			...vo,
 			...pageInfo
 		})
@@ -41,7 +41,7 @@ export default {
 	 * @returns {*}
 	 */
   user(vo) {
-		return axios.post('/hcl-web/web/getCircleMemberList.json', {
+		return axios.post('getCircleMemberList.json', {
 			...vo,
 		})
 	},
@@ -50,7 +50,7 @@ export default {
 	 * @returns {*}
 	 */
 	changeUserState(vo) {
-		return axios.post('/hcl-web/web/changeUserState.json', {
+		return axios.post('changeUserState.json', {
 			...vo,
 		})
 	},
@@ -59,7 +59,7 @@ export default {
 	 * @returns {*}
 	 */
 	getUserAccessRelList(vo) {
-		return axios.post('/hcl-web/web/getUserAccessRelList.json', {
+		return axios.post('getUserAccessRelList.json', {
 			...vo,
 		})
 	},
@@ -68,7 +68,7 @@ export default {
 	 * @returns {*}
 	 */
   addOrUpdateUserAccessRel(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateUserAccessRel.json', {
+		return axios.post('addOrUpdateUserAccessRel.json', {
 			...vo,
 		})
 	},
@@ -77,11 +77,11 @@ export default {
 	 * @returns {*}
 	 */
   delUserAccessRel(vo) {
-		return axios.post('/hcl-web/web/delUserAccessRel.json', vo)
+		return axios.post('delUserAccessRel.json', vo)
 	},
 	//根据宗族，世称，房系查询用户列表
 	getClanUserRelList(vo) {
-    return axios.post('/hcl-web/web/getClanUserRelList.json', {
+    return axios.post('getClanUserRelList.json', {
       ...vo,
     })
   },

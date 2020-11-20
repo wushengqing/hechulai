@@ -6,7 +6,7 @@ export default {
 	 * @returns {*}
 	 */
 	list(condition, pageInfo) {
-		return axios.post('/hcl-web/web/getGivingBaseList.json', {
+		return axios.post('getGivingBaseList.json', {
 			...condition,
 			//...pageInfo
 		})
@@ -16,7 +16,7 @@ export default {
 	 * @returns {*}
 	 */
   givingUserRelList(vo) {
-		return axios.post('/hcl-web/web/getGivingUserRelList.json', {
+		return axios.post('getGivingUserRelList.json', {
 			...vo,
 		})
 	},
@@ -25,7 +25,7 @@ export default {
 	 * @returns {*}
 	 */
 	save(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateGivingBaseInfo.json', {
+		return axios.post('addOrUpdateGivingBaseInfo.json', {
 			...vo,
 		})
 	},

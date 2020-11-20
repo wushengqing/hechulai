@@ -6,7 +6,7 @@ export default {
 	 * @returns {*}
 	 */
 	list(condition, pageInfo) {
-		return axios.post('/hcl-web/web/getMienBaseList.json', {
+		return axios.post('getMienBaseList.json', {
 			...condition,
 			//...pageInfo
 		})
@@ -16,7 +16,7 @@ export default {
 	 * @returns {*}
 	 */
 	save(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateMienBaseInfo.json', {
+		return axios.post('addOrUpdateMienBaseInfo.json', {
 			...vo,
 		})
 	},
@@ -25,7 +25,7 @@ export default {
 	 * @returns {*}
 	 */
 	changeUserState(vo) {
-		return axios.post('/hcl-web/web/changeUserState.json', {
+		return axios.post('changeUserState.json', {
 			...vo,
 		})
 	},

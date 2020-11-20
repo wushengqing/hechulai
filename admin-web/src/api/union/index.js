@@ -10,7 +10,7 @@ export default {
       currentPage: 0,
       pageSize: 10
     }, pageInfo)
-    return axios.post('/hcl-web/web/getClanList.json', {
+    return axios.post('getClanList.json', {
       ...condition,
       ...pageInfo
     })
@@ -20,14 +20,14 @@ export default {
    * @returns {*}
    */
   get (id) {
-    return axios.post('/hcl-web/web/getClanInfo.json',{id})
+    return axios.post('getClanInfo.json',{id})
   },
   /**
    * 新增编辑宗族
    * @returns {*}
    */
   add(vo) {
-    return axios.post('/hcl-web/web/addOrUpdateClanInfo.json', vo)
+    return axios.post('addOrUpdateClanInfo.json', vo)
   },
 
 }

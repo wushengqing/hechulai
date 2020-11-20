@@ -1,5 +1,6 @@
 import axios from 'axios'
-const env = process.env.NODE_ENV
+const env = process.env.NODE_ENV;
+export const baseURL = '/hcl-web/web';
 export default {
   /**
    * 图片上传地址
@@ -9,7 +10,7 @@ export default {
    * 异步获取省市区级联
    */
   getFile (id) {
-    return axios.post('/hcl-web/web/getFile.json',{
+    return axios.post('getFile.json',{
       id
     })
   },
@@ -42,20 +43,20 @@ export default {
    * 异步获取省市区级联
    */
   // getPcdList () {
-  //   return axios.post('/hcl-web/web/getPcdList.json')
+  //   return axios.post('getPcdList.json')
   // },
   /**
    * 获取省份列表
    */
   getProvince() {
-    return axios.post('/hcl-web/web/getpList.json',{
+    return axios.post('getpList.json',{
     })
   },
   /**
    * 获取城市列表
    */
   getCity(provinceId) {
-    return axios.post('/hcl-web/web/getcList.json', {
+    return axios.post('getcList.json', {
       provinceId
     })
   },
@@ -63,7 +64,7 @@ export default {
    * 获取县区列表
    */
   getDistrict(cityId) {
-    return axios.post('/hcl-web/web/getdList.json', {
+    return axios.post('getdList.json', {
       cityId
     })
   },

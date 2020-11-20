@@ -6,21 +6,21 @@ export default {
 	 * @returns {*}
 	 */
 	list(condition, pageInfo) {
-		return axios.post('/hcl-web/web/getMenuBaseList.json', {})
+		return axios.post('getMenuBaseList.json', {})
 	},
 	/**
 	 * 新增更改菜单信息
 	 * @returns {*}
 	 */
 	add(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateMenuBaseInfo.json', vo)
+		return axios.post('addOrUpdateMenuBaseInfo.json', vo)
 	},
 	/**
 	 * 新增更改菜单信息
 	 * @returns {*}
 	 */
 	getRoleInfo(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateMenuBaseInfo.json', {
+		return axios.post('addOrUpdateMenuBaseInfo.json', {
 			...vo,
 		})
 	},

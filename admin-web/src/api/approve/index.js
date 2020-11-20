@@ -6,7 +6,7 @@ export default {
 	 * @returns {*}
 	 */
   save(vo) {
-		return axios.post('/hcl-web/web/addOrUpdateClanAuditRel.json', {
+		return axios.post('addOrUpdateClanAuditRel.json', {
 			...vo,
 		})
 	},
@@ -14,8 +14,8 @@ export default {
     //todo
   },
   userList(vo) {
-  	let baseList = axios.post('/hcl-web/web/getAuditBaseList.json',{});
-  	let userList = axios.post('/hcl-web/web/getAuditUserList.json', {
+  	let baseList = axios.post('getAuditBaseList.json',{});
+  	let userList = axios.post('getAuditUserList.json', {
       ...vo,
     });
 
