@@ -113,15 +113,15 @@
 		},
 		async onLoad(opctions) {
 			let dnsName = location.origin + '/web';
-			// try {
-			//    const clanInfoDnsName = uni.getStorageSync('clanInfoDnsName');
-			//    if(dnsName!==clanInfoDnsName){
-			//    	let par = location.href.split('#')[1];
-			//    	location.href = clanInfoDnsName+'#'+par;
-			//    }
-			// } catch (e) {
+			try {
+			   const clanInfoDnsName = uni.getStorageSync('clanInfoDnsName');
+			   if(dnsName!==clanInfoDnsName){
+			   	let par = location.href.split('#')[1];
+			   	location.href = clanInfoDnsName+'#'+par;
+			   }
+			} catch (e) {
 			   
-			// }
+			}
 			if(this.clanInfo.id){
 				this.loadData();
 				return

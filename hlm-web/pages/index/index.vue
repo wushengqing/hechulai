@@ -114,14 +114,16 @@
 		async onLoad(opctions) {
 			let dnsName = location.origin + '/hlm-web';
 			try {
-			   const clanInfoDnsName = uni.getStorageSync('clanInfoDnsName');
-			   if(dnsName!==clanInfoDnsName){
-			   	let par = location.href.split('#')[1];
-			   	location.href = clanInfoDnsName+'#'+par;
-			   }
+				console.log(111)
+				 const clanInfoDnsName = uni.getStorageSync('clanInfoDnsName_hlm');
+				 if(dnsName!==clanInfoDnsName){
+					let par = location.href.split('#')[1];
+					location.href = clanInfoDnsName+'#'+par;
+				 }
 			} catch (e) {
-			   
+			   console.log(e)
 			}
+			
 			if(this.clanInfo.id){
 				this.loadData();
 				return

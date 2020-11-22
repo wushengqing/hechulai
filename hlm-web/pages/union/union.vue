@@ -38,7 +38,7 @@
 				let dns = this.dnsList.filter(item=>item.clanId===clanInfo.id);
 				let dnsName =  dns.length>0 ? dns[0].dnsName:'';
 				if(dnsName){
-					uni.setStorageSync('clanInfoDnsName', dnsName);
+					uni.setStorageSync('clanInfoDnsName_hlm', dnsName);
 				}
 				this.setClanInfo(clanInfo);
 				console.log(this.redirect_uri.split('/pages/')[1]);
