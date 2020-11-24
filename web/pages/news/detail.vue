@@ -31,7 +31,9 @@
 				//获取轮播图
 				const detailVo = await this.$api.request.newsDetail({id:this.id});
 				this.detailVo = detailVo;
-		
+				uni.setNavigationBarTitle({
+				    title: detailVo.mienTitle
+				});
 			},
 		},
 		computed: {

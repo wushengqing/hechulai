@@ -67,8 +67,10 @@
 				//获取轮播图
 				const detailVo = await this.$api.request.getAncestralHallInfo({id:this.id});
 				this.detailVo = detailVo;
+				uni.setNavigationBarTitle({
+				    title: detailVo.name
+				});
 				let mapVo = this.bMapTransQQMap(this.detailVo.longitude,this.detailVo.latitude)
-				console.log(mapVo)
 				this.detailVo.latitude= mapVo.lat
 				this.detailVo.longitude= mapVo.lng
 				this.covers = [

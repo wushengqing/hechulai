@@ -107,6 +107,9 @@
 				};
 				const detailVo = await this.$api.request.projectDetail(par);
 				detailVo.status= 0;
+				uni.setNavigationBarTitle({
+				    title: detailVo.name
+				});
 				if(detailVo.givingBtime){
 					let now = new Date().getTime();
 					let startTime = new Date(detailVo.givingBtime.replace(/-/g,'/')).getTime();

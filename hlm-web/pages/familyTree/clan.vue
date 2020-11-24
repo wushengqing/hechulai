@@ -86,6 +86,9 @@
 				}
 				const clanUserInfo = await this.$api.request.getZpList(par);
 				this.clanUserInfo = clanUserInfo[0];
+				uni.setNavigationBarTitle({
+						title: this.clanUserInfo.clansmanName
+				});
 				this.ready = true
 
 			},

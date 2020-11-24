@@ -61,6 +61,9 @@
 				}
 				const clanUserInfo = await this.$api.request.clanUserInfo(par);
 				this.clanUserInfo = clanUserInfo;
+				uni.setNavigationBarTitle({
+						title: this.clanUserInfo.name
+				});
 				this.ready = true
 		
 			},

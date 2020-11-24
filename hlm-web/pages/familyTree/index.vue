@@ -92,7 +92,7 @@
 	}
 }
 	.content{
-		line-height: 300%;
+		line-height: 200%;
 	}
 	
 	.catalog{

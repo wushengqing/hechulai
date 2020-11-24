@@ -146,7 +146,7 @@
 		position: fixed;
 		left: 0;
 		bottom:-50%;
-		width:300upx;
+		width:400upx;
 		border-right:$border-color-dark solid 1upx ;
 		z-index: 10;
 		&.show{
