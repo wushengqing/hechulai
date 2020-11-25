@@ -88,7 +88,7 @@
     name: "UserList",
     components: {
       UserRole,
-	},
+    },
     mixins: [
       listMixin
     ],
@@ -99,12 +99,12 @@
           categoryId: ''
         },
         dialogShow:false,
-				dialogVO:{
+        dialogVO:{
           clanManId:'',
           id:'',
           userNum:'',
           openId:'',
-				},
+        },
         rules:{
           clanManId: [{required: true, message: '请输入'}, ],
         },
@@ -167,34 +167,27 @@
       },
       openRolePage(item){
         this.$refs.userRolePage.open(item.id);
-	  	},
+      },
       //打开新增或者编辑弹出
       openDialog(vo){
 
         this.dialogShow = true;
         this.dialogVO = {
-					...vo
-				}
+          ...vo
+        }
       },
       save() {
         this.$refs['dialogVO'].validate((valid) => {
           if (valid) {
             let vo = {
-              ...this.dialogVO,
+              id:this.dialogVO.id,
+              clanManId:this.dialogVO.clanManId,
               clanId:this.clanId,
             };
-            //新增
-            if (!vo.id) {
-              delete vo.id;
-            }
-            if(vo.directoryType===1){
-              delete  vo.directoryFileId
-            }
-
-            this.$api.branch.add(vo).then(res => {
+            this.$api.user.editUserInfo(vo).then(res => {
               if (res.code == 0) {
                 this.dialogShow = false;
-                this.$message.success('新增成功！');
+                this.$message.success('绑定成功！');
                 this.$refs.tableMain.fetchData();
               } else {
                 this.$message.error(res.errorMessage)

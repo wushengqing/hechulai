@@ -180,21 +180,14 @@
         this.$refs['dialogVO'].validate((valid) => {
           if (valid) {
             let vo = {
-              ...this.dialogVO,
+              id:this.dialogVO.id,
+              clanManId:this.dialogVO.clanManId,
               clanId:this.clanId,
             };
-            //新增
-            if (!vo.id) {
-              delete vo.id;
-            }
-            if(vo.directoryType===1){
-              delete  vo.directoryFileId
-            }
-
-            this.$api.branch.add(vo).then(res => {
+            this.$api.user.editUserInfo(vo).then(res => {
               if (res.code == 0) {
                 this.dialogShow = false;
-                this.$message.success('新增成功！');
+                this.$message.success('绑定成功！');
                 this.$refs.tableMain.fetchData();
               } else {
                 this.$message.error(res.errorMessage)

@@ -38,6 +38,15 @@ export default {
 			...vo,
 		})
 	},
+  /**
+   * 绑定宗亲
+   * @returns {*}
+   */
+  editUserInfo(vo) {
+    return axios.post('editUserInfo.json', {
+      ...vo,
+    })
+  },
 	/**
 	 * 编辑用户信息
 	 * @returns {*}
