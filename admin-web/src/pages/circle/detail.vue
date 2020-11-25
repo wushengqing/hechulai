@@ -20,53 +20,70 @@
 				</div>
 			</div>
 			<el-tabs v-model="listType" @tab-click="changeListType">
-				<el-tab-pane label="文章列表" name="article"></el-tab-pane>
-				<el-tab-pane label="关注列表" name="user"></el-tab-pane>
+				<el-tab-pane label="文章列表" name="article">
+					<table-comb
+						name="文章列表"
+						ref="tableMain"
+						:search-model-base="tableMainSearchModelBase"
+						:get-action="listAction"
+						:get-action-where="getActionWhere">
+						<!--基础查询-->
+						<template slot="baseSearchForm" slot-scope="scope">
+							<el-input placeholder="请输入文章标题" prefix-icon="el-icon-search" clearable v-model="scope.form.keyword" style="width: 250px; margin-left: 10px; margin-right: 10px">
+							</el-input>
+							<!-- <el-button class="fr ml10" @click="addRubbish">新增</el-button> -->
+						</template>
+						<!--表格-->
+						<template slot="tableColumns">
+
+							<el-table-column prop="circleContent" label="文章标题" width="500">
+							</el-table-column>
+							<el-table-column prop="clanManName" label="作者">
+							</el-table-column>
+							<el-table-column prop="auditUserName" label="审核员">
+							</el-table-column>
+							<el-table-column prop="goodNum" label="点赞数">
+							</el-table-column>
+							<el-table-column prop="commentNum" label="评论数">
+							</el-table-column>
+							<el-table-column prop="createTime" label="发布时间">
+							</el-table-column>
+						</template>
+					</table-comb>
+				</el-tab-pane>
+				<el-tab-pane label="关注列表" name="user">
+					<table-comb
+						name="关注列表"
+						ref="tableMain"
+						:search-model-base="tableMainSearchModelBase"
+						:get-action="listAction"
+						:get-action-where="getActionWhere">
+						<!--基础查询-->
+						<template slot="baseSearchForm" slot-scope="scope">
+							<el-input placeholder="请输入宗亲名称" prefix-icon="el-icon-search" clearable v-model="scope.form.keyword" style="width: 250px; margin-left: 10px; margin-right: 10px">
+							</el-input>
+							<!-- <el-button class="fr ml10" @click="addRubbish">新增</el-button> -->
+						</template>
+						<!--表格-->
+						<template slot="tableColumns">
+							<el-table-column prop="clanManHeadUrl" label="宗亲头像" >
+								<template slot-scope="props">
+									<el-avatar :size="60" :src="props.row.clanManHeadUrl"></el-avatar>
+								</template>
+							</el-table-column>
+							<el-table-column prop="clanManName" label="宗亲名称">
+							</el-table-column>
+							<el-table-column prop="createTime" label="关注时间">
+							</el-table-column>
+							<el-table-column prop="auditUserName" label="审核员">
+							</el-table-column>
+						</template>
+					</table-comb>
+				</el-tab-pane>
 			</el-tabs>
 			<!---->
-			<table-comb
-				name="用户管理"
-				ref="tableMain"
-				:search-model-base="tableMainSearchModelBase"
-				:get-action="listAction"
-				:get-action-where="getActionWhere">
-				<!--基础查询-->
-				<template slot="baseSearchForm" slot-scope="scope">
-					<el-input placeholder="请输入文章标题" prefix-icon="el-icon-search" clearable v-model="scope.form.keyword" style="width: 250px; margin-left: 10px; margin-right: 10px">
-					</el-input>
-					<!-- <el-button class="fr ml10" @click="addRubbish">新增</el-button> -->
-				</template>
-				<!--表格-->
-				<template slot="tableColumns" v-if="listType==='article'">
-					<el-table-column prop="circleContent" label="文章标题" width="500">
-					</el-table-column>
-					<el-table-column prop="clanManName" label="作者">
-					</el-table-column>
-					<el-table-column prop="auditUserName" label="审核员">
-					</el-table-column>
-					<el-table-column prop="goodNum" label="点赞数">
-					</el-table-column>
-					<el-table-column prop="commentNum" label="评论数">
-					</el-table-column>
-					<el-table-column prop="createTime" label="发布时间">
-					</el-table-column>
-					<!--<el-table-column prop="auditState" label="是否审核">
-					</el-table-column>-->
-				</template>
-				<template slot="tableColumns" v-if="listType==='user'">
-					<el-table-column prop="clanManHeadUrl" label="宗亲头像" >
-						<template slot-scope="props">
-							<el-avatar :size="60" :src="props.row.clanManHeadUrl"></el-avatar>
-						</template>
-					</el-table-column>
-					<el-table-column prop="clanManName" label="宗亲名称">
-					</el-table-column>
-					<el-table-column prop="createTime" label="关注时间">
-					</el-table-column>
-					<el-table-column prop="auditUserName" label="审核员">
-					</el-table-column>
-				</template>
-			</table-comb>
+
+
 			<template slot="footer"></template>
 		</d2-container>
 

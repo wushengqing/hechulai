@@ -1,9 +1,25 @@
 <template>
   <div class="workapply-area">
     <d2-container>
-      <template slot="header">宗亲管理</template>
+      <template slot="header">
+        <span class="mr20">宗亲管理</span>
+        <div style="margin: -8px 0; float: right">
+          <span class="mr20" style="font-weight: normal">请选择查询起点</span>
+          <el-autocomplete
+            prefix-icon="el-icon-search"
+            class="w400"
+            clearable
+            :fetch-suggestions="searchClanManByName"
+            @select="selectClanMan"
+            @clear="clearClanMan"
+            v-model="clansmenTreeRootName"
+            placeholder="名字关键字查询"
+          >
+          </el-autocomplete>
+        </div>
+      </template>
       <div class="clansmen-tree-wrap" v-loading="loading">
-        <div class="start">开始</div>
+        <div class="start">查询开始</div>
         <div class="clansmen-tree"  >
           <div class="clansmen-node" v-if="clansmenList.length===0">
             <div class="node">
@@ -18,7 +34,7 @@
             </div>
           </div>
           <template v-else >
-            <tree-node v-for="item in clansmenTree" :clansman="item"  @getData="getData" ></tree-node>
+            <tree-node v-for="item in clansmenTree" :clansman="item" @getData="getData" ></tree-node>
           </template>
 
         </div>
@@ -200,7 +216,9 @@
       return {
         loading:true,
         clansmenList:[],
-        clansmenTree:[],
+        //树的根节点
+        clansmenTreeRootName:'',
+        clansmenTreeRoot:'',
         generationList:[],
         dialogShow:false,
         fileData:{
@@ -215,6 +233,38 @@
         return {
           clanId:this.clanId
         }
+      },
+      clansmenTree(){
+        const _this = this;
+        if(this.clansmenList.length===0){
+          return [];
+        }
+        let treeNodes = [];
+        //如果没有设置族谱起点，则显示全部，如果设置了则显示当前分支
+        let startNode;
+        if(!this.clansmenTreeRoot){
+          startNode = this.clansmenList.filter(item=>!item.parentId)[0]
+        }else{
+          startNode = this.clansmenList.filter(item=>item.clansmanId===this.clansmenTreeRoot)[0];
+        }
+        treeNodes.push(startNode);
+        //拼接子节点
+        startNode.children = getChildren(startNode);
+        //获取子节点
+        function getChildren(pNode) {
+          let childrenNodes = _this.clansmenList.filter(node=>{
+            return node.parentId === pNode.clansmanId
+          });
+          //递归获取子节点
+          if(childrenNodes.length>0){
+            childrenNodes.map(childrenNode=>{
+              childrenNode.children = getChildren(childrenNode)
+            });
+          }
+          return childrenNodes;
+        }
+        console.log(treeNodes)
+        return treeNodes
       },
     },
     methods: {
@@ -264,53 +314,47 @@
           currentPage:1
         }).then(res=>{
           if(res.code===0){
-            this.setClansmenTree(cloneDeep(res.data));
-            this.clansmenList = cloneDeep(res.data);
+            if( res.data.length==0){
+              this.clansmenList = [];
+            }else{
+              this.clansmenList = res.data.map(item=>{
+                return {
+                  ...item,
+                  children:[]
+                }
+              });
+            }
+
+            this.loading = false;
           }else{
             this.$message.error(res.msg);
           }
 
         });
       },
-      //数组转树结构
-      setClansmenTree(clansmenList){
-        if(clansmenList.length===0){
-          this.clansmenTree = [];
-          this.loading = false;
-          return
+      searchClanManByName(queryString, cb){
+        if(queryString){
+          this.$api.user.getClanUserRelList({
+            clanManName:queryString,
+            clanId:this.clanId
+          }).then(res=>{
+            cb(res.data.map(item=>{
+              return {
+                ...item,
+                value:`${item.scName}:${item.clansmanName}(${item.parentName}之子)`
+              }
+            }))
+          })
+        }else{
+          cb([])
         }
-        let passIds = [];
-        let treeNodes = [];
-        //获取跟节点
-        clansmenList.map(item=>{
-          if(!item.parentId){
-            passIds.push(item.clansmanId);
-            treeNodes.push(item);
-            //拼接子节点
-            item.children = getChildren(item);
 
-          }
-        });
-
-        //获取子节点
-        function getChildren(pNode) {
-          let childrenNodes = clansmenList.filter(node=>{
-            return node.parentId === pNode.clansmanId
-          });
-          childrenNodes.map(childrenNode=>{
-            passIds.push(childrenNode.clansmanId);
-            childrenNode.children = getChildren(childrenNode)
-            //递归获取子节点
-            if(childrenNode.children.length>0){
-              childrenNode.children.map(child=>{
-                child.children =  getChildren(child)
-              })
-            }
-          });
-          return childrenNodes;
-        }
-        this.clansmenTree = treeNodes
-        this.loading = false;
+      },
+      selectClanMan(item){
+        this.clansmenTreeRoot = item.clansmanId;
+      },
+      clearClanMan(){
+        this.clansmenTreeRoot ='';
       },
       handleAvatarSuccess(res, file) {
         this.dialogVO.headFileUrl =  res.uploadedImgUrl;
@@ -424,7 +468,7 @@
       .node{
         padding-top: 20px;
         display: inline-block;
-        width: 120px;
+        width: 140px;
         text-align: center;
         line-height: 20px;
         padding-bottom: 20px;
