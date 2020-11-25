@@ -3,18 +3,20 @@
     <d2-container>
 			<template slot="header">
 				<span class="mr20">宗亲管理</span>
-				<span class="mr20" style="font-weight: normal">请选择查询起点</span>
-				<el-autocomplete
-					prefix-icon="el-icon-search"
-					class="w200"
-					clearable
-					:fetch-suggestions="searchClanManByName"
-					@select="selectClanMan"
-					@clear="clearClanMan"
-					v-model="clansmenTreeRootName"
-					placeholder="名字关键字查询"
-					>
-				</el-autocomplete>
+				<div style="margin: -8px 0; float: right">
+					<span class="mr20" style="font-weight: normal">请选择查询起点</span>
+					<el-autocomplete
+						prefix-icon="el-icon-search"
+						class="w400"
+						clearable
+						:fetch-suggestions="searchClanManByName"
+						@select="selectClanMan"
+						@clear="clearClanMan"
+						v-model="clansmenTreeRootName"
+						placeholder="名字关键字查询"
+						>
+					</el-autocomplete>
+				</div>
 			</template>
       <div class="clansmen-tree-wrap" v-loading="loading">
         <div class="start">查询开始</div>
