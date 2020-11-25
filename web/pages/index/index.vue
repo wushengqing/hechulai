@@ -41,7 +41,7 @@
 				<image src="/static/index/p1.png"></image>
 				<text>宗祠/祖坟</text>
 			</navigator>
-		
+
 
 		</view>
 		<!-- 通知公告 -->
@@ -113,15 +113,15 @@
 		},
 		async onLoad(opctions) {
 			let dnsName = location.origin + '/web';
-			// try {
-			//    const clanInfoDnsName = uni.getStorageSync('clanInfoDnsName');
-			//    if(dnsName!==clanInfoDnsName){
-			//    	let par = location.href.split('#')[1];
-			//    	location.href = clanInfoDnsName+'#'+par;
-			//    }
-			// } catch (e) {
-			   
-			// }
+			try {
+			   const clanInfoDnsName = uni.getStorageSync('clanInfoDnsName');
+			   if(dnsName!==clanInfoDnsName){
+			   	let par = location.href.split('#')[1];
+			   	location.href = clanInfoDnsName+'#'+par;
+			   }
+			} catch (e) {
+
+			}
 			if(this.clanInfo.id){
 				this.loadData();
 				return
@@ -129,7 +129,7 @@
 			//获取clanInfo
 			const unionList = await this.$api.request.getClanList();
 			const dnsList = await this.$api.request.getDnsList();
-			
+
 			let clan = dnsList.filter(item => item.dnsName === dnsName);
 			let clanId = '';
 			if (clan && clan.length === 1) {
@@ -197,7 +197,7 @@
 					noticeList.data.push(noticeList.data[0])
 				}
 				this.noticeList = noticeList.data||[];
-				
+
 			},
 			//轮播图切换修改背景色
 			swiperChange(e) {
@@ -409,13 +409,13 @@
 
 	/*祖训*/
 	.teachings{
-		
+
 		.teachings-img{
 			width: 100%;
 			height: 300upx;
 		}
 	}
-	
+
 	.box-1 {
 		width: 95%;
 		margin: 20upx auto;
@@ -447,7 +447,7 @@
 				height: 100upx;
 				float: left;
 				.title {
-					
+
 					height: 50upx;
 					overflow: hidden;
 					font-size:$font-base;
