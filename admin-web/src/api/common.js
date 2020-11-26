@@ -5,7 +5,7 @@ export default {
   /**
    * 图片上传地址
    */
-  uploadAction: process.env.VUE_APP_API_PREFIX + 'hcl-web/web/addFile.file',
+  uploadAction: process.env.VUE_APP_API_PREFIX + 'addFile.file',
   /**
    * 异步获取省市区级联
    */
