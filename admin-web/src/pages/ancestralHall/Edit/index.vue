@@ -378,17 +378,17 @@
         })
       },
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
+        const isIMG = file.type === 'image/jpeg'||  file.type === 'image/png';
         const isLt10M = file.size / 1024 / 1024 < 10;
 
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+        if (!isIMG) {
+          this.$message.error('上传头像图片只能是 JPG,PNG格式!');
         }
         if (!isLt10M) {
           this.$message.error('上传头像图片大小不能超过 10MB!');
         }
         this.fileData.defaultSuffix = '.'+file.name.split('.').pop();
-        return isJPG && isLt10M;
+        return isIMG && isLt10M;
       },
       //保存
       save(){
@@ -405,7 +405,7 @@
             return {
               id:item.id,
             }
-          })
+          });
           delete vo.cityCode;
           delete vo.updateTime;
           delete vo.createTime;
