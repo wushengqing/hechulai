@@ -63,16 +63,16 @@
 							v-model="dialogVO.givingDec">
 						</el-input>
 					</el-form-item>
-					<el-form-item label="乐捐目标金额：" prop="givingDec">
+					<el-form-item label="乐捐目标金额：" prop="givingSumMoney">
 						<el-input
 							style="width: 220px"
 							type="number"
 							maxlength="8"
 							placeholder="请输入金额（元）"
-							v-model="dialogVO.givingDec">
+							v-model="dialogVO.givingSumMoney">
 						</el-input>
 					</el-form-item>
-					<el-form-item label="乐捐开始时间：" prop="givingDec">
+					<el-form-item label="乐捐开始时间：" prop="givingBtime">
 						<el-date-picker
 							v-model="dialogVO.givingBtime"
 							type="date"
@@ -80,7 +80,7 @@
 							placeholder="选择日期">
 						</el-date-picker>
 					</el-form-item>
-					<el-form-item label="乐捐截止时间：" prop="givingDec">
+					<el-form-item label="乐捐截止时间：" prop="givingEtime">
 						<el-date-picker
 							v-model="dialogVO.givingEtime"
 							type="date"
@@ -124,8 +124,9 @@
           name:'',
           givingDec:'',
           givingBtime:'',
-          givingEtime:''
-		},
+          givingEtime:'',
+          givingSumMoney:''
+        },
         rules: {
           name: [
             {required: true, message: '请输入'},
@@ -134,9 +135,12 @@
             {required: true, message: '请输入'},
 					],
           givingBtime: [
-            {required: true, message: '请输入'},
+            {required: true, message: '请输入',trigger: 'change'},
 					],
           givingEtime: [
+            {required: true, message: '请输入',trigger: 'change'},
+          ],
+          givingSumMoney: [
             {required: true, message: '请输入'},
           ],
         },
@@ -172,7 +176,6 @@
 				return 0;
 			},
       openDialog(item) {
-        console.log('userInfo',this.userInfo)
         if(!item){
           this.dialogVO = {
             id:'',
@@ -181,6 +184,7 @@
             givingBtime:'',
             givingEtime:'',
             createUserId:this.userInfo.userId,
+            givingSumMoney:'',
           }
         }else{
           this.dialogVO  = {
@@ -190,6 +194,7 @@
             givingBtime:item.givingBtime,
             givingEtime:item.givingEtime,
             createUserId:item.createUserId,
+            givingSumMoney:item.givingSumMoney
           }
         }
         this.$nextTick(() => {
@@ -211,7 +216,6 @@
             }
             this.$api.project.save(vo).then(res => {
               if (res.code === 0) {
-                console.log(res)
                 this.dialogShow = false;
                 this.$message.success('新增成功！');
                 this.$refs.tableMain.fetchData();

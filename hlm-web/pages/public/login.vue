@@ -36,7 +36,7 @@
 			<view class="forget-section" @click="loginByWechat()">
 				<image class="wechat" src="../../static/wechat.png"></image>
 			</view>
-			<button class="confirm-btn" @click="loginByWechat" :disabled="logining">一 键 登 录</button>
+			<button class="confirm-btn" @click="toLogin()" :disabled="logining">一 键 登 录</button>
 			<view class="footer-agree f22">
 				<cl-checkbox v-model="agree"></cl-checkbox>
 				登录既表示阅读并同意
@@ -60,8 +60,8 @@
 	export default{
 		data(){
 			return {
-				userNum: '',
-				userPassword: '',
+				userNum: '15985952875',
+				userPassword: '123456',
 				logining: false,
 				agree:true,
 			}

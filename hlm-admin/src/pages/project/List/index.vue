@@ -14,7 +14,7 @@
 				<template slot="baseSearchForm" slot-scope="scope">
 					<el-input placeholder="请输入关键字" prefix-icon="el-icon-search" clearable v-model="scope.form.keyword" style="width: 250px; margin-left: 10px; margin-right: 10px">
 					</el-input>
-					 <el-button class="fr ml10" type="primary" @click="openDialog()">新增</el-button>
+					<el-button class="fr ml10" type="primary" @click="openDialog()">新增</el-button>
 				</template>
 				<!--表格-->
 				<template slot="tableColumns">
@@ -63,16 +63,16 @@
 							v-model="dialogVO.givingDec">
 						</el-input>
 					</el-form-item>
-					<el-form-item label="乐捐目标金额：" prop="givingDec">
+					<el-form-item label="乐捐目标金额：" prop="givingSumMoney">
 						<el-input
 							style="width: 220px"
 							type="number"
 							maxlength="8"
 							placeholder="请输入金额（元）"
-							v-model="dialogVO.givingDec">
+							v-model="dialogVO.givingSumMoney">
 						</el-input>
 					</el-form-item>
-					<el-form-item label="乐捐开始时间：" prop="givingDec">
+					<el-form-item label="乐捐开始时间：" prop="givingBtime">
 						<el-date-picker
 							v-model="dialogVO.givingBtime"
 							type="date"
@@ -80,7 +80,7 @@
 							placeholder="选择日期">
 						</el-date-picker>
 					</el-form-item>
-					<el-form-item label="乐捐截止时间：" prop="givingDec">
+					<el-form-item label="乐捐截止时间：" prop="givingEtime">
 						<el-date-picker
 							v-model="dialogVO.givingEtime"
 							type="date"
@@ -108,7 +108,7 @@
     name: "UserList",
     components: {
       GivingUserList
-	},
+    },
     mixins: [
       listMixin
     ],
@@ -124,19 +124,23 @@
           name:'',
           givingDec:'',
           givingBtime:'',
-          givingEtime:''
-		},
+          givingEtime:'',
+          givingSumMoney:''
+        },
         rules: {
           name: [
             {required: true, message: '请输入'},
-					],
+          ],
           givingDec: [
             {required: true, message: '请输入'},
-					],
+          ],
           givingBtime: [
-            {required: true, message: '请输入'},
-					],
+            {required: true, message: '请输入',trigger: 'change'},
+          ],
           givingEtime: [
+            {required: true, message: '请输入',trigger: 'change'},
+          ],
+          givingSumMoney: [
             {required: true, message: '请输入'},
           ],
         },
@@ -159,7 +163,7 @@
           //未开始
           if(now.getTime()<start.getTime()){
             return 1
-					}
+          }
           //进行中
           else if(now.getTime()<=end.getTime()){
             return 2
@@ -167,12 +171,11 @@
           //已结束
           else{
             return 3
-					}
-				}
-				return 0;
-			},
+          }
+        }
+        return 0;
+      },
       openDialog(item) {
-        console.log('userInfo',this.userInfo)
         if(!item){
           this.dialogVO = {
             id:'',
@@ -181,6 +184,7 @@
             givingBtime:'',
             givingEtime:'',
             createUserId:this.userInfo.userId,
+            givingSumMoney:'',
           }
         }else{
           this.dialogVO  = {
@@ -190,6 +194,7 @@
             givingBtime:item.givingBtime,
             givingEtime:item.givingEtime,
             createUserId:item.createUserId,
+            givingSumMoney:item.givingSumMoney
           }
         }
         this.$nextTick(() => {
@@ -211,7 +216,6 @@
             }
             this.$api.project.save(vo).then(res => {
               if (res.code === 0) {
-                console.log(res)
                 this.dialogShow = false;
                 this.$message.success('新增成功！');
                 this.$refs.tableMain.fetchData();
