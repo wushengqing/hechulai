@@ -98,15 +98,19 @@
 				},1000)
 			},
 			saveClanMsg(){
-				console.log(this.userInfo);
+				uni.showLoading({
+				    title: '请求中',
+						mask:true
+				});
 				this.$api.request.saveClanMsg({
 					clanId:this.clanInfo.id,
 					messageContent:this.messageContent,
 					clanMainId:this.userInfo.clanManId
 				}).then(res=>{
+          uni.hideLoading();
 					if(res.code===0){
 						uni.showToast({
-						    title: '提交成功',
+						    title: '反馈成功',
 						    duration: 1000
 						});
 						this.visible = false;
@@ -114,12 +118,12 @@
 						uni.showToast({
 							title: res.msg,
 							icon:'none',
-						});	
+						});
 					}
 				});
 				this.messageContent = '';
 			}
-			
+
 		},
 		onShow(){
 			if(!this.checkRouter()){
@@ -163,5 +167,5 @@
 			border-bottom: none;
 		}
 	}
-	
+
 </style>

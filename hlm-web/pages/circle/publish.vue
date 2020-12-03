@@ -5,13 +5,13 @@
 				<textarea class="uni-textarea-input" placeholder="请输入内容(50字以内)" v-model="input_content" />
 				</view>
 			<view class="img-list flex-wrap">
-				<view 
-					class="img-view2" 
+				<view
+					class="img-view2"
 					v-for="(item,index) in fileList">
-					<image lazy-load 
+					<image lazy-load
 					mode="aspectFill"
-					class="img-cover" 
-					:src="item.minImgUrl" 
+					class="img-cover"
+					:src="item.minImgUrl"
 					@tap="previewImage(index)">
 					</image>
 					<view class="delete" @click.stop="deletePhoto(item)"><text class="iconfont f22">&#xe62b</text></view>
@@ -19,9 +19,9 @@
 				<view class="img-view2-add" @tap="chooseImage()">
 					<text class="iconfont">&#xe617</text>
 				</view>
-				
+
 			</view>
-			
+
 			<view class="footer" >
 				<cl-button class="w100off" type="primary" @click="publish">提交</cl-button>
 			</view>
@@ -52,7 +52,7 @@
 					pageSize: 21,
 					total: 0,
 				}
-			
+
 			}
 		},
 		computed: {
@@ -65,14 +65,17 @@
 			this.id = parseInt(options.id);
 			console.log(this.id,options);
 		},
-		
+
 		methods: {
 			async publish(){
 				if (!this.input_content) {
 					uni.showModal({ content: '内容不能为空', showCancel: false, });
 					return;
 				}
-				
+				uni.showLoading({
+						title: '请求中',
+						mask:true
+				});
 				this.$api.request.addOrUpdateCircleContentInfo({
 					clanId:this.clanInfo.id,
 					clanManId:this.userInfo.clanManId,
@@ -84,7 +87,7 @@
 						}
 					})
 				}).then(res=>{
-					console.log(res);
+          uni.hideLoading();
 					if (res.code === 0) {
 						this.$refs["message"].open({
 							type: 'success',
@@ -101,9 +104,9 @@
 					}
 				})
 			},
-			
-			
-			
+
+
+
 			//选择图片
 			chooseImage() {
 				uni.chooseImage({
@@ -128,7 +131,7 @@
 						typeId: this.id,
 					},
 					success: (res) => {
-						
+
 						let data = JSON.parse(res.data);
 						console.log(data);
 						files.shift();
@@ -166,13 +169,13 @@
 				let index = this.fileList.findIndex(file =>item.id===file.id);
 				this.fileList.splice(index,1);
 			}
-			
+
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	
+
 	.footer {
 		margin-top: 80upx;
 	}

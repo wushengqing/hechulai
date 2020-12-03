@@ -136,7 +136,12 @@
 					id:this.id,
 					...this.form
 				}
+				uni.showLoading({
+					title: '请求中',
+					mask:true
+				});
 				this.$api.request.addOrUpdateClanUserInfo(par).then(res=>{
+					uni.hideLoading();
 					if(res.code===0){
 						this.$refs["message"].open({
 							type: 'success',

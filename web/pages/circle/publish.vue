@@ -72,7 +72,10 @@
 					uni.showModal({ content: '内容不能为空', showCancel: false, });
 					return;
 				}
-				
+				uni.showLoading({
+						title: '请求中',
+						mask:true
+				});
 				this.$api.request.addOrUpdateCircleContentInfo({
 					clanId:this.clanInfo.id,
 					clanManId:this.userInfo.clanManId,
@@ -84,7 +87,7 @@
 						}
 					})
 				}).then(res=>{
-					console.log(res);
+					uni.hideLoading();
 					if (res.code === 0) {
 						this.$refs["message"].open({
 							type: 'success',

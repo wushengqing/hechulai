@@ -172,8 +172,13 @@
 					giveMoney:this.form.giveMoney,
 					//giveDec:this.form.giveDec
 				}
+				uni.showLoading({
+						title: '请求中',
+						mask:true
+				});
 				this.$api.request.addOrUpdateGivingUserRel(par).then(res=>{
 					if(res.code===0){
+						uni.hideLoading();
 						uni.showToast({
 						    title: '提交成功',
 						    duration: 1000

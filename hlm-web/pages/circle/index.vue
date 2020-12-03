@@ -22,7 +22,7 @@
 						<image :src="currcircle.circleFileUrl"></image>
 					</view>
 					<view class="list-content">
-						<view class="name">
+						<view class="name font30">
 							<text class="">话题：<text class="c-base mr-20">{{currcircle.contentNum}}</text>|</text>
 							<text class="ml-20 ">关注：<text class="c-base">{{currcircle.memberNum}}</text></text>
 							<text class="follow ml-20" @click="follow()">+关注</text>
@@ -194,6 +194,11 @@
 				return;
 			}
 			this.getData()
+		},
+		onShow(){
+				this.currentPage = 1;
+				this.articleList = [];
+				this.getData();
 		},
 		//下拉刷新
 		onPullDownRefresh() {
@@ -445,6 +450,8 @@
 	}
 	.follow {
 		background: #ec9205;
+		display: inline-block;
+		line-height: 50upx;
 		padding: 0 10upx;
 		border-radius: 4upx;
 		font-size: $font-base;
