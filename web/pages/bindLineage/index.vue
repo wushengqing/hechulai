@@ -16,11 +16,11 @@
 							<button style="width: 200upx; margin-left: 10upx;" type="primary" @click="getClanUserRelList">查找</button>
 						</view>
 						<view class="popup-cent">
-							<view class="user-list" v-for="(item,index) in clanUserRelListShow" @click="changeClanUserRel(item)">
+							<view class="user-list" v-for="(item,index) in clanUserRelList" @click="changeClanUserRel(item)">
 								<image class="avatar" :src="item.headFileUrl || '../../static/missing-face.png'"></image>
 								<view class="cent">
-									<view class="bold cent-line">{{ item.clansmanName }}</view>
-									<view class="cent-line">{{ item.clansmanDecAdd }}{{ item.clansmanDec }}</view>
+									<view class="bold cent-line">{{ item.name }}</view>
+									<view class="cent-line">{{ item.dec}}</view>
 								</view>
 							</view>
 							<view class="tc line88 c-grey" v-if="loaded && clanUserRelList.length===0">暂无数据，请确保已选择房系、世称</view>
@@ -28,7 +28,7 @@
 					</view>
 					
 				</cl-popup>
-				<view @click="visible=true" class="uni-input">{{clanUserRelIndex===-1 ?'请选择':clanUserRelList[clanUserRelIndex].clansmanName}}</view>
+				<view @click="visible=true" class="uni-input">{{clanUserRelIndex===-1 ?'请选择':clanUserRelList[clanUserRelIndex].name}}</view>
 				
 			</view>
 			<view class="form-item">
@@ -50,9 +50,6 @@
 	export default {
 		computed: {
 			...mapState(['userInfo','clanInfo']),
-			clanUserRelListShow(){
-				return this.clanUserRelList;
-			},
 		},
 		data() {
 			return {
@@ -126,48 +123,7 @@
 					clanId: this.clanInfo.id,
 					name:this.keyword,
 				});
-				
-				clanUserRelList.forEach(async item=>{
-					this.clanUserRelList.push({
-						...item,
-						clansmanName:item.name,
-						clansmanDecAdd:item.parentName+'之子，'
-					});
-					//查妻子女儿
-					let par = {
-						clansmanId: parseInt(item.id),
-						clanId: this.clanInfo.id
-					}
-					let clanUserInfo = await this.$api.request.getZpList(par);
-					clanUserInfo = clanUserInfo[0]
-					console.log(clanUserInfo)
-					//妻子
-					if(clanUserInfo.spouseDtoList.length>0){
-						console.log(this.clanUserRelList)
-						this.clanUserRelList.push(...clanUserInfo.spouseDtoList.map(spouse=>{
-							return {
-								clansmanName:spouse.spouseName,
-								clansmanId:spouse.spouseId,
-								headFileUrl:spouse.headFileUrl,
-								clansmanDecAdd:item.parentName+'之子'+clanUserInfo.name+'的妻子。',
-								clansmanDec:spouse.spouseDec,
-							}
-						}));
-					}
-					// 女儿
-					if(clanUserInfo.daughterDtoList.length>0){
-						this.clanUserRelList.push(...clanUserInfo.daughterDtoList.map(daughter=>{
-							return {
-								clansmanName:daughter.daughterName,
-								clansmanId:daughter.daughterId,
-								headFileUrl:daughter.headFileUrl,
-								clansmanDecAdd:item.parentName+'之子'+clanUserInfo.name+'的女儿。',
-								clansmanDec:daughter.spouseDec,
-							}
-						}));
-						
-					}
-				})
+				this.clanUserRelList = clanUserRelList;
 				this.loaded = true;
 			},
 			//切换房系
@@ -186,9 +142,9 @@
 				if(!currItem){
 					this.clanUserRelIndex= -1
 				}else{
-					this.clanUserRelIndex = this.clanUserRelList.findIndex(item=>item.clansmanId == currItem.clansmanId)
+					this.clanUserRelIndex = this.clanUserRelList.findIndex(item=>item.id == currItem.id)
 				}
-				this.formData.clanUserRelId = currItem ? currItem.clansmanId:'';
+				this.formData.clanUserRelId = currItem ? currItem.id:'';
 				this.visible = false; 
 			}
 		},
