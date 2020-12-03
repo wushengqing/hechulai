@@ -122,23 +122,20 @@
 				this.loaded = false;
 				this.clanUserRelList = [];
 				//获取宗亲列表
-				let clanUserRelList = await this.$api.request.clanUserRelList({
+				let clanUserRelList = await this.$api.request.getClanUserList({
 					clanId: this.clanInfo.id,
-					currentPage:0,
-					pageSize:10000,
-					clanManName:this.keyword,
-					//未审核
-					auditState:0
+					name:this.keyword,
 				});
 				
 				clanUserRelList.forEach(async item=>{
 					this.clanUserRelList.push({
 						...item,
+						clansmanName:item.name,
 						clansmanDecAdd:item.parentName+'之子，'
 					});
 					//查妻子女儿
 					let par = {
-						clansmanId: parseInt(item.clansmanId),
+						clansmanId: parseInt(item.id),
 						clanId: this.clanInfo.id
 					}
 					let clanUserInfo = await this.$api.request.getZpList(par);
@@ -152,7 +149,7 @@
 								clansmanName:spouse.spouseName,
 								clansmanId:spouse.spouseId,
 								headFileUrl:spouse.headFileUrl,
-								clansmanDecAdd:item.parentName+'之子'+clanUserInfo.clansmanName+'的妻子。',
+								clansmanDecAdd:item.parentName+'之子'+clanUserInfo.name+'的妻子。',
 								clansmanDec:spouse.spouseDec,
 							}
 						}));
@@ -164,13 +161,12 @@
 								clansmanName:daughter.daughterName,
 								clansmanId:daughter.daughterId,
 								headFileUrl:daughter.headFileUrl,
-								clansmanDecAdd:item.parentName+'之子'+clanUserInfo.clansmanName+'的女儿。',
+								clansmanDecAdd:item.parentName+'之子'+clanUserInfo.name+'的女儿。',
 								clansmanDec:daughter.spouseDec,
 							}
 						}));
 						
 					}
-					
 				})
 				this.loaded = true;
 			},

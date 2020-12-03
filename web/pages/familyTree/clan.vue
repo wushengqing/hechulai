@@ -42,7 +42,7 @@
 				</view>
 			</view>
 			<view class="bottom-box" :class="showBottom?'show':''">
-				<view class="bottom-item" v-for="(item,index) in generationList" @click="openGenerationPage(item)">{{ item.name }}</view>
+				<view class="bottom-item" v-for="(item,index) in generationList" @click="openGenerationPage(item)">{{ item.name }}(字辈：{{item.seniority}})</view>
 			</view>
 		</view>
 	</view>
@@ -210,7 +210,7 @@
 		position: fixed;
 		left: 0;
 		bottom: -50%;
-		width: 200upx;
+		width:400upx;
 		border-right: $border-color-dark solid 1upx;
 		z-index: 10;
 

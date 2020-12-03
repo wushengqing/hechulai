@@ -1,4 +1,4 @@
-const baseUrl = 'https://www.hclzz.com/hcl-web/web/'
+const baseUrl = 'https://www.hclzz.com/hclzp-web/web/'
 var wx = require('./jweixin-module')
 		//获取微信公众号的配置
 		uni.request({
@@ -21,7 +21,7 @@ var wx = require('./jweixin-module')
 					let shareVo = {
 						title:'何处来族谱',
 						desc:'全球第一部在线族谱',
-						link:'https://www.hclzz.com/web/',
+						link:'https://www.hclzz.com/hlm-web/',
 						imgUrl:'',
 						success(){
 							

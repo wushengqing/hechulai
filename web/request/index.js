@@ -224,6 +224,22 @@ async function clanUserRelList(data) {
 		}
 	}
 }
+//获取未绑定的宗亲列表
+async function getClanUserList(data) {
+	var [error, res] = await asyncRequest({
+		url: `${baseUrl}getClanUserList.json`,
+		method: 'POST',
+		data
+	});
+	if (res) {
+		return res.data.data;
+	} else {
+		return {
+			code: '1',
+			error
+		}
+	}
+}
 //获取宗亲消息列表
 async function userMsgList(data) {
 	var [error, res] = await asyncRequest({
@@ -546,6 +562,15 @@ function addOrUpdateCircleCommentInfo(data) {
 	});
 }
 
+//h5获取微信分享配置
+async function getconfig(data) {
+	return defaultRequest({
+		url: `${baseUrl}getconfig.json`,
+		method: 'POST',
+		data,
+	});
+}
+
 export default  {
 	//图片上传地址
 	uploadAction,
@@ -575,6 +600,8 @@ export default  {
 	directoryList,
 	//获取宗亲列表
 	clanUserRelList,
+	//未绑定宗亲列表
+	getClanUserList,
 	//绑定宗亲
 	userRelClanMain,
 	//获取宗亲消息列表
@@ -623,4 +650,6 @@ export default  {
 	addOrUpdateCircleCommentInfo,
 	//审核
 	auditUserUpdateMsg,
+	//分享
+	getconfig
 };
