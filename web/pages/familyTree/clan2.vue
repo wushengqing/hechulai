@@ -6,7 +6,8 @@
 		<view class="container">
 			<view class="title">{{ clanUserInfo.name }}</view>
 			<view class="desc">
-				<view>世称：{{ clanUserInfo.generationName }}</view>
+				<view>房系：{{ clanUserInfo.directoryName }}</view>
+				<view>世称：{{ clanUserInfo.scName }}</view>
 				<view>性别：{{ clanUserInfo.sex||'男' }}</view>
 				<view>出生日期：{{ clanUserInfo.birthDay }}</view>
 				<view v-if=" clanUserInfo.endDay">去世日期：{{ clanUserInfo.endDay }}</view>

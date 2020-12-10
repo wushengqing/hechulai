@@ -176,7 +176,7 @@
 						dec: daughter.daughterDec,
 						clansmanId: daughter.daughterId,
 						type: 2,
-						fatherId: item.clansmanId
+						fatherId: family.clansmanId
 					});
 				})
 			},

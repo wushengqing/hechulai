@@ -64,6 +64,7 @@
 				title="家庭成员" 
 				tips="数据来自族谱"></list-cell>
 				<list-cell 
+					v-if="userInfo.isRelZq && userInfo.clanId === clanInfo.id"
 					type="new" 
 					icon="icon-shenhe" iconColor="#ee883b"  
 					@eventClick="navTo('/pages/user/approve')" 
