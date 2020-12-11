@@ -196,6 +196,9 @@
 			this.getData()
 		},
 		onShow(){
+			if(this.loading){
+				return;
+			}
 			this.currentPage = 1;
 			this.articleList = [];
 			this.getData();
