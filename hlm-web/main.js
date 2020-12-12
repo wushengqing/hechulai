@@ -58,6 +58,7 @@ Vue.prototype.$api = {
 Vue.prototype.checkRouter = function(isLogin = true, isRelZq = true, ask = true) {
 	//获取userInfo
 	let userInfo = uni.getStorageSync('userInfo')||{userId:''};
+	let clanInfo = uni.getStorageSync('clanInfo')||{id:''};
 	if (isLogin && !userInfo.userId) {
 		uni.showToast({
 			title: '请先登录',
@@ -89,6 +90,18 @@ Vue.prototype.checkRouter = function(isLogin = true, isRelZq = true, ask = true)
 		});
 		return false
 	}
+	if (isRelZq && userInfo.clanId !== clanInfo.id) {
+			uni.showModal({
+				title: '提示',
+				content: '您是其他宗族的宗亲，不能绑定为本宗族',
+				success: function(res) {
+					uni.switchTab({
+						url: '/pages/index/index'
+					});
+				}
+			});
+			return false
+		}
 	return true;
 };
 

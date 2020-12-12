@@ -16,6 +16,7 @@ const store = new Vuex.Store({
 	mutations: {
 		//缓存宗族id
 		setClanInfo(state, clanInfo) {
+			uni.setStorageSync('clanInfo', clanInfo);
 			state.clanInfo = clanInfo;
 
 		},
