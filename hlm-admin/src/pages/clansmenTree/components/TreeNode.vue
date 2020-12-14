@@ -263,6 +263,9 @@
                 spouseDtoList:res.data[0].spouseDtoList,
                 daughterDtoList:res.data[0].daughterDtoList
               };
+              if(this.dialogVO.spouseDtoList.length===0){
+                this.addWife(0)
+              }
               if(this.dialogVO.daughterDtoList.length===0){
                 this.addDaughter(0)
               }
