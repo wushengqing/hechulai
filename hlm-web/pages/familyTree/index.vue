@@ -82,7 +82,7 @@
 	position: fixed;
 	z-index: 1;
 	width: 100%;
-	height: calc(100% - 102upx);
+	height: calc(100% - var(--window-bottom));
 	z-index: 999;
 	font-size:$font-base;
 	line-height: 60upx;
