@@ -182,7 +182,7 @@
 						});
 					}else{
 						this.$refs["message"].open({
-							type: 'error',
+							type: 'cancel',
 							message: res.msg,
 						});
 					}
@@ -211,7 +211,7 @@
 						});
 					}else{
 						this.$refs["message"].open({
-							type: 'error',
+							type: 'cancel',
 							message: res.msg,
 						});
 					}
