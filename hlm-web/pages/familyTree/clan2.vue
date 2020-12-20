@@ -21,7 +21,7 @@
 				<view class="action-btn" @click="changeShowBottom()">切换目录</view>
 			</view>
 			<view class="bottom-box" :class="showBottom?'show':''">
-				<view class="bottom-item"  v-for="(item,index) in generationList" @click="openGenerationPage(item)">{{ item.name }}(字辈：{{item.seniority}})}</view>
+				<view class="bottom-item"  v-for="(item,index) in generationList" @click="openGenerationPage(item)">{{ item.name }}(字辈：{{item.seniority}})</view>
 			</view>
 		</view>
 	</view>

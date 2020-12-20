@@ -1,29 +1,9 @@
 <template>
 	<view class="container">
-		<view class="full-page" >
-			<view class="content">
-				<text class="name">{{ clanInfo.name }}</text>
-				<scroll-view scroll-y style="height: 660upx;">
-					<view class="summary">
-						{{ clanInfo.summary }}
-					</view>
-				</scroll-view>
-				<view class="title1 mt30">在线族谱</view>
-				<view class="mt30 mb30 flex">
-					<cl-button class="flex1" type="primary" @tap="openPage('/pages/familyTree/branchList')">
-						<text>按房系</text>
-					</cl-button>
-					<cl-button class="flex1" type="primary" @tap="openPage('/pages/familyTree/generationList')">
-						<text>按字辈</text>
-					</cl-button>
-					<cl-button  class="flex1" type="primary" @tap="openPage('/pages/familyTree/search')">
-						<text>按姓名</text>
-					</cl-button>
-				</view>
-			</view>
-			
+		<view>
+			<view style="padding: 30upx 0 0 0;"  class="title1">世称字辈目录</view>
+			<list-cell v-for="(item,index) in generationList" :title="item.name" :tips="`字辈：${item.seniority}`"  @eventClick="openGenerationPage(item)"  ></list-cell>
 		</view>
-		
 	</view>
 </template>
 
@@ -53,11 +33,6 @@
 				uni.navigateTo({
 				    url: `./generation?id=${item.id}&name=${item.name}(字辈：${item.seniority})`
 				});
-			},
-			openPage(url){
-				uni.navigateTo({
-				    url:url
-				});
 			}
 					
 		},
@@ -65,11 +40,7 @@
 			if(!this.checkRouter()){
 				return;
 			}
-
 			this.getGenerationList();
-			setTimeout(()=>{
-				this.show=true;
-			},2000)
 		}
 	}
 </script>
@@ -80,31 +51,36 @@
 	}
 .full-page{
 	position: fixed;
-	z-index: 1;
-	width: 100%;
-	height: calc(100% - 102upx);
 	z-index: 999;
-	font-size:$font-base;
-	line-height: 60upx;
+	font-size: 40upx;
+	line-height: 80upx;
 	display: flex;
+	text-align: center;
+	justify-content: center;
 	align-items: top;
 	background: #ccc59d;
 	background-image: url( '~@/static/book-bg.jpg');
 	background-size: 100% 100%;
-	.summary{
-		text-indent: 2em;
+	transform: translateX(0%);
+	&.show{
+		transition: all .2s;
+		transform: translateX(-100%);
 	}
 	.name{
-		margin: 50upx 0 20upx;
+		margin: 250upx 0;
 		display: inline-block;
 		text-align: center;
 		line-height: 80upx;
 		letter-spacing: 12upx;
+		writing-mode: vertical-rl;
+		writing-mode: tb-lr;
+		overflow: hidden;
 		font-size: 60upx;
+		padding-bottom: 80upx;
 	}
 }
 	.content{
-		padding:0 20upx 0 130upx;
+		line-height: 200%;
 	}
 	
 	.catalog{

@@ -1,16 +1,29 @@
 <template>
 	<view class="container">
-		<view class="full-page" @click="show=true"  :class="{show:show}">
-			<text class="name">{{ clanInfo.name }}族谱</text>
+		<view class="full-page" >
+			<view class="content">
+				<text class="name">{{ clanInfo.name }}</text>
+				<scroll-view scroll-y style="height: 660upx;">
+					<view class="summary">
+						{{ clanInfo.summary }}
+					</view>
+				</scroll-view>
+				<view class="title1 mt30">在线族谱</view>
+				<view class="mt30 mb30 flex">
+					<cl-button class="flex1" type="primary" @tap="openPage('/pages/familyTree/branchList')">
+						<text>按房系</text>
+					</cl-button>
+					<cl-button class="flex1" type="primary" @tap="openPage('/pages/familyTree/generationList')">
+						<text>按字辈</text>
+					</cl-button>
+					<cl-button  class="flex1" type="primary" @tap="openPage('/pages/familyTree/search')">
+						<text>按姓名</text>
+					</cl-button>
+				</view>
+			</view>
+			
 		</view>
-		<view class="title1" style="padding: 30upx 0 0 0;">宗族简介</view>
-		<view class="content">
-			{{ clanInfo.summary }}
-		</view>
-		<view>
-			<view style="padding: 30upx 0 0 0;"  class="title1">族谱目录</view>
-			<list-cell v-for="(item,index) in generationList" :title="item.name" :tips="`字辈：${item.seniority}`"  @eventClick="openGenerationPage(item)"  ></list-cell>
-		</view>
+		
 	</view>
 </template>
 
@@ -20,7 +33,6 @@
 	export default {
 		data() {
 			return {
-				show:false,
 				generationList: [],
 			}
 		},
@@ -41,6 +53,11 @@
 				uni.navigateTo({
 				    url: `./generation?id=${item.id}&name=${item.name}(字辈：${item.seniority})`
 				});
+			},
+			openPage(url){
+				uni.navigateTo({
+				    url:url
+				});
 			}
 					
 		},
@@ -48,7 +65,7 @@
 			if(!this.checkRouter()){
 				return;
 			}
-			this.show = false;
+
 			this.getGenerationList();
 			setTimeout(()=>{
 				this.show=true;
@@ -63,36 +80,31 @@
 	}
 .full-page{
 	position: fixed;
+	z-index: 1;
+	width: 100%;
+	height: calc(100% - 102upx);
 	z-index: 999;
-	font-size: 40upx;
-	line-height: 80upx;
+	font-size:$font-base;
+	line-height: 60upx;
 	display: flex;
-	text-align: center;
-	justify-content: center;
 	align-items: top;
 	background: #ccc59d;
 	background-image: url( '~@/static/book-bg.jpg');
 	background-size: 100% 100%;
-	transform: translateX(0%);
-	&.show{
-		transition: all .2s;
-		transform: translateX(-100%);
+	.summary{
+		text-indent: 2em;
 	}
 	.name{
-		margin: 250upx 0;
+		margin: 50upx 0 20upx;
 		display: inline-block;
 		text-align: center;
 		line-height: 80upx;
 		letter-spacing: 12upx;
-		writing-mode: vertical-rl;
-		writing-mode: tb-lr;
-		overflow: hidden;
 		font-size: 60upx;
-		padding-bottom: 80upx;
 	}
 }
 	.content{
-		line-height: 200%;
+		padding:0 20upx 0 130upx;
 	}
 	
 	.catalog{

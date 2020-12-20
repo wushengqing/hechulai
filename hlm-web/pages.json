@@ -213,6 +213,30 @@
 			}
 		},
 		{
+			"path": "pages/familyTree/branchList",
+			"style": {
+				"navigationBarTitleText": "按房系查找"
+			}
+		},
+		{
+			"path": "pages/familyTree/branchDetail",
+			"style": {
+				"navigationBarTitleText": "按房系查找"
+			}
+		},
+		{
+			"path": "pages/familyTree/search",
+			"style": {
+				"navigationBarTitleText": "精确查找"
+			}
+		},
+		{
+			"path": "pages/familyTree/generationList",
+			"style": {
+				"navigationBarTitleText": "按世系字辈查找"
+			}
+		},
+		{
 			"path": "pages/familyTree/generation",
 			"style": {
 				"navigationBarTitleText": "目录详情"

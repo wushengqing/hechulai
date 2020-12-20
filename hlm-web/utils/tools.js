@@ -9,7 +9,17 @@ function isWeiXin(){
   return false;
   }
 };
+function groupBy( array , id ) {
+		let groups = {};
+		array.forEach( function( o ) {
+				let group = JSON.stringify( o[id] );
+				groups[group] = groups[group] || [];
+				groups[group].push( o );
+		});
+		return Object.values(groups);
+}
 
 export default {
 	isWeiXin,
+	groupBy
 }
