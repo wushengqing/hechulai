@@ -10,8 +10,8 @@
 					<view class="user-list" v-for="(item,index) in clanUserRelList" @click="openClanPage(item)">
 						<image class="avatar" :src="item.headFileUrl || '../../static/missing-face.png'"></image>
 						<view class="cent">
-							<view class="bold cent-line">{{ item.name }}</view>
-							<view class="cent-line">{{ item.dec}}</view>
+							<view class="bold cent-line">{{ item.clansmanName }}</view>
+							<view class="cent-line">{{ item.clansmanDec}}</view>
 						</view>
 					</view>
 					<view class="tc line88 c-grey" v-if="loaded && clanUserRelList.length===0">查询不到结果</view>
@@ -47,9 +47,9 @@
 				this.loaded = false;
 				this.clanUserRelList = [];
 				//获取宗亲列表
-				let clanUserRelList = await this.$api.request.getClanUserList({
+				let clanUserRelList = await this.$api.request.clanUserRelList({
 					clanId: this.clanInfo.id,
-					name:this.keyword,
+					clanManName:this.keyword,
 				});
 				this.clanUserRelList = clanUserRelList;
 				this.loaded = true;

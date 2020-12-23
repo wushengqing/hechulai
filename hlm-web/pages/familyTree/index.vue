@@ -3,7 +3,7 @@
 		<view class="full-page" >
 			<view class="content">
 				<text class="name">{{ clanInfo.name }}</text>
-				<scroll-view scroll-y style="height: 660upx;">
+				<scroll-view scroll-y style="height: 600upx;">
 					<view class="summary">
 						{{ clanInfo.summary }}
 					</view>
@@ -80,7 +80,6 @@
 	}
 .full-page{
 	position: fixed;
-	z-index: 1;
 	width: 100%;
 	height: calc(100% - var(--window-bottom));
 	z-index: 999;
@@ -95,12 +94,12 @@
 		text-indent: 2em;
 	}
 	.name{
-		margin: 50upx 0 20upx;
+		margin: 30upx 0 20upx;
 		display: inline-block;
 		text-align: center;
-		line-height: 80upx;
+		line-height: 60upx;
 		letter-spacing: 12upx;
-		font-size: 60upx;
+		font-size: 40upx;
 	}
 }
 	.content{
